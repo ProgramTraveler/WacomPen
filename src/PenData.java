@@ -1,11 +1,12 @@
 /*
     date:2020-11-30
     author:王久铭
+    purpose:记录笔的相应信息
 */
-
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+
 
 public class PenData {
     public static String subject;//用户的id
