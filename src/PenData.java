@@ -18,6 +18,11 @@ public class PenData {
     private RandomAccessFile csv1;// 存实验数据的文件
     private RandomAccessFile csv2;// 存实验压力的文件
 
+    private long StartTime=-1;
+    public void setstarttime(long runtime)// 设置实验开始的时间
+    {
+        StartTime = runtime;
+    }
     /*设置数据*/
     public void SetPressure(int pre){
         pressure=pre;
