@@ -14,7 +14,21 @@ public class PenValue {
     //初始化笔的压力值
     private static int PenPressure=0;
 
-    public static int pressure()
+    //初始化tablet
+    static
+    {
+        try
+        {
+            tablet=new JTablet();
+            tablet.poll();
+        }catch(Exception err)
+        {
+            err.printStackTrace();
+        }
+    }
+
+    //获取笔的当前压力
+    public static int Pressure()
     {
         try
         {

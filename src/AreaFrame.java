@@ -39,6 +39,8 @@ public class AreaFrame implements ActionListener, MouseInputListener, KeyListene
 
     //获取笔的信息
     private PenData pData=new PenData();
+    //这个应该才是获得笔的数据
+    private PenValue pValue=new PenValue();
 
 
     public AreaFrame(){
@@ -101,13 +103,16 @@ public class AreaFrame implements ActionListener, MouseInputListener, KeyListene
             //获得开始时鼠标的位置
             x0 = e.getX();
             y0 = e.getY();
-
+            pData.SetPressure(pValue.Pressure());
 
         }
     }
+    //在组件上释放鼠标按钮时调用
+    public int i=0;
     @Override
     public void mouseReleased(MouseEvent e) {
-
+        //获取笔尖压力的值，应该是第一次笔尖的压力
+        System.out.println("pressure:"+pValue.Pressure());
     }
 
     @Override
@@ -133,7 +138,7 @@ public class AreaFrame implements ActionListener, MouseInputListener, KeyListene
         //将点的信息记录在容器中
         ar1.arrayList.add(line);
         ar1.repaint();
-        System.out.println("sssssssssssssssssssssssssssssss");
+        //.System.out.println("sssssssssssssssssssssssssssssss");
 
         //更新位置信息
         x0 = x1;

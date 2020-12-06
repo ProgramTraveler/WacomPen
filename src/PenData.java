@@ -10,7 +10,8 @@ import java.io.RandomAccessFile;
 
 public class PenData {
     public static String subject;//用户的id
-    private int pressure;//当前笔的压力
+
+    private static int pressure;//当前笔的压力
     private int tile;//当前笔的角度
     private int azimuth;//当前的方位角
     private int rotate;//旋转
@@ -18,18 +19,14 @@ public class PenData {
     private RandomAccessFile csv1;// 存实验数据的文件
     private RandomAccessFile csv2;// 存实验压力的文件
 
-    private long StartTime=-1;
-    public void setstarttime(long runtime)// 设置实验开始的时间
-    {
-        StartTime = runtime;
-    }
+
+
     /*设置数据*/
     public void SetPressure(int pre){
         pressure=pre;
     }
-    public int GetPressure(){
-        return pressure;
-    }
+
+    public static int GetPressure(){ return pressure; }
 
     public void SetTile(int til){
         tile=til;
@@ -49,14 +46,14 @@ public class PenData {
         File saveFile2 = new File("basic pres" + ".csv");
         csv2 = new RandomAccessFile(saveFile2, "rw");
         int csvLen = (int) csv2.length();
-        String saveText2 = "";
+        String SaveText = "";
         if (csvLen == 0) {
-            saveText2 = "Subject" + "," + "Pressure" + "," + "\n";
-            csv2.write(saveText2.getBytes());
+            SaveText = "Subject" + "," + "Pressure" + "," + "\n";
+            csv2.write(SaveText.getBytes());
         }
         csv2.skipBytes(csvLen);
-        saveText2 = subject + "," + pre + "," + "\n";
-        csv2.write(saveText2.getBytes());
+        SaveText = subject + "," + pre + "," + "\n";
+        csv2.write(SaveText.getBytes());
         csv2.close();
     }
 

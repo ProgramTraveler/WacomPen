@@ -15,8 +15,6 @@ public class Area extends JPanel {
     //
     private int PenPressure=0;
     private RandomAccessFile csv2;// 存实验压力的文件
-    protected Graphics OffScreen;
-    int number; //保存目前读到第几行数据
     public static ArrayList arrayList;
 
     public Area(){
@@ -60,6 +58,7 @@ public class Area extends JPanel {
         csv2.close();
 
     }
+
     Graphics2D g2;
     //用来显示画图的线条
     public void paint(Graphics g){
@@ -76,10 +75,6 @@ public class Area extends JPanel {
 
     }
 
-    /*
-    public void update(Graphics g){
-        this.print(g);
-    }
-    */
+
 
 }
