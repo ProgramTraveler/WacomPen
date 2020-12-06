@@ -1,7 +1,7 @@
 /*
     date:2020-12-05
     author:王久铭
-    purpose:显示写字界面
+    purpose:写字板界面，主要是用于写字界面的展示
  */
 
 import cello.tablet.JTablet;
@@ -46,7 +46,7 @@ public class AreaFrame implements ActionListener, MouseInputListener, KeyListene
     public AreaFrame(){
 
         ar1.setLayout(new BorderLayout());
-        ar1.add(EndButton,BorderLayout.CENTER);
+        //ar1.add(EndButton,BorderLayout.CENTER);
         ar1.addMouseListener(this);
         ar1.addMouseMotionListener(this);
         ar1.addKeyListener(this);
@@ -108,11 +108,16 @@ public class AreaFrame implements ActionListener, MouseInputListener, KeyListene
         }
     }
     //在组件上释放鼠标按钮时调用
-    public int i=0;
     @Override
     public void mouseReleased(MouseEvent e) {
-        //获取笔尖压力的值，应该是第一次笔尖的压力
+        //获取笔尖压力的值，应该是第一次笔尖的压力（也就是第一个点的压力值）
         System.out.println("pressure:"+pValue.Pressure());
+        //将笔的压力保存在指定文件中
+        try {
+            pData.SavaPre(pValue.Pressure());
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
     }
 
     @Override
@@ -125,20 +130,17 @@ public class AreaFrame implements ActionListener, MouseInputListener, KeyListene
 
     }
 
-
     //在组件上按下鼠标按钮然后拖动时调用
     @Override
     public void mouseDragged(MouseEvent e) {
         //获得笔在拖动时的坐标
         x1 = e.getX();
         y1 = e.getY();
-
-
         line = new Line2D.Double(x0, y0, x1, y1);
         //将点的信息记录在容器中
         ar1.arrayList.add(line);
         ar1.repaint();
-        //.System.out.println("sssssssssssssssssssssssssssssss");
+
 
         //更新位置信息
         x0 = x1;

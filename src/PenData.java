@@ -1,7 +1,7 @@
 /*
     date:2020-11-30
     author:王久铭
-    purpose:记录笔的相应信息
+    purpose:记录笔的在书写过程中的信息，记录在相应的文件中
 */
 import java.io.File;
 import java.io.IOException;
@@ -18,8 +18,6 @@ public class PenData {
 
     private RandomAccessFile csv1;// 存实验数据的文件
     private RandomAccessFile csv2;// 存实验压力的文件
-
-
 
     /*设置数据*/
     public void SetPressure(int pre){
@@ -48,11 +46,11 @@ public class PenData {
         int csvLen = (int) csv2.length();
         String SaveText = "";
         if (csvLen == 0) {
-            SaveText = "Subject" + "," + "Pressure" + "," + "\n";
+            SaveText = "Pressure" + "\n";
             csv2.write(SaveText.getBytes());
         }
         csv2.skipBytes(csvLen);
-        SaveText = subject + "," + pre + "," + "\n";
+        SaveText = pre + "\n";
         csv2.write(SaveText.getBytes());
         csv2.close();
     }
