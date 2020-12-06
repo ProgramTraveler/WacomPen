@@ -31,22 +31,15 @@ public class AreaFrame implements ActionListener, MouseInputListener, KeyListene
     private JTablet tablet = null;
 
     //获取笔的信息所需的变量
-    private int number;//保存目前读到第几行数据
-    private String s;//实验的时间和日期
     private double x0,y0;//实验开始时笔尖的位置
-    private boolean StartFlag=true;
-    private int TimerDelay = 50;//每隔50毫秒检测一次压力
-    private long runtime = -1; // 当前的时间
-    private Timer time = new Timer(TimerDelay, this);
-    private double x1, y1;// 起始位置
+    private double x1, y1;//每一次笔结束的位置
 
     private Line2D line = null;
-    private int rot = 0;
+
 
     //获取笔的信息
     private PenData pData=new PenData();
 
-    private long RunTime=-1;
 
     public AreaFrame(){
 
@@ -56,7 +49,7 @@ public class AreaFrame implements ActionListener, MouseInputListener, KeyListene
         ar1.addMouseMotionListener(this);
         ar1.addKeyListener(this);
 
-
+        //写字板
         frame.getContentPane().setLayout(new BorderLayout());
         frame.getContentPane().add(ar1, BorderLayout.CENTER);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -105,18 +98,11 @@ public class AreaFrame implements ActionListener, MouseInputListener, KeyListene
     @Override
     public void mousePressed(MouseEvent e) {
         if (javax.swing.SwingUtilities.isLeftMouseButton(e)) {
-            Calendar cal = Calendar.getInstance();
-            Date date = cal.getTime();
-            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
-
-            s = df.format(new Date());// 实验的日期和时间
+            //获得开始时鼠标的位置
             x0 = e.getX();
             y0 = e.getY();
-            if (StartFlag) {
-                number=ar1.number;
-                StartFlag = false;
-            }
-            time.start();
+
+
         }
     }
     @Override
@@ -134,36 +120,26 @@ public class AreaFrame implements ActionListener, MouseInputListener, KeyListene
 
     }
 
-    /*private boolean errorfleg1=false;
-    private int totalnumber=0;
-    private boolean can1=false;*/
-    private Graphics g;
+
     //在组件上按下鼠标按钮然后拖动时调用
     @Override
     public void mouseDragged(MouseEvent e) {
+        //获得笔在拖动时的坐标
         x1 = e.getX();
         y1 = e.getY();
-        Calendar cal=Calendar.getInstance();
-        Date date=cal.getTime();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
-        s = df.format(new Date());// 实验的日期和时间
-        int rot0=rot;
-        ar1.SetEndX((int) x1);
-        ar1.SetEndY((int) y1);
-        ar1.SetFlag(true);
+
 
         line = new Line2D.Double(x0, y0, x1, y1);
-
+        //将点的信息记录在容器中
         ar1.arrayList.add(line);
-        //Graphics g;
-        //ar1.paint(g);
         ar1.repaint();
         System.out.println("sssssssssssssssssssssssssssssss");
-        /*runtime = System.currentTimeMillis();
-        pData.setstarttime(runtime);
-        errorfleg1 = true;
-        totalnumber = totalnumber + 1;
-        can1 = true;*/
+
+        //更新位置信息
+        x0 = x1;
+        y0 = y1;
+
+
     }
 
     @Override

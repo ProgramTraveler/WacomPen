@@ -5,6 +5,7 @@
  */
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Line2D;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -21,19 +22,24 @@ public class Area extends JPanel {
     public Area(){
         arrayList=new ArrayList();
     }
-    private int endX = 0;
-    private int endY = 0;
 
-    public void SetEndX(int i) {
-        endX = i;
-    }
+    /*private int StartX=0;
+    private int StartY=0;*/
+    private int EndX = 0;
+    private int EndY = 0;
 
+    /*
+    public void SetStartX(int i){ StartX=i; }
+    public void SetStartY(int i){ StartY=i; }
+    */
+    public void SetEndX(int i) { EndX = i; }
     public void SetEndY(int i) {
-        endY = i;
+        EndY = i;
     }
+
+
 
     private boolean flag = false;
-
     public void SetFlag(boolean t) {
         flag = t;
     }
@@ -49,11 +55,31 @@ public class Area extends JPanel {
             csv2.write(SaveText.getBytes());
         }
         csv2.skipBytes(csvLen);
-        //saveText2 = subject + "," + V1 + "," + V2 + "," + "\n";
+
         csv2.write(SaveText.getBytes());
         csv2.close();
 
     }
+    Graphics2D g2;
+    //用来显示画图的线条
+    public void paint(Graphics g){
 
+        g2=(Graphics2D) g;
+        //设置线条颜色
+        g2.setColor(Color.BLUE);
+        //使用容器中点的信息来画线条
+        for (int i = 0; i < arrayList.size(); i++) {
+            g2.draw((Line2D) arrayList.get(i));
+
+        }
+
+
+    }
+
+    /*
+    public void update(Graphics g){
+        this.print(g);
+    }
+    */
 
 }
