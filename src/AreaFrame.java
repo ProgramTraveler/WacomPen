@@ -1,7 +1,7 @@
 /*
     date:2020-12-05
     author:王久铭
-    purpose:写字板界面，主要是用于写字界面的展示
+    purpose:最初的写字板界面，主要是用于写字界面的展示，用户最终的测试场景
  */
 
 import cello.tablet.JTablet;
@@ -25,22 +25,22 @@ import javax.swing.event.MouseInputListener;
 
 public class AreaFrame implements ActionListener, MouseInputListener, KeyListener {
     //画板所需变量
-    private Area ar1=new Area();
-    private JFrame frame=new JFrame("写字板");
-    private JButton EndButton = new JButton("End");
+    private Area ar1 = new Area();
+    private JFrame frame = new JFrame("写字板");
+   //private JButton EndButton = new JButton("End");
     private JTablet tablet = null;
 
     //获取笔的信息所需的变量
-    private double x0,y0;//实验开始时笔尖的位置
-    private double x1, y1;//每一次笔结束的位置
+    private double x0,y0; //实验开始时笔尖的位置
+    private double x1, y1; //每一次笔结束的位置
 
     private Line2D line = null;
 
 
     //获取笔的信息
-    private PenData pData=new PenData();
+    private PenData pData = new PenData();
     //这个应该才是获得笔的数据
-    private PenValue pValue=new PenValue();
+    private PenValue pValue = new PenValue();
 
 
     public AreaFrame(){
@@ -55,11 +55,12 @@ public class AreaFrame implements ActionListener, MouseInputListener, KeyListene
         frame.getContentPane().setLayout(new BorderLayout());
         frame.getContentPane().add(ar1, BorderLayout.CENTER);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
         int width = screenSize.width;
         frame.setBounds(width / 5, 0, 750, 750);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
-        EndButton.setVisible(false);
+        //EndButton.setVisible(false);
 
         try {
             tablet = new JTablet();
@@ -140,13 +141,9 @@ public class AreaFrame implements ActionListener, MouseInputListener, KeyListene
         //将点的信息记录在容器中
         ar1.arrayList.add(line);
         ar1.repaint();
-
-
         //更新位置信息
         x0 = x1;
         y0 = y1;
-
-
     }
 
     @Override

@@ -1,7 +1,7 @@
 /*
     date:2020-12-05
     author:王久铭
-    purpose:写字板的线条处理
+    purpose:在写字板的线条处理
  */
 import javax.swing.*;
 import java.awt.*;
@@ -15,8 +15,9 @@ public class Area extends JPanel {
     //用于存储写字过程中的点的信息
     public static ArrayList arrayList;
     Graphics2D g2;
+
     public Area(){
-        arrayList=new ArrayList();
+        arrayList = new ArrayList();
     }
 
     //用来显示画图的线条
