@@ -1,7 +1,7 @@
 /*
     date:2020-12-05
     author:王久铭
-    purpose:最初的写字板界面，主要是用于写字界面的展示，用户最终的测试场景
+    purpose:最初的写字板界面，主要是用于写字界面的展示，用户最终的测试场景，主要用于测试
  */
 
 import cello.tablet.JTablet;
@@ -27,7 +27,7 @@ public class AreaFrame implements ActionListener, MouseInputListener, KeyListene
     //画板所需变量
     private Area ar1 = new Area();
     private JFrame frame = new JFrame("写字板");
-   //private JButton EndButton = new JButton("End");
+
     private JTablet tablet = null;
 
     //获取笔的信息所需的变量

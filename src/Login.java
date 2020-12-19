@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Enumeration;
 
 public class Login {
     //新建窗口
@@ -28,6 +29,7 @@ public class Login {
     private JRadioButton ButtonActual =  new JRadioButton("实际值-写字面板");
     private JRadioButton ButtonScattered = new JRadioButton("离散化-写字面板");
     private JRadioButton ButtonIncrement = new JRadioButton("增量化-写字面板");
+    private ButtonGroup ButtonFrame = new ButtonGroup(); //保存写字按钮组
 
     public Login() {
         Screen.getContentPane().setLayout(null);
@@ -65,6 +67,11 @@ public class Login {
         Screen.getContentPane().add(ButtonScattered); //添加到窗口
         ButtonIncrement.setBounds(70,230,180,20); //增量化-写字界面按钮位置
         Screen.getContentPane().add(ButtonIncrement); //添加到窗口
+        //将按钮添加到按钮组里
+        ButtonFrame.add(ButtonTraditional);
+        ButtonFrame.add(ButtonActual);
+        ButtonFrame.add(ButtonScattered);
+        ButtonFrame.add(ButtonIncrement);
         //对开始按钮进行监听,要是按下了开始按钮就打开写字板
         /*
         判断之前选择的是哪个写字板模式，然后打开相应的写字板，打开写字板后需要将登陆界面覆盖
@@ -72,11 +79,41 @@ public class Login {
         Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AreaFrame frame=new AreaFrame();
+                if(getSelection(ButtonFrame).getActionCommand() == "传统写字面板") {
+                    TraditionalFrame TF = new TraditionalFrame();
+                }else if (getSelection(ButtonFrame).getActionCommand() == "实际值-写字面板"){
+                    AreaFrame frame=new AreaFrame();
+                }else if (getSelection(ButtonFrame).getActionCommand() == "离散化-写字面板"){
+                    AreaFrame frame=new AreaFrame();
+                }else if (getSelection(ButtonFrame).getActionCommand() == "增量化-写字面板"){
+                    AreaFrame frame=new AreaFrame();
+                }
+                /*
+                本来想在这里加一个对选择按钮的判断，当用户没有选择模式的会进行提醒
+                else if (getSelection(ButtonFrame).getActionCommand() == null){
+                    JOptionPane.showMessageDialog(null, "您还没有输入您的id!!");
+                }*/
+                //用户是否选择练习按钮
+                if (check.getState()) {
+
+                }else {
+
+                }
                 //关闭当前登录界面，当打开写字面板的时候，将会被关闭
+
                 Screen.dispose();
             }
         });
+
+    }
+    //从按钮组中获得选择的按钮
+    public static JRadioButton getSelection (ButtonGroup group) {
+        for(Enumeration e = group.getElements(); e.hasMoreElements();) {
+            JRadioButton b = (JRadioButton) e.nextElement();
+            if (b.getModel() == group.getSelection())
+                return b;
+        }
+        return null;
 
     }
     public static void main(String[] arge){
