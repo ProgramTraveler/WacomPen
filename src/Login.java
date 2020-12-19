@@ -8,7 +8,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Login extends JFrame{
+public class Login {
+    //新建窗口
+    private JFrame Screen = new JFrame("登录界面");
     //设置一个开始按钮
     private JButton Button = new JButton("开始测试");
     //要求用户输入ID
@@ -24,31 +26,31 @@ public class Login extends JFrame{
      */
 
     public Login() {
-        super("Screen");
-        this.getContentPane().setLayout(null);
+
+        Screen.getContentPane().setLayout(null);
         //`开始测试`按钮
         Button.setBounds(10, 335, 280, 30); //`开始测试`按钮的位置
-        this.getContentPane().add(Button); //添加`开始测试`按钮
+        Screen.getContentPane().add(Button); //添加`开始测试`按钮
         //`ID`显示区域
         JLabelId.setBounds(20,30,135,40); //`ID`提示符位置
-        this.getContentPane().add(JLabelId); //添加`ID`提示符
+        Screen.getContentPane().add(JLabelId); //添加`ID`提示符
         JTexId.setBounds(105,35,78,24); //`ID`输入框的位置
-        this.getContentPane().add(JTexId); //添加`ID`文本框
+        Screen.getContentPane().add(JTexId); //添加`ID`文本框
         //`实验组数`显示区域
         JLabelGroup.setBounds(30,60,135,40);//`实验组数`提示符位置
-        this.getContentPane().add(JLabelGroup); //添加`实验组数`提示符
+        Screen.getContentPane().add(JLabelGroup); //添加`实验组数`提示符
         JTexGroup.setBounds(105,70,78,24); //`实验组数`输入框位置
-        this.getContentPane().add(JTexGroup); //添加`实验组数`文本框
+        Screen.getContentPane().add(JTexGroup); //添加`实验组数`文本框
         //`练习`选择框的选择
         check.setBounds(30, 300, 70, 30); //`练习`选择框的位置
-        this.getContentPane().add(check); //添加`练习`选择框
+        Screen.getContentPane().add(check); //添加`练习`选择框
         //登录界面的位置和大小
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int width = screenSize.width;
         int height = screenSize.height - 200;
-        this.setBounds(width / 3, height / 5, 310, 420);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setVisible(true);
+        Screen.setBounds(width / 3, height / 5, 310, 420);
+        Screen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Screen.setVisible(true);
 
         //对开始按钮进行监听,要是按下了开始按钮就打开写字板
         /*
@@ -58,8 +60,11 @@ public class Login extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 AreaFrame frame=new AreaFrame();
+                //关闭当前登录界面，当打开写字面板的时候，将会被关闭
+                Screen.dispose();
             }
         });
+
     }
 
     public static void main(String[] arge){
