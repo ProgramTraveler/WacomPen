@@ -24,9 +24,12 @@ public class Login {
     /*
     在这里面还要写四个不同模式的写字板
      */
+    private JRadioButton ButtonTraditional = new JRadioButton("传统写字面板");
+    private JRadioButton ButtonActual =  new JRadioButton("实际值-写字面板");
+    private JRadioButton ButtonScattered = new JRadioButton("离散化-写字面板");
+    private JRadioButton ButtonIncrement = new JRadioButton("增量化-写字面板");
 
     public Login() {
-
         Screen.getContentPane().setLayout(null);
         //`开始测试`按钮
         Button.setBounds(10, 335, 280, 30); //`开始测试`按钮的位置
@@ -51,7 +54,17 @@ public class Login {
         Screen.setBounds(width / 3, height / 5, 310, 420);
         Screen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Screen.setVisible(true);
-
+        /*
+        设置四种不同写字界面的位置
+         */
+        ButtonTraditional.setBounds(40,110,180,20); //传统写字界面按钮位置
+        Screen.getContentPane().add(ButtonTraditional); //添加到窗口
+        ButtonActual.setBounds(50,150,180,20); //实际值-写字界面按钮位置
+        Screen.getContentPane().add(ButtonActual); //添加到窗口
+        ButtonScattered.setBounds(60,190,180,20); //离散化-写字界面按钮位置
+        Screen.getContentPane().add(ButtonScattered); //添加到窗口
+        ButtonIncrement.setBounds(70,230,180,20); //增量化-写字界面按钮位置
+        Screen.getContentPane().add(ButtonIncrement); //添加到窗口
         //对开始按钮进行监听,要是按下了开始按钮就打开写字板
         /*
         判断之前选择的是哪个写字板模式，然后打开相应的写字板，打开写字板后需要将登陆界面覆盖
@@ -66,7 +79,6 @@ public class Login {
         });
 
     }
-
     public static void main(String[] arge){
         Login log = new Login();
 
