@@ -1,12 +1,11 @@
+import cello.tablet.JTablet;
+import cello.tablet.JTabletCursor;
+import cello.tablet.JTabletException;
 /*
     date:2020-12-05
     author:王久铭
     purpose:获取笔在使用过程中的信息，暂定为笔的压力，笔的角度，笔的旋转角
  */
-
-import cello.tablet.JTablet;
-import cello.tablet.JTabletCursor;
-import cello.tablet.JTabletException;
 
 public class PenValue {
     private static JTablet tablet=null;

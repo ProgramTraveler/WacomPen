@@ -1,9 +1,3 @@
-/*
-    date:2020-12-05
-    author:王久铭
-    purpose:最初的写字板界面，主要是用于写字界面的展示，用户最终的测试场景，主要用于测试
- */
-
 import cello.tablet.JTablet;
 import cello.tablet.JTabletCursor;
 
@@ -22,6 +16,11 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.MouseInputListener;
+/*
+    date:2020-12-05
+    author:王久铭
+    purpose:最初的写字板界面，主要是用于写字界面的展示，用户最终的测试场景，主要用于测试
+ */
 
 public class AreaFrame implements ActionListener, MouseInputListener, KeyListener {
     //画板所需变量
@@ -139,7 +138,7 @@ public class AreaFrame implements ActionListener, MouseInputListener, KeyListene
         y1 = e.getY();
         line = new Line2D.Double(x0, y0, x1, y1);
         //将点的信息记录在容器中
-        ar1.arrayList.add(line);
+        //ar1.arrayList.add(line);
         ar1.repaint();
         //更新位置信息
         x0 = x1;

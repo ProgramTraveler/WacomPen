@@ -1,14 +1,13 @@
-/*
-    date:2020-11-30
-    author:王久铭
-    purpose:初始化界面，也就是用户的最初的登陆的界面
- */
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Enumeration;
-
+/*
+    date:2020-11-30
+    author:王久铭
+    purpose:初始化界面，也就是用户的最初的登陆的界面
+ */
 public class Login {
     //新建窗口
     private JFrame Screen = new JFrame("登录界面");

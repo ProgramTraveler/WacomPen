@@ -1,12 +1,11 @@
+import java.io.File;
+import java.io.IOException;
+import java.io.RandomAccessFile;
 /*
     date:2020-11-30
     author:王久铭
     purpose:记录笔的在书写过程中的信息，并保存在相应的文件中
 */
-import java.io.File;
-import java.io.IOException;
-import java.io.RandomAccessFile;
-
 
 public class PenData {
     public static String subject;//用户的id

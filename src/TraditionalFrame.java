@@ -1,8 +1,3 @@
-/*
-    date:2020-12-18
-    author:王久铭
-    purpose:基于传统的写字面板的实现，用与和其他模式做对比
- */
 import cello.tablet.JTablet;
 import cello.tablet.JTabletException;
 
@@ -12,7 +7,11 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Line2D;
 import java.io.IOException;
-
+/*
+    date:2020-12-18
+    author:王久铭
+    purpose:基于传统的写字面板的实现，用与和其他模式做对比
+ */
 public class TraditionalFrame implements ActionListener, MouseInputListener, KeyListener {
     //传统写字界面的定义
     private JFrame TraFrame = new JFrame("传统写字界面");
@@ -30,6 +29,11 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
     private JMenuItem ItColor1 = new JMenuItem("蓝色");
     private JMenuItem ItColor2 = new JMenuItem("红色");
     private JMenuItem ItColor3 = new JMenuItem("黄色");
+
+    private JMenuItem ColorBL;
+    private JMenuItem ColorR ;
+    private JMenuItem ColorBlu;
+    private JMenuItem ColorY ;
     //设置像素的下拉菜单
     private JMenuItem ItPixel1 = new JMenuItem("细");
     private JMenuItem ItPixel2 = new JMenuItem("中");
@@ -42,6 +46,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
     private Area ar1 = new Area();
     private JFrame frame = new JFrame("写字板");
     private JTablet tablet = null;
+    private Dot dot = new Dot();
     //获取笔的信息所需的变量
     private double x0,y0; //实验开始时笔尖的位置
     private double x1, y1; //每一次笔结束的位置
@@ -63,8 +68,9 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int width = screenSize.width;
-        TraFrame.setBounds(0, 0, 87500, 87500);
-        TraFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        TraFrame.setBounds(width / 5, 30, 875, 875);
+        //界面全屏设置
+        //TraFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         TraFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         TraFrame.setVisible(true);
 
@@ -90,36 +96,42 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         MenuPixel.add(ItPixel3);
 
         //这一部分主要是监听用户选择的是哪个菜单按钮
-        final JMenuItem ColorBL = MenuColor.getItem(0);
+        //选择黑色
+        ColorBL = MenuColor.getItem(0);
         ColorBL.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ar1.SelectColor(0);
+                //ar1.SelectColor(0);
+                dot.SetColor(0);
             }
         });
-        final JMenuItem ColorR = MenuColor.getItem(1);
+        //选择红色
+        ColorR = MenuColor.getItem(1);
         ColorR.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ar1.SelectColor(1);
+                //ar1.SelectColor(1);
+                dot.SetColor(1);
             }
         });
-        final JMenuItem ColorBlu = MenuColor.getItem(2);
+        //选择蓝色
+        ColorBlu = MenuColor.getItem(2);
         ColorBlu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ar1.SelectColor(2);
+                //ar1.SelectColor(2);
+                dot.SetColor(2);
             }
         });
-        final JMenuItem ColorY = MenuColor.getItem(3);
+        //选择黄色
+        ColorY = MenuColor.getItem(3);
         ColorY.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ar1.SelectColor(3);
+                //ar1.SelectColor(3);
+                dot.SetColor(3);
             }
         });
-
-
     }
 
     @Override
@@ -149,10 +161,12 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
     //在组件上按下鼠标按钮时调用
     @Override
     public void mousePressed(MouseEvent e) {
+
         if (javax.swing.SwingUtilities.isLeftMouseButton(e)) {
             //获得开始时鼠标的位置
-            x0 = e.getX();
-            y0 = e.getY();
+
+            dot.SetStarDot(e.getX(),e.getY());
+            //ar1.arrayListSpot.add(dot);
             pData.SetPressure(pValue.Pressure());
 
         }
@@ -160,6 +174,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
     //在组件上释放鼠标按钮时调用
     @Override
     public void mouseReleased(MouseEvent e) {
+
         //获取笔尖压力的值，应该是第一次笔尖的压力（也就是第一个点的压力值）
         System.out.println("pressure:"+pValue.Pressure());
         //将笔的压力保存在指定文件中
@@ -181,16 +196,17 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
     //在组件上按下鼠标按钮然后拖动时调用
     @Override
     public void mouseDragged(MouseEvent e) {
+        /*
+        应该每次拖动时都会产生一个点对象
+         */
         //获得笔在拖动时的坐标
-        x1 = e.getX();
-        y1 = e.getY();
-        line = new Line2D.Double(x0, y0, x1, y1);
+         Dot dot = new Dot();
+         dot.SetStarDot(e.getX() ,e.getY());
+
         //将点的信息记录在容器中
-        ar1.arrayList.add(line);
+        ar1.arrayListSpot.add(dot);
         ar1.repaint();
-        //更新位置信息
-        x0 = x1;
-        y0 = y1;
+
     }
     @Override
     public void mouseMoved(MouseEvent e) {
