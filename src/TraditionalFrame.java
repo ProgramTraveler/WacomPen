@@ -38,6 +38,9 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
     private JMenuItem ItPixel1 = new JMenuItem("细");
     private JMenuItem ItPixel2 = new JMenuItem("中");
     private JMenuItem ItPixel3 = new JMenuItem("粗");
+
+    //设置画笔的颜色
+    private int SetColor = 0;
     /*
     画线这部分还是和AreaFrame类中差不多
      */
@@ -101,26 +104,29 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         ColorBL.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //ar1.SelectColor(0);
-                dot.SetColor(0);
+
+                SetColor = 0;
+
             }
         });
         //选择红色
-        ColorR = MenuColor.getItem(1);
+        ColorR = MenuColor.getItem(2);
         ColorR.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //ar1.SelectColor(1);
-                dot.SetColor(1);
+
+                SetColor = 2;
+
             }
         });
         //选择蓝色
-        ColorBlu = MenuColor.getItem(2);
+        ColorBlu = MenuColor.getItem(1);
         ColorBlu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //ar1.SelectColor(2);
-                dot.SetColor(2);
+
+                SetColor = 1;
+
             }
         });
         //选择黄色
@@ -128,8 +134,9 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         ColorY.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //ar1.SelectColor(3);
-                dot.SetColor(3);
+
+                SetColor = 3;
+
             }
         });
     }
@@ -164,10 +171,11 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
 
         if (javax.swing.SwingUtilities.isLeftMouseButton(e)) {
             //获得开始时鼠标的位置
-
-            dot.SetStarDot(e.getX(),e.getY());
-            //ar1.arrayListSpot.add(dot);
+            x0 = e.getX();
+            y0 = e.getY();
             pData.SetPressure(pValue.Pressure());
+
+
 
         }
     }
@@ -200,12 +208,21 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         应该每次拖动时都会产生一个点对象
          */
         //获得笔在拖动时的坐标
-         Dot dot = new Dot();
-         dot.SetStarDot(e.getX() ,e.getY());
+        x1 = e.getX();
+        y1 = e.getY();
 
+        Dot dot = new Dot();
+        dot.SetStarDot(x0,y0);
+        dot.SetEndDot(x1,y1);
+        dot.SetColor(SetColor);
         //将点的信息记录在容器中
         ar1.arrayListSpot.add(dot);
         ar1.repaint();
+
+        //更新点的起始坐标（下一个点的开始为上一个点的结束）
+        x0 = x1;
+        y0 = y1;
+
 
     }
     @Override
