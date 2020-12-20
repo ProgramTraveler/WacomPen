@@ -26,6 +26,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         分别为颜色的下拉菜单和像素的下拉菜单
      */
     //设置颜色选择的下拉菜单
+    private JMenuItem ItColor0 = new JMenuItem("黑色");
     private JMenuItem ItColor1 = new JMenuItem("蓝色");
     private JMenuItem ItColor2 = new JMenuItem("红色");
     private JMenuItem ItColor3 = new JMenuItem("黄色");
@@ -62,7 +63,8 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int width = screenSize.width;
-        TraFrame.setBounds(width / 5, 0, 750, 750);
+        TraFrame.setBounds(0, 0, 87500, 87500);
+        TraFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         TraFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         TraFrame.setVisible(true);
 
@@ -78,6 +80,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         MenuB.add(MenuColor);
         MenuB.add(MenuPixel);
         //将颜色的下拉菜单添加到颜色菜单中
+        MenuColor.add(ItColor0);
         MenuColor.add(ItColor1);
         MenuColor.add(ItColor2);
         MenuColor.add(ItColor3);
@@ -86,20 +89,36 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         MenuPixel.add(ItPixel2);
         MenuPixel.add(ItPixel3);
 
-        //测试
         //这一部分主要是监听用户选择的是哪个菜单按钮
-        final JLabel lbl = new JLabel("");
-        lbl.setBounds(150,100,300,30);
-        TraFrame.add(lbl);
-        final JMenuItem mil3 = MenuColor.getItem(2);
-        mil3.addActionListener(new ActionListener() {
+        final JMenuItem ColorBL = MenuColor.getItem(0);
+        ColorBL.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //lbl.setText(mil3.getText());
-                //ar1.
-
+                ar1.SelectColor(0);
             }
         });
+        final JMenuItem ColorR = MenuColor.getItem(1);
+        ColorR.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ar1.SelectColor(1);
+            }
+        });
+        final JMenuItem ColorBlu = MenuColor.getItem(2);
+        ColorBlu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ar1.SelectColor(2);
+            }
+        });
+        final JMenuItem ColorY = MenuColor.getItem(3);
+        ColorY.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ar1.SelectColor(3);
+            }
+        });
+
 
     }
 
