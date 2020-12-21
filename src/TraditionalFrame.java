@@ -30,17 +30,17 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
     private JMenuItem ItColor2 = new JMenuItem("红色");
     private JMenuItem ItColor3 = new JMenuItem("黄色");
 
-    private JMenuItem ColorBL;
-    private JMenuItem ColorR ;
-    private JMenuItem ColorBlu;
-    private JMenuItem ColorY ;
     //设置像素的下拉菜单
     private JMenuItem ItPixel1 = new JMenuItem("细");
     private JMenuItem ItPixel2 = new JMenuItem("中");
     private JMenuItem ItPixel3 = new JMenuItem("粗");
 
+
+
     //设置画笔的颜色
     private int SetColor = 0;
+    //设置画笔的像素
+    private int SetPixel = 1;
     /*
     画线这部分还是和AreaFrame类中差不多
      */
@@ -67,6 +67,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         ar1.addKeyListener(this);
         //传统写字界面的设计
         TraFrame.getContentPane().setLayout(new BorderLayout());
+        TraFrame.setBackground(Color.WHITE);
         TraFrame.getContentPane().add(ar1,BorderLayout.CENTER);
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -98,10 +99,11 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         MenuPixel.add(ItPixel2);
         MenuPixel.add(ItPixel3);
 
-        //这一部分主要是监听用户选择的是哪个菜单按钮
+        /*
+        这一部分主要是监听用户选择的是哪个颜色
+         */
         //选择黑色
-        ColorBL = MenuColor.getItem(0);
-        ColorBL.addActionListener(new ActionListener() {
+        MenuColor.getItem(0).addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
@@ -110,8 +112,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             }
         });
         //选择红色
-        ColorR = MenuColor.getItem(2);
-        ColorR.addActionListener(new ActionListener() {
+        MenuColor.getItem(2).addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
@@ -120,8 +121,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             }
         });
         //选择蓝色
-        ColorBlu = MenuColor.getItem(1);
-        ColorBlu.addActionListener(new ActionListener() {
+        MenuColor.getItem(1).addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
@@ -130,15 +130,36 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             }
         });
         //选择黄色
-        ColorY = MenuColor.getItem(3);
-        ColorY.addActionListener(new ActionListener() {
+        MenuColor.getItem(3).addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 SetColor = 3;
-
             }
         });
+        /*
+        以下部分主要是监听用户选择的哪个像素
+         */
+        //选择细
+        MenuPixel.getItem(0).addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                SetPixel = 1;
+            }
+        });
+        //选择中等
+        MenuPixel.getItem(1).addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                SetPixel = 3;
+            }
+        });
+        MenuPixel.getItem(2).addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                SetPixel = 5;
+            }
+        });
+
     }
 
     @Override
@@ -174,9 +195,6 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             x0 = e.getX();
             y0 = e.getY();
             pData.SetPressure(pValue.Pressure());
-
-
-
         }
     }
     //在组件上释放鼠标按钮时调用
@@ -215,6 +233,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         dot.SetStarDot(x0,y0);
         dot.SetEndDot(x1,y1);
         dot.SetColor(SetColor);
+        dot.SetPixel(SetPixel);
         //将点的信息记录在容器中
         ar1.arrayListSpot.add(dot);
         ar1.repaint();
