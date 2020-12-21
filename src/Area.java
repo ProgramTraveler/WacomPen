@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
+import java.util.Random;
+
 /*
     date:2020-12-05
     author:王久铭
@@ -23,8 +25,14 @@ public class Area extends JPanel {
     private Graphics2D offScreen;
     //当用户进入到测试区域时显示待选颜色
     private Graphics2D WaitCol;
+    //用户是否第一次进入颜色测试区域，true表示未进入
+    private boolean ColorFlag = true;
+    //颜色测试区域
+    private Color ColorPlace ;
     //当用户进行到测试区域时显示待选像素
     private Graphics2D WaitPix;
+    //判断用户是否第一次进入像素测试区域，true表示未进入
+    private boolean PixelFlag = true;
 
     //抽象类Image是表示图形图像的所有类的超类，必须以平台特定的方式获取图像
     public Image offScreenImg;
@@ -53,8 +61,8 @@ public class Area extends JPanel {
         //设置写字板中的测试区域
         offScreen = (Graphics2D) g;
         offScreen.setColor(Color.GREEN);
-        offScreen.fillRect(300,300,400,300);
-        offScreen.fillRect(900,300,400,300);
+        offScreen.fillRect(300,300,400,400);
+        offScreen.fillRect(900,300,400,400);
 
         //使用容器中点的信息来画线条
         for (int i = 0; i < arrayListSpot.size() ; i++) {
@@ -65,18 +73,35 @@ public class Area extends JPanel {
             double y1 = arrayListSpot.get(i).DotEndY();
 
             WaitCol = (Graphics2D) g;
-            if (x0 > 300 && x0 < 700 && y0 > 300 && y0 < 600) {
-                //C.setColor(Color.red);
-                //System.out.println("进入测试区域");
-                //JOptionPane.showMessageDialog(null, "问题不能为空","格式错误",JOptionPane.ERROR_MESSAGE);
-
-                WaitCol.setColor(Color.red);
-            } else {
+            /*
+            判断点是否在颜色测试区域
+             */
+            //System.out.println(ColorFlag);
+            if (x0 >= 300 && x0 <= 700 && y0 >= 300 && y0 <= 700 && ColorFlag == true) {
+                Random r = new Random();
+                int temp =  r.nextInt(4);
+                System.out.println("进入颜色测试区域" + ColorFlag);
+                if (temp == 0)
+                    ColorPlace = Color.BLACK;
+                else if (temp == 1)
+                    ColorPlace = Color.BLUE;
+                else if (temp == 2)
+                    ColorPlace = Color.RED;
+                else if (temp == 3)
+                    ColorPlace = Color.ORANGE;
+                ColorFlag = false;
+                WaitCol.setColor(ColorPlace);
+            } else if(x0 >= 300 && x0 <= 700 && y0 >= 300 && y0 <= 700 && ColorFlag == false){
+                System.out.println("在颜色测试区域内");
+                WaitCol.setColor(ColorPlace);
+            }else{
+                System.out.println("在颜色测试区域外");
                 WaitCol.setColor(Color.WHITE);
+                ColorFlag = true;
             }
             WaitCol.fillRect(500,0,30,30);
 
-            System.out.println(x0 + " " + y0 + " " + x1 + " " + y1);
+            //System.out.println(x0 + " " + y0 + " " + x1 + " " + y1);
 
             //判断点的颜色
             ColorSet = arrayListSpot.get(i).DotColor();
