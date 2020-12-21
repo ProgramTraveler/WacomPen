@@ -1,4 +1,5 @@
 import java.security.PublicKey;
+import java.util.Random;
 
 /*
 date:2020-12-20
@@ -10,6 +11,7 @@ public class Dot {
     private double EndX,EndY; //点结束的位置
     private int Color = 0; //点的颜色
     private int Pixel = 0; //点的像素
+    private int DotRandomC = 0; //点颜色的随机数，当点进入到测试区域时，会以点的随机数来作为提示颜色
 
     public Dot(){}
     //设置点开始的位置
@@ -54,4 +56,16 @@ public class Dot {
     public int DotPixel() {
         return Pixel;
     }
+    //设置点颜色的随机数
+    public void SetDotRandomC() {
+        Random temp = new Random();
+        DotRandomC = temp.nextInt(4);
+    }
+    //获得颜色随机数
+    public int GetDotRandomC() {
+        return DotRandomC;
+    }
+
+
+
 }

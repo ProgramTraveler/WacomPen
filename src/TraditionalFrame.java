@@ -234,6 +234,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         dot.SetEndDot(x1,y1);
         dot.SetColor(SetColor);
         dot.SetPixel(SetPixel);
+        dot.SetDotRandomC();
         //将点的信息记录在容器中
         ar1.arrayListSpot.add(dot);
         ar1.repaint();

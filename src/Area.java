@@ -37,8 +37,6 @@ public class Area extends JPanel {
     //抽象类Image是表示图形图像的所有类的超类，必须以平台特定的方式获取图像
     public Image offScreenImg;
 
-
-
     public Area(){
         arrayListSpot = new ArrayList();
     }
@@ -74,12 +72,13 @@ public class Area extends JPanel {
 
             WaitCol = (Graphics2D) g;
             /*
-            判断点是否在颜色测试区域
+            判断点是否在颜色测试区域 -> 2020-12-21 注意：颜色测试区域有一个问题，当画笔进入到该区域时，提示颜色会出现乱跳
              */
             //System.out.println(ColorFlag);
             if (x0 >= 300 && x0 <= 700 && y0 >= 300 && y0 <= 700 && ColorFlag == true) {
-                Random r = new Random();
-                int temp =  r.nextInt(4);
+                //当前点当时被赋予的随机数
+                int temp = arrayListSpot.get(i).GetDotRandomC();
+
                 if (temp == 0)
                     ColorPlace = Color.BLACK;
                 else if (temp == 1)
@@ -88,14 +87,15 @@ public class Area extends JPanel {
                     ColorPlace = Color.RED;
                 else if (temp == 3)
                     ColorPlace = Color.ORANGE;
-                System.out.println("进入颜色测试区域" + ColorPlace);
+                //ColorPlace = Color.MAGENTA;
+                //System.out.println("进入颜色测试区域" + ColorPlace + temp);
                 ColorFlag = false;
                 WaitCol.setColor(ColorPlace);
             } else if(x0 >= 300 && x0 <= 700 && y0 >= 300 && y0 <= 700 && ColorFlag == false){
-                System.out.println("在颜色测试区域内" + ColorPlace);
+                //System.out.println("在颜色测试区域内" + ColorPlace);
                 WaitCol.setColor(ColorPlace);
             }else{
-                System.out.println("在颜色测试区域外");
+                //System.out.println("在颜色测试区域外");
                 WaitCol.setColor(Color.WHITE);
                 ColorFlag = true;
             }
@@ -122,7 +122,6 @@ public class Area extends JPanel {
                 Line.setStroke(new BasicStroke(3));
             else if (PixelSet == 5)
                 Line.setStroke(new BasicStroke(5));
-            
             //画出线段
             Line2D line = new Line2D.Double(x0,y0,x1,y1);
             Line.draw(line);
