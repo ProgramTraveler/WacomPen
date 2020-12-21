@@ -80,7 +80,6 @@ public class Area extends JPanel {
             if (x0 >= 300 && x0 <= 700 && y0 >= 300 && y0 <= 700 && ColorFlag == true) {
                 Random r = new Random();
                 int temp =  r.nextInt(4);
-                System.out.println("进入颜色测试区域" + ColorFlag);
                 if (temp == 0)
                     ColorPlace = Color.BLACK;
                 else if (temp == 1)
@@ -89,10 +88,11 @@ public class Area extends JPanel {
                     ColorPlace = Color.RED;
                 else if (temp == 3)
                     ColorPlace = Color.ORANGE;
+                System.out.println("进入颜色测试区域" + ColorPlace);
                 ColorFlag = false;
                 WaitCol.setColor(ColorPlace);
             } else if(x0 >= 300 && x0 <= 700 && y0 >= 300 && y0 <= 700 && ColorFlag == false){
-                System.out.println("在颜色测试区域内");
+                System.out.println("在颜色测试区域内" + ColorPlace);
                 WaitCol.setColor(ColorPlace);
             }else{
                 System.out.println("在颜色测试区域外");
