@@ -7,6 +7,8 @@ import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.Random;
 
+import static java.lang.Thread.sleep;
+
 /*
     date:2020-12-05
     author:王久铭
@@ -28,14 +30,17 @@ public class Area extends JPanel {
     //用户是否第一次进入颜色测试区域，true表示未进入
     private boolean ColorFlag = true;
     //颜色测试区域
-    private Color ColorPlace ;
+    private Color ColorPlace;
+
     //当用户进行到测试区域时显示待选像素
     private Graphics2D WaitPix;
     //判断用户是否第一次进入像素测试区域，true表示未进入
     private boolean PixelFlag = true;
+    //像素测试区域
+    private int PixelPlace;
 
     //抽象类Image是表示图形图像的所有类的超类，必须以平台特定的方式获取图像
-    public Image offScreenImg;
+    public Image offScreenImg = null;
 
     public Area(){
         arrayListSpot = new ArrayList();
@@ -48,6 +53,7 @@ public class Area extends JPanel {
         /*
         没有这两步的话可能会导致界面错位
          */
+
         //得到图片的一份Copy
         offScreenImg = this.createImage(Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height+20);
         //绘制与已经缩放以适应指定矩形内的指定图像的大小
@@ -70,11 +76,40 @@ public class Area extends JPanel {
             double x1 = arrayListSpot.get(i).DotEndX();
             double y1 = arrayListSpot.get(i).DotEndY();
 
-            WaitCol = (Graphics2D) g;
             /*
-            判断点是否在颜色测试区域 -> 2020-12-21 注意：颜色测试区域有一个问题，当画笔进入到该区域时，提示颜色会出现乱跳
+            判断点是否在像素测试区域,
+             */
+            /*
+            WaitPix = (Graphics2D) g;
+            Line2D l = new Line2D.Double(610,3,650,3);
+            if (x0 >= 900 && x0 <= 1300 && y0 >= 300 && y0 <= 700 && PixelFlag == true) {
+                int temp = arrayListSpot.get(i).GetDotRandomP();
+                if (temp == 2)
+                    PixelPlace = 2;
+                else if (temp == 3)
+                    PixelPlace = 3;
+                else if (temp == 5)
+                    PixelPlace = 5;
+                PixelFlag =false;
+                WaitPix.setStroke(new BasicStroke(PixelPlace));
+                System.out.println(temp);
+            }else if (x0 >= 900 && x0 <= 1300 && y0 >= 300 && y0 <= 700 && PixelFlag == false) {
+                WaitPix.setStroke(new BasicStroke(PixelPlace));
+            }else {
+                WaitPix.setStroke(new BasicStroke(0));
+                WaitPix.setColor(Color.WHITE);
+                PixelFlag = true;
+            }
+
+            WaitPix.draw(l);
+
+            */
+
+            /*
+            判断点是否在颜色测试区域
              */
             //System.out.println(ColorFlag);
+            WaitCol = (Graphics2D) g;
             if (x0 >= 300 && x0 <= 700 && y0 >= 300 && y0 <= 700 && ColorFlag == true) {
                 //当前点当时被赋予的随机数
                 int temp = arrayListSpot.get(i).GetDotRandomC();
@@ -91,7 +126,7 @@ public class Area extends JPanel {
                 //System.out.println("进入颜色测试区域" + ColorPlace + temp);
                 ColorFlag = false;
                 WaitCol.setColor(ColorPlace);
-            } else if(x0 >= 300 && x0 <= 700 && y0 >= 300 && y0 <= 700 && ColorFlag == false){
+            } else if (x0 >= 300 && x0 <= 700 && y0 >= 300 && y0 <= 700 && ColorFlag == false){
                 //System.out.println("在颜色测试区域内" + ColorPlace);
                 WaitCol.setColor(ColorPlace);
             }else{
@@ -100,7 +135,6 @@ public class Area extends JPanel {
                 ColorFlag = true;
             }
             WaitCol.fillRect(500,0,30,30);
-
             //System.out.println(x0 + " " + y0 + " " + x1 + " " + y1);
 
             //判断点的颜色
@@ -116,8 +150,8 @@ public class Area extends JPanel {
 
             //判断点的像素
             PixelSet = arrayListSpot.get(i).DotPixel();
-            if (PixelSet == 1)
-                Line.setStroke(new BasicStroke(1));
+            if (PixelSet == 2)
+                Line.setStroke(new BasicStroke(2));
             else if (PixelSet == 3)
                 Line.setStroke(new BasicStroke(3));
             else if (PixelSet == 5)
@@ -125,7 +159,6 @@ public class Area extends JPanel {
             //画出线段
             Line2D line = new Line2D.Double(x0,y0,x1,y1);
             Line.draw(line);
-
 
         }
     }

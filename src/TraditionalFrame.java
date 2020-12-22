@@ -35,12 +35,19 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
     private JMenuItem ItPixel2 = new JMenuItem("中");
     private JMenuItem ItPixel3 = new JMenuItem("粗");
 
-
-
     //设置画笔的颜色
     private int SetColor = 0;
     //设置画笔的像素
-    private int SetPixel = 1;
+    private int SetPixel = 2;
+    //提示当前画笔颜色
+    private JLabel ShowColor = new JLabel("当前颜色");
+    //显示当前颜色
+    private JTextField TextShoeC = new JTextField();
+    //提示当前像素
+    private JLabel ShowPixel = new JLabel("当前像素");
+    //显示当前像素
+    private JTextField TextShowP = new JTextField();
+
     /*
     画线这部分还是和AreaFrame类中差不多
      */
@@ -61,20 +68,27 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
 
     public TraditionalFrame() {
 
+
         ar1.setLayout(new BorderLayout());
         ar1.addMouseListener(this);
         ar1.addMouseMotionListener(this);
         ar1.addKeyListener(this);
+
+        ShowColor.setBounds(20,20,200,50);
+        TraFrame.getContentPane().add(ShowColor);
+        //ShowColor.revalidate();
+
         //传统写字界面的设计
         TraFrame.getContentPane().setLayout(new BorderLayout());
         TraFrame.setBackground(Color.WHITE);
         TraFrame.getContentPane().add(ar1,BorderLayout.CENTER);
 
+
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int width = screenSize.width;
         TraFrame.setBounds(width / 5, 30, 875, 875);
         //界面全屏设置
-        //TraFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        TraFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         TraFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         TraFrame.setVisible(true);
 
@@ -83,6 +97,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         } catch (JTabletException e) {
             e.printStackTrace();
         }
+
 
         //添加菜单栏
         TraFrame.setJMenuBar(MenuB);
@@ -99,6 +114,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         MenuPixel.add(ItPixel2);
         MenuPixel.add(ItPixel3);
 
+
         /*
         这一部分主要是监听用户选择的是哪个颜色
          */
@@ -106,27 +122,21 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         MenuColor.getItem(0).addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 SetColor = 0;
-
             }
         });
         //选择红色
         MenuColor.getItem(2).addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 SetColor = 2;
-
             }
         });
         //选择蓝色
         MenuColor.getItem(1).addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 SetColor = 1;
-
             }
         });
         //选择黄色
@@ -143,7 +153,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         MenuPixel.getItem(0).addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                SetPixel = 1;
+                SetPixel = 2;
             }
         });
         //选择中等
@@ -153,6 +163,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
                 SetPixel = 3;
             }
         });
+        //选择粗
         MenuPixel.getItem(2).addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -189,7 +200,6 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
     //在组件上按下鼠标按钮时调用
     @Override
     public void mousePressed(MouseEvent e) {
-
         if (javax.swing.SwingUtilities.isLeftMouseButton(e)) {
             //获得开始时鼠标的位置
             x0 = e.getX();
@@ -232,11 +242,13 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         Dot dot = new Dot();
         dot.SetStarDot(x0,y0);
         dot.SetEndDot(x1,y1);
-        dot.SetColor(SetColor);
-        dot.SetPixel(SetPixel);
-        dot.SetDotRandomC();
+        dot.SetColor(SetColor); //点的颜色
+        dot.SetPixel(SetPixel); //点的像素
+        dot.SetDotRandomC(); //点颜色生成的随机数
+        dot.SetDotRandomP(); //点像素生成的随机数
         //将点的信息记录在容器中
         ar1.arrayListSpot.add(dot);
+        //ar1.validate();
         ar1.repaint();
 
         //更新点的起始坐标（下一个点的开始为上一个点的结束）
