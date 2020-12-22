@@ -66,22 +66,63 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
     //这个应该才是获得笔的数据
     private PenValue pValue = new PenValue();
 
-    public TraditionalFrame() {
+    /*
+    将TraFrame分割为两个区域
+     */
+    //左边区域，用于提示信息
+    private JPanel TFInter = new JPanel();
+    //右边区域，用于画图
+    private JPanel TFDraw = new JPanel();
 
+    public TraditionalFrame() {
 
         ar1.setLayout(new BorderLayout());
         ar1.addMouseListener(this);
         ar1.addMouseMotionListener(this);
         ar1.addKeyListener(this);
 
-        ShowColor.setBounds(20,20,200,50);
-        TraFrame.getContentPane().add(ShowColor);
-        //ShowColor.revalidate();
+        /*
+        将界面分割为两部分
+         */
+        JSplitPane jSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,false,TFInter,TFDraw); //这里第一个参数是控制分割线竖直，第二个参数是当你拖曳切割面版的分隔线时，窗口内的组件是否会随着分隔线的拖曳而动态改变大小，最后两个参数就是我分割完成后分割线两边各添加哪个容器。
+        jSplitPane.setDividerLocation(200); //分割线的位置  也就是初始位置
+        jSplitPane.setOneTouchExpandable(false); //是否可展开或收起，在这里没用
+        jSplitPane.setDividerSize(1);//设置分割线的宽度 像素为单位
+        jSplitPane.setEnabled(false); //设置分割线不可拖动！！
+        TraFrame.add(jSplitPane);  //加入到面板中就好了
+
+        TFInter.setLayout(new BorderLayout());
+        TFInter.setBackground(Color.WHITE);
+        ShowColor.setBounds(10,50,85,3);
+        TFInter.add(ShowColor);
+        ShowPixel.setBounds(10,80,90,0);
+        TFInter.add(ShowPixel);
+
 
         //传统写字界面的设计
-        TraFrame.getContentPane().setLayout(new BorderLayout());
+
+        /*TraFrame.getContentPane().setLayout(new BorderLayout());
         TraFrame.setBackground(Color.WHITE);
-        TraFrame.getContentPane().add(ar1,BorderLayout.CENTER);
+        TraFrame.getContentPane().add(ar1,BorderLayout.CENTER);*/
+
+        TFDraw.setLayout(new BorderLayout());
+        TFDraw.setBackground(Color.WHITE);
+        TFDraw.add(ar1,BorderLayout.CENTER);
+
+        //添加菜单栏
+        TraFrame.setJMenuBar(MenuB);
+        //添加下拉菜单到菜单栏
+        MenuB.add(MenuColor);
+        MenuB.add(MenuPixel);
+        //将颜色的下拉菜单添加到颜色菜单中
+        MenuColor.add(ItColor0);
+        MenuColor.add(ItColor1);
+        MenuColor.add(ItColor2);
+        MenuColor.add(ItColor3);
+        //将像素的下拉菜单添加到像素菜单中
+        MenuPixel.add(ItPixel1);
+        MenuPixel.add(ItPixel2);
+        MenuPixel.add(ItPixel3);
 
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -99,20 +140,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         }
 
 
-        //添加菜单栏
-        TraFrame.setJMenuBar(MenuB);
-        //添加下拉菜单到菜单栏
-        MenuB.add(MenuColor);
-        MenuB.add(MenuPixel);
-        //将颜色的下拉菜单添加到颜色菜单中
-        MenuColor.add(ItColor0);
-        MenuColor.add(ItColor1);
-        MenuColor.add(ItColor2);
-        MenuColor.add(ItColor3);
-        //将像素的下拉菜单添加到像素菜单中
-        MenuPixel.add(ItPixel1);
-        MenuPixel.add(ItPixel2);
-        MenuPixel.add(ItPixel3);
+
 
 
         /*
