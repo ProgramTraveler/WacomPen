@@ -76,6 +76,4 @@ public class Dot {
         return DotRandomP;
     }
 
-
-
 }
