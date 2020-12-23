@@ -109,6 +109,7 @@ public class Area extends JPanel {
             判断点是否在颜色测试区域
              */
             //System.out.println(ColorFlag);
+            /*
             WaitCol = (Graphics2D) g;
             if (x0 >= 300 && x0 <= 700 && y0 >= 300 && y0 <= 700 && ColorFlag == true) {
                 //当前点当时被赋予的随机数
@@ -135,6 +136,7 @@ public class Area extends JPanel {
                 ColorFlag = true;
             }
             WaitCol.fillRect(500,0,30,30);
+             */
             //System.out.println(x0 + " " + y0 + " " + x1 + " " + y1);
 
             //判断点的颜色

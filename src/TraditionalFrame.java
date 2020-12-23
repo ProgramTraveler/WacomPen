@@ -39,14 +39,6 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
     private int SetColor = 0;
     //设置画笔的像素
     private int SetPixel = 2;
-    //提示当前画笔颜色
-    private JLabel ShowColor = new JLabel("当前颜色");
-    //显示当前颜色
-    private JTextField TextShoeC = new JTextField();
-    //提示当前像素
-    private JLabel ShowPixel = new JLabel("当前像素");
-    //显示当前像素
-    private JTextField TextShowP = new JTextField();
 
     /*
     画线这部分还是和AreaFrame类中差不多
@@ -85,17 +77,29 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         将界面分割为两部分
          */
         JSplitPane jSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,false,TFInter,TFDraw); //这里第一个参数是控制分割线竖直，第二个参数是当你拖曳切割面版的分隔线时，窗口内的组件是否会随着分隔线的拖曳而动态改变大小，最后两个参数就是我分割完成后分割线两边各添加哪个容器。
-        jSplitPane.setDividerLocation(200); //分割线的位置  也就是初始位置
+        jSplitPane.setDividerLocation(250); //分割线的位置  也就是初始位置
         jSplitPane.setOneTouchExpandable(false); //是否可展开或收起，在这里没用
-        jSplitPane.setDividerSize(1);//设置分割线的宽度 像素为单位
+        jSplitPane.setDividerSize(10);//设置分割线的宽度 像素为单位
         jSplitPane.setEnabled(false); //设置分割线不可拖动！！
         TraFrame.add(jSplitPane);  //加入到面板中就好了
 
-        TFInter.setLayout(new BorderLayout());
+        //提示当前画笔颜色
+        JLabel ShowColor = new JLabel("当前颜色为黑色");
+        //显示当前颜色
+        JTextField TextShoeC = new JTextField();
+        //提示当前像素
+        JLabel ShowPixel = new JLabel("当前像素为细");
+        //显示当前像素
+        JTextField TextShowP = new JTextField();
+
+
+        TFInter.setLayout(null); //不使用布局管理器
         TFInter.setBackground(Color.WHITE);
-        ShowColor.setBounds(10,50,85,3);
+        ShowColor.setBounds(30,70,100,60);
+        ShowColor.setHorizontalAlignment(ShowColor.LEFT);
         TFInter.add(ShowColor);
-        ShowPixel.setBounds(10,80,90,0);
+        ShowPixel.setBounds(30,150,100,60);
+        ShowPixel.setHorizontalAlignment(ShowPixel.LEFT);
         TFInter.add(ShowPixel);
 
 
