@@ -13,8 +13,13 @@ public class PenData {
     private static int pressure;//当前笔的压力
     private int tile;//当前笔的角度
     private int azimuth;//当前的方位角
+    private int StartTime;//当前绘制开始的时间
+    private int EndTime;//当前绘制结束的时间
+    private int ChangeTime;//模式切换时间
+    private int SumTime;//绘制完整时间
+    private int TouchError;//误触发次数
+    private int ModelError;//切换模式错误
 
-    private int rotate;//旋转，这个变量暂时还用不上
 
     private RandomAccessFile csv1;// 存实验数据的文件
     private RandomAccessFile csv2;// 存实验压力的文件
@@ -49,7 +54,12 @@ public class PenData {
             模式切换时间（两次切换时间之和），绘制完整时间（整体绘制三次时间之和），误触发数（在未弹出切换指令前，错误的切换出命令菜单），
             模式切换错误数，做切换过程时到达的最后压力，做切换过程时到达的最后倾斜角，做切换时到达最后方位角
     */
-    public void SavaPre(int pre) throws IOException {//存的是压力的数据，放在叫做
+    //保留笔的倾斜角
+    public void SaveTile(int til) {
+        
+    }
+    //保留笔的压力
+    public void SavePre(int pre) throws IOException {//存的是压力的数据，放在叫做
         File saveFile2 = new File("basic pres" + ".csv");
         csv2 = new RandomAccessFile(saveFile2, "rw");
         int csvLen = (int) csv2.length();
