@@ -25,20 +25,24 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         分别为颜色的下拉菜单和像素的下拉菜单
      */
     //设置颜色选择的下拉菜单
+    /*
+    黑色这部分作为选择条件去掉，设为默认条件
     private JMenuItem ItColor0 = new JMenuItem("黑色");
+
+     */
     private JMenuItem ItColor1 = new JMenuItem("蓝色");
     private JMenuItem ItColor2 = new JMenuItem("红色");
     private JMenuItem ItColor3 = new JMenuItem("黄色");
 
     //设置像素的下拉菜单
-    private JMenuItem ItPixel1 = new JMenuItem("细");
-    private JMenuItem ItPixel2 = new JMenuItem("中");
-    private JMenuItem ItPixel3 = new JMenuItem("粗");
+    private JMenuItem ItPixel1 = new JMenuItem("2.0");
+    private JMenuItem ItPixel2 = new JMenuItem("3.0");
+    private JMenuItem ItPixel3 = new JMenuItem("4.0");
 
     //设置画笔的颜色
     private int SetColor = 0;
     //设置画笔的像素
-    private int SetPixel = 2;
+    private int SetPixel = 1;
 
     /*
     画线这部分还是和AreaFrame类中差不多
@@ -76,7 +80,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
     //颜色提示语句
     private String StringColor = "当前颜色为黑色";
     //像素提示语句
-    private String StringPixel = "当前笔尖为细";
+    private String StringPixel = "当前笔尖为1.0";
     /*
     提示标签和语句
         应该切换的颜色和像素
@@ -158,7 +162,10 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         MenuB.add(MenuColor);
         MenuB.add(MenuPixel);
         //将颜色的下拉菜单添加到颜色菜单中
+        /*
+        黑色的选择条件去掉，下拉菜单也做修改
         MenuColor.add(ItColor0);
+         */
         MenuColor.add(ItColor1);
         MenuColor.add(ItColor2);
         MenuColor.add(ItColor3);
@@ -183,13 +190,12 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         }
 
 
-
-
-
         /*
         这一部分主要是监听用户选择的是哪个颜色
          */
+
         //选择黑色
+        /*
         MenuColor.getItem(0).addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -205,8 +211,9 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
                 TFInter.revalidate();
             }
         });
+        */
         //选择红色
-        MenuColor.getItem(2).addActionListener(new ActionListener() {
+        MenuColor.getItem(1).addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 SetColor = 2;
@@ -222,7 +229,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             }
         });
         //选择蓝色
-        MenuColor.getItem(1).addActionListener(new ActionListener() {
+        MenuColor.getItem(0).addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 SetColor = 1;
@@ -238,7 +245,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             }
         });
         //选择黄色
-        MenuColor.getItem(3).addActionListener(new ActionListener() {
+        MenuColor.getItem(2).addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 SetColor = 3;
@@ -261,7 +268,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             @Override
             public void actionPerformed(ActionEvent e) {
                 SetPixel = 2;
-                StringPixel = "当前笔尖为细";
+                StringPixel = "当前笔尖为2.0";
                 ShowPixel.setText(StringPixel);
                 TFInter.removeAll();
                 TFInter.repaint();
@@ -277,7 +284,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             @Override
             public void actionPerformed(ActionEvent e) {
                 SetPixel = 3;
-                StringPixel = "当前笔尖为中";
+                StringPixel = "当前笔尖为3.0";
                 ShowPixel.setText(StringPixel);
                 TFInter.removeAll();
                 TFInter.repaint();
@@ -292,8 +299,8 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         MenuPixel.getItem(2).addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                SetPixel = 5;
-                StringPixel = "当前笔尖为粗";
+                SetPixel = 4;
+                StringPixel = "当前笔尖为4.0";
                 ShowPixel.setText(StringPixel);
                 TFInter.removeAll();
                 TFInter.repaint();
@@ -409,7 +416,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             TFInter.add(ShowRandomP);
             TFInter.revalidate();
             ColorFlag = false;
-        } else if (x0 >= 300 && x0 <= 700 && y0 >= 300 && y0 <= 700 && ColorFlag == false){
+        } else if (x0 >= 300 && x0 <= 700 && y0 >= 400 && y0 <= 500 && ColorFlag == false){
             ShowRandomC.setText(StringRandomC);
             TFInter.removeAll();
             TFInter.repaint();
@@ -431,14 +438,14 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             ColorFlag = true;
         }
 
-        if (x0 >= 900 && x0 <= 1300 && y0 >= 300 && y0 <= 700 && PixelFlag == true) {
+        if (x0 >= 900 && x0 <= 1300 && y0 >= 400 && y0 <= 500 && PixelFlag == true) {
             int temp = dot.GetDotRandomP();
             if (temp == 2)
-                StringRandomP = "请切换笔尖为细";
+                StringRandomP = "请切换笔尖为2.0";
             else if (temp == 3)
-                StringRandomP = "请切换笔尖为中";
-            else if (temp == 5)
-                StringRandomP = "请切换笔尖为粗";
+                StringRandomP = "请切换笔尖为3.0";
+            else if (temp == 4)
+                StringRandomP = "请切换笔尖为4.0";
             ShowRandomP.setText(StringRandomP);
             TFInter.removeAll();
             TFInter.repaint();

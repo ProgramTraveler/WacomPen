@@ -52,8 +52,8 @@ public class Area extends JPanel {
         //设置写字板中的测试区域
         offScreen = (Graphics2D) g;
         offScreen.setColor(Color.GREEN);
-        offScreen.fillRect(300,300,400,400);
-        offScreen.fillRect(900,300,400,400);
+        offScreen.fillRect(300,400,400,100);
+        offScreen.fillRect(900,400,400,100);
 
         //使用容器中点的信息来画线条
         for (int i = 0; i < arrayListSpot.size() ; i++) {
@@ -80,8 +80,8 @@ public class Area extends JPanel {
                 Line.setStroke(new BasicStroke(2));
             else if (PixelSet == 3)
                 Line.setStroke(new BasicStroke(3));
-            else if (PixelSet == 5)
-                Line.setStroke(new BasicStroke(5));
+            else if (PixelSet == 4)
+                Line.setStroke(new BasicStroke(4));
             //画出线段
             Line2D line = new Line2D.Double(x0,y0,x1,y1);
             Line.draw(line);

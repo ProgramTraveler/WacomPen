@@ -60,7 +60,7 @@ public class Dot {
     //设置点颜色的随机数
     public void SetDotRandomC() {
         Random temp = new Random();
-        DotRandomC = temp.nextInt(4);
+        DotRandomC = temp.nextInt(3) + 1;
     }
     //获得颜色随机数
     public int GetDotRandomC() {
@@ -69,7 +69,7 @@ public class Dot {
     //设置点像素随机数
     public void SetDotRandomP() {
         Random temp = new Random();
-        DotRandomP = temp.nextInt(4) + 2;
+        DotRandomP = temp.nextInt(3) + 2;
     }
     //获得像素随机数
     public int GetDotRandomP() {

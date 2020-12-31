@@ -24,10 +24,10 @@ public class Login {
     /*
     在这里面还要写四个不同模式的写字板
      */
-    private JRadioButton ButtonTraditional = new JRadioButton("传统写字面板");
-    private JRadioButton ButtonActual =  new JRadioButton("实际值-写字面板");
-    private JRadioButton ButtonScattered = new JRadioButton("离散化-写字面板");
-    private JRadioButton ButtonIncrement = new JRadioButton("增量化-写字面板");
+    private JRadioButton ButtonTraditional = new JRadioButton("传统写字面板模式");
+    private JRadioButton ButtonActual =  new JRadioButton("实际值模式");
+    private JRadioButton ButtonScattered = new JRadioButton("离散化模式");
+    private JRadioButton ButtonIncrement = new JRadioButton("增量化模式");
     private ButtonGroup ButtonFrame = new ButtonGroup(); //保存写字按钮组
 
     public Login() {
@@ -78,13 +78,13 @@ public class Login {
         Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(getSelection(ButtonFrame).getActionCommand() == "传统写字面板") {
+                if(getSelection(ButtonFrame).getActionCommand() == "传统写字面板模式") {
                     TraditionalFrame TF = new TraditionalFrame();
-                }else if (getSelection(ButtonFrame).getActionCommand() == "实际值-写字面板"){
+                }else if (getSelection(ButtonFrame).getActionCommand() == "实列化模式"){
                     AreaFrame frame=new AreaFrame();
-                }else if (getSelection(ButtonFrame).getActionCommand() == "离散化-写字面板"){
+                }else if (getSelection(ButtonFrame).getActionCommand() == "离散化模式"){
                     AreaFrame frame=new AreaFrame();
-                }else if (getSelection(ButtonFrame).getActionCommand() == "增量化-写字面板"){
+                }else if (getSelection(ButtonFrame).getActionCommand() == "增量化模式"){
                     AreaFrame frame=new AreaFrame();
                 }
                 /*
