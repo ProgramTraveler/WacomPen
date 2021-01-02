@@ -105,7 +105,6 @@ public class Login {
                 penData.SetBlock(JTexGroup.getText());
                 //获取用户选择的模式
                 penData.SetModeNa(getSelection(ButtonFrame).getActionCommand());
-                //System.out.println(penData.GetModeNa());
                 //关闭当前登录界面，当打开写字面板的时候，将会被关闭
                 Screen.dispose();
             }
