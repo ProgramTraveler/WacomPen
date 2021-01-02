@@ -37,48 +37,26 @@ public class PenData {
     获取笔在使用过程中的数据
      */
     //获取笔尖的压力
-    public void SetPressure(int pre) {
-        pressure = pre;
-    }
+    public void SetPressure(int pre) { pressure = pre; }
     public static int GetPressure() { return pressure; }
     //获取笔的倾斜角
-    public void SetTile(int til) {
-        tilt = til;
-    }
-    public int GetTile() {
-        return tilt;
-    }
+    public void SetTilt(int til) { tilt = til; }
+    public int GetTilt() { return tilt; }
     //获取笔的旋转角
-    public void SetAzimuth(int azi) {
-        azimuth = azi;
-    }
-    public int GetAzimuth() {
-        return azimuth;
-    }
+    public void SetAzimuth(int azi) { azimuth = azi; }
+    public int GetAzimuth() { return azimuth; }
     /*
     获取实验数据
      */
     //获取实验者的名字
-    public void SetName(String s) {
-        Name = s;
-    }
-    public String GetName() {
-        return Name;
-    }
+    public void SetName(String s) { Name = s; }
+    public String GetName() { return Name; }
     //获取实验组数
-    public void SetBlock(String b) {
-        BlockNumber = b;
-    }
-    public String GetBlock() {
-        return BlockNumber;
-    }
+    public void SetBlock(String b) { BlockNumber = b; }
+    public String GetBlock() { return BlockNumber; }
     //一组实验中的实验次数
-    public void SetTrialN(int n) {
-        TrialNumber = n;
-    }
-    public int GetTrialN() {
-        return TrialNumber;
-    }
+    public void SetTrialN(int n) { TrialNumber = n; }
+    public int GetTrialN() { return TrialNumber; }
     //模式切换技术
     public void SetModeNa(String s) {
         ModeTechnique = s;
@@ -187,47 +165,16 @@ public class PenData {
                     + "Number of false trigger" + "Switching Error Number" + "Pressure" + "Tilt" + "Azimuth" + "\n";*/
             saveText = "姓名" + "," + "实验组数" + "," + "一组实验次数" + "," + "模式切换技术" + "," + "目标颜色" + "," + "目标粗细" + "," +
                     "开始时间" + "," + "结束时间" + "," + "模式切换时间" + "," + "绘制完整时间" + "," + "第一段绘制时间" + "," + "第二段绘制时间" + "," + "第三段绘制时间"
-                    + "," + "误触发数" + "," + "模式切换错误数" + "," + "压力" + "," + "倾斜角" + "," + "方位角" + "," + "\n";
+                    + "," + "误触发数" + "," + "模式切换错误数" + "," + "压力" + "," + "方位角" + "," + "倾斜角" + "," + "\n";
             csv.write(saveText.getBytes("GBK"));
         }
         csv.skipBytes(CsvLine);
+        //最后写了两个tilt，写一个好像记录不上，不知道为什么
         saveText = Name + "," + BlockNumber + "," + TrialNumber + "," + ModeTechnique + "," + TargetColor + "," + TargetLine + ","
                 + StartTime + "," + EndTime + "," + ModeSwitchTime + "," + CompleteTime + "," +PaintTime1 + ","
-                + PaintTime2 + "," + PaintTime3 + "," + TouchError + "," + ModelError + "," + pressure +"." + tilt + "," + azimuth + "," + "\n";
+                + PaintTime2 + "," + PaintTime3 + "," + TouchError + "," + ModelError + "," + pressure +"." + azimuth + "," + tilt + "," + tilt+ ","+ "\n";
         csv.write(saveText.getBytes("GBK"));
         csv.close();
     }
-
-
-    /*
-    以下部分只是为了测试数据保存的情况
-     */
-    //保留笔的压力
-    /*
-    public void SavePre() throws IOException {//存的是压力的数据，放在叫做
-        File saveFile2 = new File("basic pres" + ".csv");
-        csv2 = new RandomAccessFile(saveFile2, "rw");
-        int csvLen = (int) csv2.length();
-        System.out.println("csLen:" + csvLen);
-        String SaveText = "";
-        if (csvLen == 0) {
-            SaveText = "Pressure" + "\n";
-        }else {
-            csv2.skipBytes(csvLen);
-            SaveText = pressure + "\n";
-        }
-        csv2.write(SaveText.getBytes());
-        csv2.close();
-
-
-    }
-*/
-    /*测试压力值是否能正常写入文件中*/
-    /*
-    public static void main(String[] arge) throws IOException {
-        PenData p=new PenData();
-        p.SavaPre(10);
-    }
-    */
 
 }

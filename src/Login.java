@@ -103,6 +103,9 @@ public class Login {
                 penData.SetName(JTexId.getText());
                 //获取用户输入的组数
                 penData.SetBlock(JTexGroup.getText());
+                //设置一组实验次数（一组实验次数不应该都是3？）
+                //int TextCount = Integer.parseInt(JTexGroup.getText());
+                penData.SetTrialN(3);
                 //获取用户选择的模式
                 penData.SetModeNa(getSelection(ButtonFrame).getActionCommand());
                 //关闭当前登录界面，当打开写字面板的时候，将会被关闭

@@ -351,7 +351,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             x0 = e.getX();
             y0 = e.getY();
             pData.SetPressure(pValue.Pressure());
-            pData.SetTile(pValue.Tilt());
+            pData.SetTilt(pValue.Tilt());
             pData.SetAzimuth(pValue.Azimuth());
         }
     }
@@ -360,7 +360,9 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
     public void mouseReleased(MouseEvent e) {
 
         //获取笔尖压力的值，应该是第一次笔尖的压力（也就是第一个点的压力值）
-        System.out.println("pressure:"+pValue.Pressure());
+        System.out.println("pressure:"+pData.GetPressure());
+        System.out.println("azimuth:" + pData.GetAzimuth());
+        System.out.println("tilt:" + pData.GetTilt());
         //将笔的压力保存在指定文件中
         try {
             //pData.SavePre();
