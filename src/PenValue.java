@@ -42,7 +42,6 @@ public class PenValue {
         } catch (JTabletException e) {
             e.printStackTrace();
         }
-
         return PenPressure;
     }
 

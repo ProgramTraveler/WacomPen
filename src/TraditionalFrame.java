@@ -352,7 +352,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             y0 = e.getY();
             pData.SetPressure(pValue.Pressure());
             pData.SetTile(pValue.Tilt());
-
+            pData.SetAzimuth(pValue.Azimuth());
         }
     }
     //在组件上释放鼠标按钮时调用
