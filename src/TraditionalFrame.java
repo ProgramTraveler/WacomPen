@@ -39,9 +39,9 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
     private JMenuItem ItPixel2 = new JMenuItem("3.0");
     private JMenuItem ItPixel3 = new JMenuItem("4.0");
 
-    //设置画笔的颜色
+    //设置画笔的初始颜色
     private int SetColor = 0;
-    //设置画笔的像素
+    //设置画笔的初始像素
     private int SetPixel = 1;
 
     /*
@@ -74,9 +74,9 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         当前的颜色和像素
      */
     //提示当前画笔颜色
-    private JLabel ShowColor = new JLabel();
+    private JTextField ShowColor = new JTextField();
     //提示当前像素
-    private JLabel ShowPixel = new JLabel();
+    private JTextField ShowPixel = new JTextField();
     //颜色提示语句
     private String StringColor = "当前颜色为黑色";
     //像素提示语句
@@ -86,9 +86,9 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         应该切换的颜色和像素
      */
     //提示应该切换的颜色
-    private JLabel ShowRandomC = new JLabel();
+    private JTextField ShowRandomC = new JTextField();
     //提示应该切换的像素
-    private JLabel ShowRandomP = new JLabel();
+    private JTextField ShowRandomP = new JTextField();
     //颜色提示语句
     private String StringRandomC = "";
     //像素提示语句
@@ -117,7 +117,6 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         jSplitPane.setEnabled(false); //设置分割线不可拖动！！
         TraFrame.add(jSplitPane);  //加入到面板中就好了
 
-
         //左边的界面
         TFInter.setLayout(null); //不使用布局管理器
         TFInter.setBackground(Color.WHITE); //设置界面背景颜色
@@ -126,30 +125,36 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         ShowColor.setBounds(30,90,200,60); //设置当前颜色提示的位置
         ShowColor.setHorizontalAlignment(ShowColor.LEFT); //设置为靠左
         ShowColor.setFont(new Font("黑体",Font.BOLD,20)); //设置字体颜色
+        ShowColor.setEditable(false);//设置文本不可编辑
         TFInter.add(ShowColor); //添加到左边的界面中
         //当前像素
         ShowPixel.setText(StringPixel);
         ShowPixel.setBounds(30,180,200,60);
         ShowPixel.setHorizontalAlignment(ShowPixel.LEFT);
         ShowPixel.setFont(new Font("黑体",Font.BOLD,20));
+        ShowPixel.setEditable(false);
         TFInter.add(ShowPixel);
         //待切换颜色
         ShowRandomC.setText(StringRandomC);
         ShowRandomC.setBounds(30,270,200,60);
         ShowRandomC.setHorizontalAlignment(ShowRandomC.LEFT);
         ShowRandomC.setFont(new Font("黑体",Font.BOLD,20));
+        ShowRandomC.setEditable(false);
         TFInter.add(ShowRandomC);
         //待切换像素
         ShowRandomP.setText(StringRandomP);
         ShowRandomP.setBounds(30,360,200,65);
         ShowRandomP.setHorizontalAlignment(ShowRandomP.LEFT);
         ShowRandomP.setFont(new Font("黑体",Font.BOLD,20));
+        ShowRandomP.setEditable(false);
         TFInter.add(ShowRandomP);
         //传统写字界面的设计
 
-        /*TraFrame.getContentPane().setLayout(new BorderLayout());
+        /*
+        TraFrame.getContentPane().setLayout(new BorderLayout());
         TraFrame.setBackground(Color.WHITE);
-        TraFrame.getContentPane().add(ar1,BorderLayout.CENTER);*/
+        TraFrame.getContentPane().add(ar1,BorderLayout.CENTER);
+        */
 
         //右边的界面
         TFDraw.setLayout(new BorderLayout());
@@ -317,10 +322,6 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
     @Override
     public void actionPerformed(ActionEvent e) {
 
-
-
-
-
     }
 
     @Override
@@ -350,6 +351,8 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             x0 = e.getX();
             y0 = e.getY();
             pData.SetPressure(pValue.Pressure());
+            pData.SetTile(pValue.Tilt());
+
         }
     }
     //在组件上释放鼠标按钮时调用
@@ -360,7 +363,8 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         System.out.println("pressure:"+pValue.Pressure());
         //将笔的压力保存在指定文件中
         try {
-            pData.SavaPre(pValue.Pressure());
+            pData.SavePre();
+            //pData.S
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
@@ -396,7 +400,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         double x = dot.DotStarX();
         double y = dot.DotStarY();
 
-        if (x >= 300 && x <= 700 && y >= 300 && y <= 700 && ColorFlag == true) {
+        if (x >= 300 && x <= 700 && y >= 400 && y <= 500 && ColorFlag == true) {
             //System.out.println(x0 + " " + y0);
             int temp = dot.GetDotRandomC();
             if (temp == 0)
@@ -455,7 +459,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             TFInter.add(ShowRandomP);
             TFInter.revalidate();
             PixelFlag = false;
-        }else if (x0 >= 900 && x0 <= 1300 && y0 >= 300 && y0 <= 700 && PixelFlag == false) {
+        }else if (x0 >= 900 && x0 <= 1300 && y0 >= 400 && y0 <= 500 && PixelFlag == false) {
             ShowRandomP.setText(StringRandomP);
             TFInter.removeAll();
             TFInter.repaint();

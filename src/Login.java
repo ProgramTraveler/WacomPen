@@ -81,11 +81,11 @@ public class Login {
                 if(getSelection(ButtonFrame).getActionCommand() == "传统写字面板模式") {
                     TraditionalFrame TF = new TraditionalFrame();
                 }else if (getSelection(ButtonFrame).getActionCommand() == "实列化模式"){
-                    AreaFrame frame=new AreaFrame();
+                    //AreaFrame frame=new AreaFrame();
                 }else if (getSelection(ButtonFrame).getActionCommand() == "离散化模式"){
-                    AreaFrame frame=new AreaFrame();
+                    //AreaFrame frame=new AreaFrame();
                 }else if (getSelection(ButtonFrame).getActionCommand() == "增量化模式"){
-                    AreaFrame frame=new AreaFrame();
+                    //AreaFrame frame=new AreaFrame();
                 }
                 /*
                 本来想在这里加一个对选择按钮的判断，当用户没有选择模式的会进行提醒

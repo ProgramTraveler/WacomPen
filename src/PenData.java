@@ -25,19 +25,19 @@ public class PenData {
     private RandomAccessFile csv2;// 存实验压力的文件
 
     /*设置数据*/
+    //获取笔尖的压力
     public void SetPressure(int pre){
         pressure = pre;
     }
-
     public static int GetPressure(){ return pressure; }
-
+    //获取笔的倾斜角
     public void SetTile(int til){
         tile = til;
     }
     public int GetTile(){
         return tile;
     }
-
+    //获取笔的旋转角
     public void SetAzimuth(int azi){
         azimuth = azi;
     }
@@ -54,24 +54,32 @@ public class PenData {
             模式切换时间（两次切换时间之和），绘制完整时间（整体绘制三次时间之和），误触发数（在未弹出切换指令前，错误的切换出命令菜单），
             模式切换错误数，做切换过程时到达的最后压力，做切换过程时到达的最后倾斜角，做切换时到达最后方位角
     */
-    //保留笔的倾斜角
-    public void SaveTile(int til) {
-        
+    /*
+    保留笔在测试过程中的数据
+     */
+    public void SaveInformation() {
+
     }
+    /*
+    以下部分只是为了测试数据保存的情况
+     */
     //保留笔的压力
-    public void SavePre(int pre) throws IOException {//存的是压力的数据，放在叫做
+    public void SavePre() throws IOException {//存的是压力的数据，放在叫做
         File saveFile2 = new File("basic pres" + ".csv");
         csv2 = new RandomAccessFile(saveFile2, "rw");
         int csvLen = (int) csv2.length();
+        System.out.println("csLen:" + csvLen);
         String SaveText = "";
         if (csvLen == 0) {
             SaveText = "Pressure" + "\n";
-            csv2.write(SaveText.getBytes());
+        }else {
+            csv2.skipBytes(csvLen);
+            SaveText = pressure + "\n";
         }
-        csv2.skipBytes(csvLen);
-        SaveText = pre + "\n";
         csv2.write(SaveText.getBytes());
         csv2.close();
+
+
     }
 
     /*测试压力值是否能正常写入文件中*/
