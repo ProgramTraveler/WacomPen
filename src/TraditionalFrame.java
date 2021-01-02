@@ -363,7 +363,8 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         System.out.println("pressure:"+pValue.Pressure());
         //将笔的压力保存在指定文件中
         try {
-            pData.SavePre();
+            //pData.SavePre();
+            pData.SaveInformation();
             //pData.S
         } catch (IOException ioException) {
             ioException.printStackTrace();

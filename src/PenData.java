@@ -182,16 +182,19 @@ public class PenData {
         int CsvLine = (int) csv.length();
         String saveText = "";
         if (CsvLine == 0) {
-            saveText = "Name" + "Block Number" + "Trial Number" + "Mode switching technique" + "Target color" + "Target line thickness" +
+            /*saveText = "Name" + "Block Number" + "Trial Number" + "Mode switching technique" + "Target color" + "Target line thickness" +
                     "Start Time" + "End Time" + "Mode Switching Time" + "Complete Time" + "Painting Time 1" + "Paint Time 2" + "Paint Time 3"
-                    + "Number of false trigger" + "Switching Error Number" + "Pressure" + "Tilt" + "Azimuth" + "\n";
-            csv.write(saveText.getBytes());
+                    + "Number of false trigger" + "Switching Error Number" + "Pressure" + "Tilt" + "Azimuth" + "\n";*/
+            saveText = "姓名" + "实验组数" + "一组实验次数" + "模式切换技术" + "目标颜色" + "目标粗细" +
+                    "开始时间" + "结束时间" + "模式切换时间" + "绘制完整时间" + "第一段绘制时间" + "第二段绘制时间" + "第三段绘制时间"
+                    + "误触发数" + "模式切换错误数" + "压力" + "倾斜角" + "方位角" + "\n";
+            csv.write(saveText.getBytes("GBK"));
         }
         csv.skipBytes(CsvLine);
         saveText = Name + "," + BlockNumber + "," + TrialNumber + "," + ModeTechnique + "," + TargetColor + "," + TargetLine + ","
                 + StartTime + "," + EndTime + "," + ModeSwitchTime + "," + CompleteTime + "," +PaintTime1 + ","
                 + PaintTime2 + "," + PaintTime3 + "," + TouchError + "," + ModelError + "," + pressure +"." + tilt + "," + azimuth + "," + "\n";
-        csv.write(saveText.getBytes());
+        csv.write(saveText.getBytes("GBK"));
         csv.close();
     }
 
