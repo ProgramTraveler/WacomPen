@@ -78,6 +78,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
     private JPanel TFInter = new JPanel();
     //右边区域，用于画图
     private JPanel TFDraw = new JPanel();
+
     /*
     提示标签和提示语句
         当前的颜色和像素
@@ -106,10 +107,12 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
     private boolean ColorFlag = true;
     //判断用户是否第一次进入像素测试区域，true表示未进入
     private boolean PixelFlag = true;
-
-
+    //判断用户是否开始测试
+    //private boolean EntrySign = false;
 
     public TraditionalFrame() {
+        //
+        //addKeyListener(this);
 
         ar1.setLayout(new BorderLayout());
         ar1.addMouseListener(this);
@@ -169,7 +172,6 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         TFDraw.setLayout(new BorderLayout());
         TFDraw.setBackground(Color.WHITE);
         TFDraw.add(ar1,BorderLayout.CENTER);
-
         //添加菜单栏
         TraFrame.setJMenuBar(MenuB);
         //添加下拉菜单到菜单栏
@@ -196,6 +198,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         TraFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         TraFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         TraFrame.setVisible(true);
+        ar1.requestFocusInWindow(); //让其获得焦点，这样才能是键盘监听能够正常使用
 
         try {
             tablet = new JTablet();
@@ -329,24 +332,31 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
-
-    }
+    public void actionPerformed(ActionEvent e) { }
 
     @Override
-    public void keyTyped(KeyEvent e) {
-
-    }
+    public void keyTyped(KeyEvent e) { }
 
     @Override
     public void keyPressed(KeyEvent e) {
+        //System.out.println("按入");
+        //当一次实验完成，用户按下空格键
+        if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+            //System.out.println("按入shift");
+            //将笔的压力保存在指定文件中
+            try {
+                pData.AllocateTime();
+                pData.AllocateTimeString();
+                pData.SaveInformation();
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+        }
 
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {
-
-    }
+    public void keyReleased(KeyEvent e) { }
 
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -362,15 +372,23 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             pData.SetPressure(pValue.Pressure());
             pData.SetTilt(pValue.Tilt());
             pData.SetAzimuth(pValue.Azimuth());
-            //获得第一次落笔的时间
-            if (DownFirst == true) {
-                DownTime = System.currentTimeMillis();
-                System.out.println(DownTime);
-                DownFirst = false;
-                pData.SetStartT(DownTime);
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:S");
-                pData.SetStartTimeD(dateFormat.format(new Date()));
+            /*
+            获得落笔的时间
+             */
+            //获得落笔的时间戳
+            pData.AddTime(System.currentTimeMillis());
+            //获得落笔的文字格式
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SS");
+            pData.AddTimeString(dateFormat.format(new Date()));
+            /*
+            if (EntrySign == true) {
+                //获得落笔的时间戳
+                pData.AddTime(System.currentTimeMillis());
+                //获得落笔的文字格式
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SS");
+                pData.AddTimeString(dateFormat.format(new Date()));
             }
+             */
         }
     }
     //在组件上释放鼠标按钮时调用
@@ -381,14 +399,22 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         System.out.println("pressure:"+pData.GetPressure());
         System.out.println("azimuth:" + pData.GetAzimuth());
         System.out.println("tilt:" + pData.GetTilt());
-        //将笔的压力保存在指定文件中
-        try {
-            //pData.SavePre();
-            pData.SaveInformation();
-            //pData.S
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        }
+
+        //获得落笔的时间戳
+        pData.AddTime(System.currentTimeMillis());
+        //获得落笔的文字格式
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SS");
+        pData.AddTimeString(dateFormat.format(new Date()));
+
+        /*if (EntrySign == true) {
+            //获得落笔的时间戳
+            pData.AddTime(System.currentTimeMillis());
+            //获得落笔的文字格式
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SS");
+            pData.AddTimeString(dateFormat.format(new Date()));
+        }*/
+
+
     }
     @Override
     public void mouseEntered(MouseEvent e) {
@@ -423,6 +449,10 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
 
         if (x >= 300 && x <= 700 && y >= 400 && y <= 500 && ColorFlag == true) {
             //System.out.println(x0 + " " + y0);
+
+            //当用户进入绿色区域表示开始记录数据
+            //EntrySign = true;
+
             int temp = dot.GetDotRandomC();
             if (temp == 0)
                 StringRandomC = "请切换黑色";
@@ -442,6 +472,9 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             TFInter.revalidate();
             ColorFlag = false;
         } else if (x0 >= 300 && x0 <= 700 && y0 >= 400 && y0 <= 500 && ColorFlag == false){
+            //当用户进入绿色区域表示开始记录数据
+            //EntrySign = true;
+
             ShowRandomC.setText(StringRandomC);
             TFInter.removeAll();
             TFInter.repaint();
@@ -451,6 +484,9 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             TFInter.add(ShowRandomP);
             TFInter.revalidate();
         }else {
+            //当用户进入绿色区域表示开始记录数据
+            //EntrySign = false;
+
             StringRandomC = "";
             ShowRandomC.setText(StringRandomC);
             TFInter.removeAll();
@@ -463,7 +499,10 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             ColorFlag = true;
         }
 
-        if (x0 >= 900 && x0 <= 1300 && y0 >= 400 && y0 <= 500 && PixelFlag == true) {
+        if (x0 >= 750 && x0 <= 1150 && y0 >= 400 && y0 <= 500 && PixelFlag == true) {
+            //当用户进入绿色区域表示开始记录数据
+            //EntrySign = true;
+
             int temp = dot.GetDotRandomP();
             if (temp == 2)
                 StringRandomP = "请切换笔尖为2.0";
@@ -480,7 +519,10 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             TFInter.add(ShowRandomP);
             TFInter.revalidate();
             PixelFlag = false;
-        }else if (x0 >= 900 && x0 <= 1300 && y0 >= 400 && y0 <= 500 && PixelFlag == false) {
+        }else if (x0 >= 750 && x0 <= 1150 && y0 >= 400 && y0 <= 500 && PixelFlag == false) {
+            //当用户进入绿色区域表示开始记录数据
+            //EntrySign = true;
+
             ShowRandomP.setText(StringRandomP);
             TFInter.removeAll();
             TFInter.repaint();
@@ -490,6 +532,9 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             TFInter.add(ShowRandomP);
             TFInter.revalidate();
         }else {
+            //当用户进入绿色区域表示开始记录数据
+            //EntrySign = false;
+
             StringRandomP = "";
             ShowRandomP.setText(StringRandomP);
             TFInter.removeAll();

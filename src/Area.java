@@ -53,7 +53,7 @@ public class Area extends JPanel {
         offScreen = (Graphics2D) g;
         offScreen.setColor(Color.GREEN);
         offScreen.fillRect(300,400,400,100);
-        offScreen.fillRect(900,400,400,100);
+        offScreen.fillRect(750,400,400,100);
 
         //使用容器中点的信息来画线条
         for (int i = 0; i < arrayListSpot.size() ; i++) {

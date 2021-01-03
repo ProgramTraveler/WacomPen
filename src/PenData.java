@@ -3,6 +3,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Timer;
 /*
     date:2020-11-30
     author:王久铭
@@ -32,6 +34,10 @@ public class PenData {
     private static int TouchError; //误触发次数（在未弹出切换指令前，错误的切换出命令菜单）
     private static int ModelError; //切换模式错误
 
+    //记录在测试过程中的每个时间戳
+    private ArrayList<Long> TimeList = new ArrayList<Long>();
+    //记录在测试过程中的每个时间
+    private ArrayList<String> TimeListString = new ArrayList<String>();
 
     private RandomAccessFile csv; // 存实验数据的文件
 
@@ -82,12 +88,8 @@ public class PenData {
         return TargetLine;
     }
     //实验开始的时间
-    public void SetStartT(long l) {
-        StartTime = l;
-    }
-    public long GetStartT() {
-        return StartTime;
-    }
+    public void SetStartT(long l) { StartTime = l; }
+    public long GetStartT() { return StartTime; }
     public void SetStartTimeD(String s) { StartTimeDate = s; }
     //实验结束的时间
     public void SetEndT(long l) {
@@ -145,6 +147,34 @@ public class PenData {
     }
     public int GetModeE() {
         return ModelError;
+    }
+    //将测试进行的时间戳存入集合中
+    public void AddTime(long l) { TimeList.add(l); }
+    //将时间戳容器的值分配给各个测试变量
+    public void AllocateTime() {
+        //获取容器最末尾的下标
+        int temp = TimeList.size() - 1;
+        /*
+        为了防止出现一条线的两端出现差值过小而出现0的情况，所以加1秒
+         */
+        //第三段绘制的时间
+        PaintTime3 = (TimeList.get(temp) - TimeList.get(temp -1)) / 1000 + 1;
+        //第二段绘制的时间
+        PaintTime2 = (TimeList.get(temp - 2) - TimeList.get(temp - 3)) / 1000 + 1;
+        //第一段绘制的时间
+        PaintTime1 = (TimeList.get(temp - 4) - TimeList.get(temp - 5)) / 1000 + 1;
+        //模式切换的时间（两次切换的时间和）
+        ModeSwitchTime = (TimeList.get(temp - 1) - TimeList.get(temp - 2)) / 1000 + (TimeList.get(temp -3) - TimeList.get(temp - 4)) / 1000 + 1;
+        //绘制的完整时间（三次绘制的时间和）
+        CompleteTime = (TimeList.get(temp) - TimeList.get(temp - 5)) / 1000 + 1;
+    }
+    //将测试进行的文字时间存入集合
+    public void AddTimeString(String s) { TimeListString.add(s); }
+    //将文字时间容器的内容分配
+    public void AllocateTimeString() {
+        int temp = TimeListString.size() - 1;
+        StartTimeDate = TimeListString.get(0);
+        EndTimeDate = TimeListString.get(temp);
     }
     /*
     在文件记录数据这一部分有待改善，文件存储的数据有待讨论，目前以压力值的存储为测试
