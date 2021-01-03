@@ -368,7 +368,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
                 System.out.println(DownTime);
                 DownFirst = false;
                 pData.SetStartT(DownTime);
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSSS");
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:S");
                 pData.SetStartTimeD(dateFormat.format(new Date()));
             }
         }
