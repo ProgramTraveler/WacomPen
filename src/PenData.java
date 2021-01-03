@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.text.SimpleDateFormat;
 /*
     date:2020-11-30
     author:王久铭
@@ -9,28 +10,30 @@ import java.io.RandomAccessFile;
 */
 
 public class PenData {
-    private static int pressure;//当前笔的压力
-    private static int tilt;//当前笔的角度
-    private static int azimuth;//当前的方位角
+    private static int pressure; //当前笔的压力
+    private static int tilt; //当前笔的角度
+    private static int azimuth; //当前的方位角
 
-    private static String Name;//用户的姓名
-    private static String BlockNumber;//实验组数
-    private static int TrialNumber;//一组实验里实验的次数
-    private static String ModeTechnique;//选择的模式切换技术
-    private static String TargetColor;//每次实验的出现的目标颜色
-    private static String TargetLine;//每次实验出现的目标线条粗细
-    private static long StartTime;//当前绘制开始的时间(第一次绘制落笔的时间)
-    private static long EndTime;//当前绘制结束的时间（第三次绘制抬笔的时间）
-    private static long ModeSwitchTime;//模式切换时间（两次切换的时间之和）
-    private static long CompleteTime;//绘制完整时间（整体三次绘制的时间之和）
-    private static long PaintTime1;//第一段画线绘制的时间
-    private static long PaintTime2;//第二段画线绘制的时间
-    private static long PaintTime3;//第三段画线绘制的时间
-    private static int TouchError;//误触发次数（在未弹出切换指令前，错误的切换出命令菜单）
-    private static int ModelError;//切换模式错误
+    private static String Name; //用户的姓名
+    private static String BlockNumber; //实验组数
+    private static int TrialNumber; //一组实验里实验的次数
+    private static String ModeTechnique; //选择的模式切换技术
+    private static String TargetColor; //每次实验的出现的目标颜色
+    private static String TargetLine; //每次实验出现的目标线条粗细
+    private static long StartTime; //当前绘制开始的时间(第一次绘制落笔的时间)
+    private static String StartTimeDate; //绘制开始的时间以文字格式保存
+    private static long EndTime; //当前绘制结束的时间（第三次绘制抬笔的时间）
+    private static String EndTimeDate; //绘制结束的时间以文字格式保存
+    private static long ModeSwitchTime; //模式切换时间（两次切换的时间之和）
+    private static long CompleteTime; //绘制完整时间（整体三次绘制的时间之和）
+    private static long PaintTime1; //第一段画线绘制的时间
+    private static long PaintTime2; //第二段画线绘制的时间
+    private static long PaintTime3; //第三段画线绘制的时间
+    private static int TouchError; //误触发次数（在未弹出切换指令前，错误的切换出命令菜单）
+    private static int ModelError; //切换模式错误
 
 
-    private RandomAccessFile csv;// 存实验数据的文件
+    private RandomAccessFile csv; // 存实验数据的文件
 
 
     /*
@@ -85,6 +88,7 @@ public class PenData {
     public long GetStartT() {
         return StartTime;
     }
+    public void SetStartTimeD(String s) { StartTimeDate = s; }
     //实验结束的时间
     public void SetEndT(long l) {
         EndTime = l;
@@ -92,6 +96,7 @@ public class PenData {
     public long GetEndT() {
         return EndTime;
     }
+    public void SetEndTimeD(String s) { EndTimeDate = s; }
     //在模式切换的时间
     public void SetModeT(long l) {
         ModeSwitchTime = l;
@@ -171,7 +176,7 @@ public class PenData {
         csv.skipBytes(CsvLine);
         //最后写了两个tilt，写一个好像记录不上，不知道为什么
         saveText = Name + "," + BlockNumber + "," + TrialNumber + "," + ModeTechnique + "," + TargetColor + "," + TargetLine + ","
-                + StartTime + "," + EndTime + "," + ModeSwitchTime + "," + CompleteTime + "," +PaintTime1 + ","
+                + StartTimeDate + "," + EndTimeDate + "," + ModeSwitchTime + "," + CompleteTime + "," +PaintTime1 + ","
                 + PaintTime2 + "," + PaintTime3 + "," + TouchError + "," + ModelError + "," + pressure +"." + azimuth + "," + tilt + "," + tilt+ ","+ "\n";
         csv.write(saveText.getBytes("GBK"));
         csv.close();

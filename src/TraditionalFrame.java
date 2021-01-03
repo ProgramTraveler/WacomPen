@@ -7,6 +7,9 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Line2D;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /*
     date:2020-12-18
     author:王久铭
@@ -43,6 +46,12 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
     private int SetColor = 0;
     //设置画笔的初始像素
     private int SetPixel = 1;
+    /*
+    画笔落笔和抬笔的数据记录
+     */
+    private long DownTime; //落笔的时间
+    private boolean DownFirst = true; //判断是否为第一次落笔
+    private long UpTime; //抬笔时间
 
     /*
     画线这部分还是和AreaFrame类中差不多
@@ -353,6 +362,15 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             pData.SetPressure(pValue.Pressure());
             pData.SetTilt(pValue.Tilt());
             pData.SetAzimuth(pValue.Azimuth());
+            //获得第一次落笔的时间
+            if (DownFirst == true) {
+                DownTime = System.currentTimeMillis();
+                System.out.println(DownTime);
+                DownFirst = false;
+                pData.SetStartT(DownTime);
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSSS");
+                pData.SetStartTimeD(dateFormat.format(new Date()));
+            }
         }
     }
     //在组件上释放鼠标按钮时调用
