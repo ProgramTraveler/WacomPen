@@ -8,6 +8,7 @@ import java.awt.event.*;
 import java.awt.geom.Line2D;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Date;
 
 /*
@@ -339,10 +340,15 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
 
     @Override
     public void keyPressed(KeyEvent e) {
-        //System.out.println("按入");
         //当一次实验完成，用户按下空格键
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-            //System.out.println("按入shift");
+            //清空集合中的点的信息
+            ar1.arrayListSpot.clear();
+            //重绘
+            ar1.repaint();
+            System.out.println(StringRandomC + "--" + StringRandomP);
+            pData.SetTargetColor(StringRandomC);
+            pData.SetTargetLine(StringRandomP);
             //将笔的压力保存在指定文件中
             try {
                 pData.AllocateTime();
@@ -541,7 +547,6 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
 
         //将点的信息记录在容器中
         ar1.arrayListSpot.add(dot);
-        //ar1.validate();
         ar1.repaint();
 
         //更新点的起始坐标（下一个点的开始为上一个点的结束）
