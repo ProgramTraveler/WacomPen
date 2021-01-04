@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Timer;
@@ -26,11 +27,11 @@ public class PenData {
     private static String StartTimeDate; //绘制开始的时间以文字格式保存
     private static long EndTime; //当前绘制结束的时间（第三次绘制抬笔的时间）
     private static String EndTimeDate; //绘制结束的时间以文字格式保存
-    private static double ModeSwitchTime; //模式切换时间（两次切换的时间之和）
-    private static double CompleteTime; //绘制完整时间（整体三次绘制的时间之和）
-    private static double PaintTime1; //第一段画线绘制的时间
-    private static double PaintTime2; //第二段画线绘制的时间
-    private static double PaintTime3; //第三段画线绘制的时间
+    private static String ModeSwitchTime; //模式切换时间（两次切换的时间之和）
+    private static String CompleteTime; //绘制完整时间（整体三次绘制的时间之和）
+    private static String PaintTime1; //第一段画线绘制的时间
+    private static String PaintTime2; //第二段画线绘制的时间
+    private static String PaintTime3; //第三段画线绘制的时间
     private static int TouchError; //误触发次数（在未弹出切换指令前，错误的切换出命令菜单）
     private static int ModelError; //切换模式错误
 
@@ -87,51 +88,6 @@ public class PenData {
     public String GetTargetLine() {
         return TargetLine;
     }
-    //实验开始的时间
-    public void SetStartT(long l) { StartTime = l; }
-    public long GetStartT() { return StartTime; }
-    public void SetStartTimeD(String s) { StartTimeDate = s; }
-    //实验结束的时间
-    public void SetEndT(long l) {
-        EndTime = l;
-    }
-    public long GetEndT() {
-        return EndTime;
-    }
-    public void SetEndTimeD(String s) { EndTimeDate = s; }
-    //在模式切换的时间
-    public void SetModeT(long l) {
-        ModeSwitchTime = l;
-    }
-
-    //绘制的完整时间
-    public void SetCompleteT(long l) {
-        CompleteTime = l;
-    }
-    public double GetCompleteT() {
-        return CompleteTime;
-    }
-    //第一段画线绘制的时间
-    public void SetPaintT1(long l) {
-        PaintTime1 = l;
-    }
-    public double GetPaintT1() {
-        return PaintTime1;
-    }
-    //第二段画线绘制的时间
-    public void SetPaintT2(long l) {
-        PaintTime2 = l;
-    }
-    public double GetPaintT2() {
-        return PaintTime2;
-    }
-    //第三段画线绘制的时间
-    public void SetPaintT3(long l) {
-        PaintTime3 = l;
-    }
-    public double GetPaintT3() {
-        return PaintTime3;
-    }
     //错误触发次数
     public void SetTouchE(int n) {
         TouchError = n;
@@ -152,19 +108,22 @@ public class PenData {
     public void AllocateTime() {
         //获取容器最末尾的下标
         int temp = TimeList.size() - 1;
+        System.out.println(TimeList.size());
         /*
-
+        使用DecimalFormat来进行输的格式控制->格式为保留两位小数，同时强转为float
          */
+        DecimalFormat df = new DecimalFormat("0.00");
         //第三段绘制的时间
-        PaintTime3 = (TimeList.get(temp) - TimeList.get(temp -1)) / 1000;
+        PaintTime3 = df.format((float)(TimeList.get(temp) - TimeList.get(temp -1)) / 1000);
         //第二段绘制的时间
-        PaintTime2 = (TimeList.get(temp - 2) - TimeList.get(temp - 3)) / 1000;
+        PaintTime2 = df.format((float)(TimeList.get(temp - 2) - TimeList.get(temp - 3)) / 1000);
         //第一段绘制的时间
-        PaintTime1 = (TimeList.get(temp - 4) - TimeList.get(temp - 5)) / 1000;
+        PaintTime1 = df.format((float)(TimeList.get(temp - 4) - TimeList.get(temp - 5)) / 1000);
         //模式切换的时间（两次切换的时间和）
-        ModeSwitchTime = (TimeList.get(temp - 1) - TimeList.get(temp - 2)) / 1000 + (TimeList.get(temp -3) - TimeList.get(temp - 4)) / 1000;
+        ModeSwitchTime = df.format((float)((TimeList.get(temp - 1) - TimeList.get(temp - 2))  + (TimeList.get(temp -3) - TimeList.get(temp - 4))) / 1000);
         //绘制的完整时间（三次绘制的时间和）
-        CompleteTime = (TimeList.get(temp) - TimeList.get(temp - 5)) / 1000;
+        CompleteTime = df.format((float)(TimeList.get(temp) - TimeList.get(temp - 5)) / 1000);
+        //System.out.println(PaintTime3 +"--"+PaintTime2 +"--"+PaintTime1+"--"+ModeSwitchTime+"--"+CompleteTime);
     }
     //将测试进行的文字时间存入集合
     public void AddTimeString(String s) { TimeListString.add(s); }

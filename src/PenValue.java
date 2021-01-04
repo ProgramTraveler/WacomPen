@@ -66,7 +66,7 @@ public class PenValue {
         }
         if (tablet.getCursor() instanceof  JTabletCursor)
             PenAzimuth = tablet.getCursor().getData(JTabletCursor.DATA_ORIENTATION_AZIMUTH);
-        return PenAzimuth;
+        return PenAzimuth / 10;
     }
     /*
     在笔的数据这一部分可能还需要写一点用户的测试条件，比如当前笔的颜色和需要切换的颜色，以及当前笔的粗细和需要切换粗细

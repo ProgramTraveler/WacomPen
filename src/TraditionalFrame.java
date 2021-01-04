@@ -380,15 +380,6 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             //获得落笔的文字格式
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SS");
             pData.AddTimeString(dateFormat.format(new Date()));
-            /*
-            if (EntrySign == true) {
-                //获得落笔的时间戳
-                pData.AddTime(System.currentTimeMillis());
-                //获得落笔的文字格式
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SS");
-                pData.AddTimeString(dateFormat.format(new Date()));
-            }
-             */
         }
     }
     //在组件上释放鼠标按钮时调用
