@@ -26,11 +26,11 @@ public class PenData {
     private static String StartTimeDate; //绘制开始的时间以文字格式保存
     private static long EndTime; //当前绘制结束的时间（第三次绘制抬笔的时间）
     private static String EndTimeDate; //绘制结束的时间以文字格式保存
-    private static long ModeSwitchTime; //模式切换时间（两次切换的时间之和）
-    private static long CompleteTime; //绘制完整时间（整体三次绘制的时间之和）
-    private static long PaintTime1; //第一段画线绘制的时间
-    private static long PaintTime2; //第二段画线绘制的时间
-    private static long PaintTime3; //第三段画线绘制的时间
+    private static double ModeSwitchTime; //模式切换时间（两次切换的时间之和）
+    private static double CompleteTime; //绘制完整时间（整体三次绘制的时间之和）
+    private static double PaintTime1; //第一段画线绘制的时间
+    private static double PaintTime2; //第二段画线绘制的时间
+    private static double PaintTime3; //第三段画线绘制的时间
     private static int TouchError; //误触发次数（在未弹出切换指令前，错误的切换出命令菜单）
     private static int ModelError; //切换模式错误
 
@@ -103,35 +103,33 @@ public class PenData {
     public void SetModeT(long l) {
         ModeSwitchTime = l;
     }
-    public long GetModeT() {
-        return ModeSwitchTime;
-    }
+
     //绘制的完整时间
     public void SetCompleteT(long l) {
         CompleteTime = l;
     }
-    public long GetCompleteT() {
+    public double GetCompleteT() {
         return CompleteTime;
     }
     //第一段画线绘制的时间
     public void SetPaintT1(long l) {
         PaintTime1 = l;
     }
-    public long GetPaintT1() {
+    public double GetPaintT1() {
         return PaintTime1;
     }
     //第二段画线绘制的时间
     public void SetPaintT2(long l) {
         PaintTime2 = l;
     }
-    public long GetPaintT2() {
+    public double GetPaintT2() {
         return PaintTime2;
     }
     //第三段画线绘制的时间
     public void SetPaintT3(long l) {
         PaintTime3 = l;
     }
-    public long GetPaintT3() {
+    public double GetPaintT3() {
         return PaintTime3;
     }
     //错误触发次数
@@ -155,18 +153,18 @@ public class PenData {
         //获取容器最末尾的下标
         int temp = TimeList.size() - 1;
         /*
-        为了防止出现一条线的两端出现差值过小而出现0的情况，所以加1秒
+
          */
         //第三段绘制的时间
-        PaintTime3 = (TimeList.get(temp) - TimeList.get(temp -1)) / 1000 + 1;
+        PaintTime3 = (TimeList.get(temp) - TimeList.get(temp -1)) / 1000;
         //第二段绘制的时间
-        PaintTime2 = (TimeList.get(temp - 2) - TimeList.get(temp - 3)) / 1000 + 1;
+        PaintTime2 = (TimeList.get(temp - 2) - TimeList.get(temp - 3)) / 1000;
         //第一段绘制的时间
-        PaintTime1 = (TimeList.get(temp - 4) - TimeList.get(temp - 5)) / 1000 + 1;
+        PaintTime1 = (TimeList.get(temp - 4) - TimeList.get(temp - 5)) / 1000;
         //模式切换的时间（两次切换的时间和）
-        ModeSwitchTime = (TimeList.get(temp - 1) - TimeList.get(temp - 2)) / 1000 + (TimeList.get(temp -3) - TimeList.get(temp - 4)) / 1000 + 1;
+        ModeSwitchTime = (TimeList.get(temp - 1) - TimeList.get(temp - 2)) / 1000 + (TimeList.get(temp -3) - TimeList.get(temp - 4)) / 1000;
         //绘制的完整时间（三次绘制的时间和）
-        CompleteTime = (TimeList.get(temp) - TimeList.get(temp - 5)) / 1000 + 1;
+        CompleteTime = (TimeList.get(temp) - TimeList.get(temp - 5)) / 1000;
     }
     //将测试进行的文字时间存入集合
     public void AddTimeString(String s) { TimeListString.add(s); }
