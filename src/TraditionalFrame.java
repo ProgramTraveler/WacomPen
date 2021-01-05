@@ -449,7 +449,6 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
 
             //当用户进入绿色区域表示开始记录数据
             //EntrySign = true;
-
             int temp = dot.GetDotRandomC();
             if (temp == 0)
                 StringRandomC = "请切换黑色";
