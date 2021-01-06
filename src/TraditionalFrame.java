@@ -347,8 +347,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             //重绘
             ar1.repaint();
             System.out.println(StringRandomC + "--" + StringRandomP);
-            pData.SetTargetColor(StringRandomC);
-            pData.SetTargetLine(StringRandomP);
+
             //将笔的压力保存在指定文件中
             try {
                 pData.AllocateTime();
@@ -458,6 +457,17 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
                 StringRandomC = "请切换红色";
             else if (temp == 3)
                 StringRandomC = "请切换黄色";
+
+            //按照系统的提示颜色存入相应的目标颜色
+            if (StringRandomC == "请切换蓝色")
+                pData.SetTargetColor("蓝色");
+            else if (StringRandomC == "请切换红色")
+                pData.SetTargetColor("红色");
+            else if (StringRandomC == "请切换黄色")
+                pData.SetTargetColor("黄色");
+                //如果没有提示且按下了空格，就记为空
+            else pData.SetTargetColor("");
+
             ShowRandomC.setText(StringRandomC);
             TFInter.removeAll();
             TFInter.repaint();
@@ -506,6 +516,17 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
                 StringRandomP = "请切换笔尖为3.0";
             else if (temp == 4)
                 StringRandomP = "请切换笔尖为4.0";
+
+            //按照系统提示的像素存入目标像素
+            if (StringRandomP == "请切换笔尖为2.0")
+                pData.SetTargetLine("2.0");
+            else if (StringRandomP == "请切换笔尖为3.0")
+                pData.SetTargetLine("3.0");
+            else if (StringRandomP == "请切换笔尖为4.0")
+                pData.SetTargetLine("4.0");
+                //如果没有提示就按下了空格，就记为空
+            else pData.SetTargetLine("");
+
             ShowRandomP.setText(StringRandomP);
             TFInter.removeAll();
             TFInter.repaint();
