@@ -14,7 +14,7 @@ public class Login {
     //设置一个开始按钮
     private JButton Button = new JButton("开始测试");
     //要求用户输入ID
-    private JLabel JLabelId = new JLabel("输入你的ID:"); //用户输入`ID`的提示
+    private JLabel JLabelId = new JLabel("输入你的名称:"); //用户输入`ID`的提示
     private JTextField JTexId = new JTextField(); //用户输入`ID`的输入框
     //要求用户输入实验组数
     private JLabel JLabelGroup = new JLabel("实验组数:"); //用户输入`实验组数`的提示
@@ -103,9 +103,6 @@ public class Login {
                 penData.SetName(JTexId.getText());
                 //获取用户输入的组数
                 penData.SetBlock(JTexGroup.getText());
-                //设置一组实验次数（一组实验次数不应该都是3？）
-                //int TextCount = Integer.parseInt(JTexGroup.getText());
-                penData.SetTrialN(3);
                 //获取用户选择的模式
                 penData.SetModeNa(getSelection(ButtonFrame).getActionCommand());
                 //关闭当前登录界面，当打开写字面板的时候，将会被关闭

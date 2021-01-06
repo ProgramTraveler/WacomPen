@@ -236,7 +236,11 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             public void actionPerformed(ActionEvent e) {
                 SetColor = 2;
                 StringColor = "当前颜色为红色";
+                //存入目标颜色
                 pData.SetResultC("红色");
+                //如果在没有进入测试区域就点击切换，误触发次数加一
+                if (ColorFlag == true)
+                    pData.SetTouchE();
                 ShowColor.setText(StringColor);
                 TFInter.removeAll();
                 TFInter.repaint();
@@ -253,7 +257,11 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             public void actionPerformed(ActionEvent e) {
                 SetColor = 1;
                 StringColor = "当前颜色为蓝色";
+                //存入目标颜色
                 pData.SetResultC("蓝色");
+                //如果在没有进入测试区域就点击切换，误触发次数加一
+                if (ColorFlag == true)
+                    pData.SetTouchE();
                 ShowColor.setText(StringColor);
                 TFInter.removeAll();
                 TFInter.repaint();
@@ -270,7 +278,11 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             public void actionPerformed(ActionEvent e) {
                 SetColor = 3;
                 StringColor = "当前颜色为黄色";
+                //存入目标颜色
                 pData.SetResultC("黄色");
+                //如果在没有进入测试区域就点击切换，误触发次数加一
+                if (ColorFlag == true)
+                    pData.SetTouchE();
                 ShowColor.setText(StringColor);
                 TFInter.removeAll();
                 TFInter.repaint();
@@ -290,7 +302,11 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             public void actionPerformed(ActionEvent e) {
                 SetPixel = 2;
                 StringPixel = "当前笔尖为2.0";
+                //存入目标像素
                 pData.SetResultP("2.0");
+                //如果在没有进入测试区域就点击切换，误触发次数加一
+                if (PixelFlag == true)
+                    pData.SetTouchE();
                 ShowPixel.setText(StringPixel);
                 TFInter.removeAll();
                 TFInter.repaint();
@@ -307,7 +323,11 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             public void actionPerformed(ActionEvent e) {
                 SetPixel = 3;
                 StringPixel = "当前笔尖为3.0";
+                //存入目标像素
                 pData.SetResultP("3.0");
+                //如果在没有进入测试区域就点击切换，误触发次数加一
+                if (PixelFlag == true)
+                    pData.SetTouchE();
                 ShowPixel.setText(StringPixel);
                 TFInter.removeAll();
                 TFInter.repaint();
@@ -324,7 +344,11 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             public void actionPerformed(ActionEvent e) {
                 SetPixel = 4;
                 StringPixel = "当前笔尖为4.0";
+                //存入目标像素
                 pData.SetResultP("4.0");
+                //如果在没有进入测试区域就点击切换，误触发次数加一
+                if (PixelFlag == true)
+                    pData.SetTouchE();
                 ShowPixel.setText(StringPixel);
                 TFInter.removeAll();
                 TFInter.repaint();
@@ -352,8 +376,9 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             ar1.arrayListSpot.clear();
             //重绘
             ar1.repaint();
-            System.out.println(StringRandomC + "--" + StringRandomP);
-            //查看模式出现的错误数
+            //在一组中做完一次实验
+            pData.SetTrialN();
+            //模式切换出现的错误数
             pData.SetModeE();
             //将笔的压力保存在指定文件中
             try {

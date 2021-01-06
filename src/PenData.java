@@ -68,7 +68,9 @@ public class PenData {
     public void SetBlock(String b) { BlockNumber = b; }
     public String GetBlock() { return BlockNumber; }
     //一组实验中的实验次数
-    public void SetTrialN(int n) { TrialNumber = n; }
+    public void SetTrialN() {
+        TrialNumber ++;
+    }
     public int GetTrialN() { return TrialNumber; }
     //模式切换技术
     public void SetModeNa(String s) {
@@ -93,10 +95,7 @@ public class PenData {
     }
     //错误触发次数
     public void SetTouchE() {
-        if (TargetColor.equals(ResultColor) == false)
-            ModelError ++;
-        if (TargetLine.equals(ResultPixel) == false)
-            ModelError ++;
+        TouchError ++;
     }
     public int GetTouchE() {
         return TouchError;
