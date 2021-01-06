@@ -32,10 +32,13 @@ public class PenData {
     private static String PaintTime1; //第一段画线绘制的时间
     private static String PaintTime2; //第二段画线绘制的时间
     private static String PaintTime3; //第三段画线绘制的时间
-    private static int TouchError; //误触发次数（在未弹出切换指令前，错误的切换出命令菜单）
-    private static int ModelError; //切换模式错误
+    private static int TouchError = 0; //误触发次数（在未弹出切换指令前，错误的切换出命令菜单）
+    private static int ModelError = 0; //切换模式错误
 
-    //记录在测试过程中的每个时间戳
+    private static String ResultColor; //用户实际切换的颜色
+    private static String ResultPixel; //用户实际切换的像素
+
+  //记录在测试过程中的每个时间戳
     private ArrayList<Long> TimeList = new ArrayList<Long>();
     //记录在测试过程中的每个时间
     private ArrayList<String> TimeListString = new ArrayList<String>();
@@ -89,19 +92,26 @@ public class PenData {
         return TargetLine;
     }
     //错误触发次数
-    public void SetTouchE(int n) {
-        TouchError = n;
+    public void SetTouchE() {
+        if (TargetColor.equals(ResultColor) == false)
+            ModelError ++;
+        if (TargetLine.equals(ResultPixel) == false)
+            ModelError ++;
     }
     public int GetTouchE() {
         return TouchError;
     }
     //切换模式错误的次数
-    public void SetModeE(int n) {
-        ModelError = n;
+    public void SetModeE() {
+        if (TargetColor.equals(ResultColor) == false)
+            ModelError ++;
+        if (TargetLine.equals(ResultPixel) == false)
+            ModelError ++;
     }
     public int GetModeE() {
         return ModelError;
     }
+
     //将测试进行的时间戳存入集合中
     public void AddTime(long l) { TimeList.add(l); }
     //将时间戳容器的值分配给各个测试变量
@@ -133,6 +143,10 @@ public class PenData {
         StartTimeDate = TimeListString.get(0);
         EndTimeDate = TimeListString.get(temp);
     }
+    //获得用户实际选择的颜色
+    public void SetResultC(String s) { ResultColor = s; }
+    //获得用户实际选择的像素
+    public void SetResultP(String s) { ResultPixel = s; }
     /*
     在文件记录数据这一部分有待改善，文件存储的数据有待讨论，目前以压力值的存储为测试
     在不同模式下，需要记录的信息不一样

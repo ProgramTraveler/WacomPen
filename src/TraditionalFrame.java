@@ -236,6 +236,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             public void actionPerformed(ActionEvent e) {
                 SetColor = 2;
                 StringColor = "当前颜色为红色";
+                pData.SetResultC("红色");
                 ShowColor.setText(StringColor);
                 TFInter.removeAll();
                 TFInter.repaint();
@@ -252,6 +253,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             public void actionPerformed(ActionEvent e) {
                 SetColor = 1;
                 StringColor = "当前颜色为蓝色";
+                pData.SetResultC("蓝色");
                 ShowColor.setText(StringColor);
                 TFInter.removeAll();
                 TFInter.repaint();
@@ -268,6 +270,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             public void actionPerformed(ActionEvent e) {
                 SetColor = 3;
                 StringColor = "当前颜色为黄色";
+                pData.SetResultC("黄色");
                 ShowColor.setText(StringColor);
                 TFInter.removeAll();
                 TFInter.repaint();
@@ -287,6 +290,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             public void actionPerformed(ActionEvent e) {
                 SetPixel = 2;
                 StringPixel = "当前笔尖为2.0";
+                pData.SetResultP("2.0");
                 ShowPixel.setText(StringPixel);
                 TFInter.removeAll();
                 TFInter.repaint();
@@ -303,6 +307,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             public void actionPerformed(ActionEvent e) {
                 SetPixel = 3;
                 StringPixel = "当前笔尖为3.0";
+                pData.SetResultP("3.0");
                 ShowPixel.setText(StringPixel);
                 TFInter.removeAll();
                 TFInter.repaint();
@@ -319,6 +324,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             public void actionPerformed(ActionEvent e) {
                 SetPixel = 4;
                 StringPixel = "当前笔尖为4.0";
+                pData.SetResultP("4.0");
                 ShowPixel.setText(StringPixel);
                 TFInter.removeAll();
                 TFInter.repaint();
@@ -347,7 +353,8 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             //重绘
             ar1.repaint();
             System.out.println(StringRandomC + "--" + StringRandomP);
-
+            //查看模式出现的错误数
+            pData.SetModeE();
             //将笔的压力保存在指定文件中
             try {
                 pData.AllocateTime();
@@ -357,7 +364,6 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
                 ioException.printStackTrace();
             }
         }
-
     }
 
     @Override
