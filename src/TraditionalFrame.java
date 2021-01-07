@@ -377,7 +377,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             //重绘
             ar1.repaint();
             //在一组中做完一次实验
-            pData.SetTrialN();
+            pData.AddTrialN();
             //模式切换出现的错误数
             pData.SetModeE();
             //将笔的压力保存在指定文件中
@@ -389,20 +389,20 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
                 ioException.printStackTrace();
             }
             //检查是否做了9次
+            /*
             if (pData.GetTrialN() == 1) {
                 //如果组数大于等于1，将组数减一，继续做
-                if (pData.GetBlockN() >= 1) {
+                if (Integer.getInteger(pData.GetBlock()) >= 1) {
                     pData.SetBlockN(pData.GetBlockN() - 1);
                 }else {
-                    ///Login log = new Login();
+                    //log.setResizable( false );
                     //关闭当前的写字界面
                     TraFrame.dispose();
-                    /*
-                    做完了就饭返回登陆界面,不需要重新定义一个新的Login
-                     */
-
+                    //pData.SetTrialN(0);
+                    //Login login = new Login();
                 }
             }
+            */
         }
     }
 

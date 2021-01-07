@@ -69,8 +69,9 @@ public class PenData {
     public void SetBlock(String b) {
         BlockNumber = b;
         //将输入的String型的组数变为int型（因为开始做的时候就是第一组，所以组数减一）
-        BlockN = Integer.getInteger(b) - 1;
+        //BlockN = Integer.getInteger(b) ;
     }
+    public String GetBlock() { return BlockNumber; }
     //获取实验组数的int值
     public void SetBlockN(int n) {
         BlockN = n;
@@ -80,7 +81,8 @@ public class PenData {
     }
 
     //一组实验中的实验次数
-    public void SetTrialN() { TrialNumber ++; }
+    public void SetTrialN(int n) { TrialNumber = n; }
+    public void AddTrialN() { TrialNumber ++; }
     public int GetTrialN() { return TrialNumber; }
     //模式切换技术
     public void SetModeNa(String s) {
@@ -127,7 +129,7 @@ public class PenData {
     public void AllocateTime() {
         //获取容器最末尾的下标
         int temp = TimeList.size() - 1;
-        System.out.println(TimeList.size());
+        System.out.println("集合数量：" + TimeList.size());
         /*
         使用DecimalFormat来进行输的格式控制->格式为保留两位小数，同时强转为float
          */

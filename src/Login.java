@@ -8,7 +8,7 @@ import java.util.Enumeration;
     author:王久铭
     purpose:初始化界面，也就是用户的最初的登陆的界面
  */
-public class Login {
+public class Login extends JFrame{
     //新建窗口
     private JFrame Screen = new JFrame("登录界面");
     //设置一个开始按钮
@@ -93,11 +93,11 @@ public class Login {
                     JOptionPane.showMessageDialog(null, "您还没有输入您的id!!");
                 }*/
                 //用户是否选择练习按钮
-                /*if (check.getState()) {
+                if (check.getState()) {
 
                 }else {
 
-                }*/
+                }
                 PenData penData = new PenData();
                 //获取用户输入的用户名
                 penData.SetName(JTexId.getText());
@@ -122,7 +122,7 @@ public class Login {
 
     }
     public static void main(String[] arge){
-        Login log = new Login();
+        Login login = new Login();
     }
 
 }
