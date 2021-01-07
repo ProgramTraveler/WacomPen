@@ -19,7 +19,8 @@ public class PenData {
 
     private static String Name; //用户的姓名
     private static String BlockNumber; //实验组数
-    private static int TrialNumber; //一组实验里实验的次数
+    private static int BlockN; //记录int型的实验组数，为了判断所有组数是否做完
+    private static int TrialNumber = 0; //一组实验里实验的次数
     private static String ModeTechnique; //选择的模式切换技术
     private static String TargetColor; //每次实验的出现的目标颜色
     private static String TargetLine; //每次实验出现的目标线条粗细
@@ -65,12 +66,21 @@ public class PenData {
     public void SetName(String s) { Name = s; }
     public String GetName() { return Name; }
     //获取实验组数
-    public void SetBlock(String b) { BlockNumber = b; }
-    public String GetBlock() { return BlockNumber; }
-    //一组实验中的实验次数
-    public void SetTrialN() {
-        TrialNumber ++;
+    public void SetBlock(String b) {
+        BlockNumber = b;
+        //将输入的String型的组数变为int型（因为开始做的时候就是第一组，所以组数减一）
+        BlockN = Integer.getInteger(b) - 1;
     }
+    //获取实验组数的int值
+    public void SetBlockN(int n) {
+        BlockN = n;
+    }
+    public int GetBlockN() {
+        return BlockN;
+    }
+
+    //一组实验中的实验次数
+    public void SetTrialN() { TrialNumber ++; }
     public int GetTrialN() { return TrialNumber; }
     //模式切换技术
     public void SetModeNa(String s) {

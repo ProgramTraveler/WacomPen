@@ -388,6 +388,21 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }
+            //检查是否做了9次
+            if (pData.GetTrialN() == 1) {
+                //如果组数大于等于1，将组数减一，继续做
+                if (pData.GetBlockN() >= 1) {
+                    pData.SetBlockN(pData.GetBlockN() - 1);
+                }else {
+                    ///Login log = new Login();
+                    //关闭当前的写字界面
+                    TraFrame.dispose();
+                    /*
+                    做完了就饭返回登陆界面,不需要重新定义一个新的Login
+                     */
+
+                }
+            }
         }
     }
 

@@ -93,11 +93,11 @@ public class Login {
                     JOptionPane.showMessageDialog(null, "您还没有输入您的id!!");
                 }*/
                 //用户是否选择练习按钮
-                if (check.getState()) {
+                /*if (check.getState()) {
 
                 }else {
 
-                }
+                }*/
                 PenData penData = new PenData();
                 //获取用户输入的用户名
                 penData.SetName(JTexId.getText());
@@ -123,7 +123,6 @@ public class Login {
     }
     public static void main(String[] arge){
         Login log = new Login();
-
     }
 
 }
