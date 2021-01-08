@@ -123,6 +123,7 @@ public class Login extends JFrame{
     }
     public static void main(String[] arge){
         Login login = new Login();
+
     }
 
 }

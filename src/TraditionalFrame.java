@@ -388,6 +388,8 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }
+            TraFrame.dispose();
+            Login login = new Login();
             //检查是否做了9次
             /*
             if (pData.GetTrialN() == 1) {
