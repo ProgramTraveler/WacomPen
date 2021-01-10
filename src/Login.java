@@ -60,6 +60,53 @@ public class Login extends JFrame{
         //`练习`选择框的选择
         check.setBounds(30, 300, 70, 30); //`练习`选择框的位置
         Screen.getContentPane().add(check); //添加`练习`选择框
+        //选择模式的文字位置
+        JLabelMode.setBounds(20,120,180,15);
+        Screen.add(JLabelMode);
+        /*
+        设置四种不同写字界面的位置
+         */
+        //传统模式
+        ButtonTraditional.setBounds(20,160,180,15); //传统写字界面按钮位置
+        Screen.getContentPane().add(ButtonTraditional); //添加到窗口
+        //三个不同实际值模式
+        ButtonActualP.setBounds(20,200,90,15); //P-实际值界面按钮位置
+        Screen.getContentPane().add(ButtonActualP); //添加到窗口
+        ButtonActualT.setBounds(110,199,80,15); //T-实际值界面按钮位置
+        Screen.getContentPane().add(ButtonActualT);
+        ButtonActualA.setBounds(210,198,80,15); //A-实际值界面按钮位置
+        Screen.getContentPane().add(ButtonActualA);
+        //三个不同离散值模式
+        ButtonScatteredP.setBounds(20,240,80,15); //P-离散化界面按钮位置
+        Screen.getContentPane().add(ButtonScatteredP); //添加到窗口
+        ButtonScatteredT.setBounds(110,239,80,15); //T-离散化界面按钮位置
+        Screen.getContentPane().add(ButtonScatteredT);
+        ButtonScatteredA.setBounds(210,238,80,15); //A-离散化界面按钮位置
+        Screen.getContentPane().add(ButtonScatteredA);
+        //三个不同增量化模式
+        ButtonIncrementP.setBounds(20,280,80,15); //P-增量化界面按钮位置
+        Screen.getContentPane().add(ButtonIncrementP); //添加到窗口
+        ButtonIncrementT.setBounds(110,279,80,15); //T-增量化界面按钮位置
+        Screen.getContentPane().add(ButtonIncrementT);
+        ButtonIncrementA.setBounds(210,278,80,15); //A-增量化界面按钮位置
+        Screen.getContentPane().add(ButtonIncrementA);
+        /*
+        将按钮添加到按钮组里
+         */
+        //传统模式
+        ButtonFrame.add(ButtonTraditional);
+        //实际值模式
+        ButtonFrame.add(ButtonActualP);
+        ButtonFrame.add(ButtonActualT);
+        ButtonFrame.add(ButtonActualA);
+        //离散值模式
+        ButtonFrame.add(ButtonScatteredP);
+        ButtonFrame.add(ButtonScatteredT);
+        ButtonFrame.add(ButtonScatteredA);
+        //增量化模式
+        ButtonFrame.add(ButtonIncrementP);
+        ButtonFrame.add(ButtonIncrementT);
+        ButtonFrame.add(ButtonIncrementA);
         //登录界面的位置和大小
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int width = screenSize.width;
@@ -67,38 +114,6 @@ public class Login extends JFrame{
         Screen.setBounds(width / 3, height / 5, 310, 420);
         Screen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Screen.setVisible(true);
-        //选择模式的文字位置
-        JLabelMode.setBounds(20,120,180,15);
-        Screen.add(JLabelMode);
-        /*
-        设置四种不同写字界面的位置
-         */
-        ButtonTraditional.setBounds(20,150,180,15); //传统写字界面按钮位置
-        Screen.getContentPane().add(ButtonTraditional); //添加到窗口
-        /*
-        三个不同实际值模式
-         */
-        ButtonActualP.setBounds(20,180,80,15); //P-实际值界面按钮位置
-        Screen.getContentPane().add(ButtonActualP); //添加到窗口
-        ButtonActualT.setBounds(120,180,80,15); //T-实际值界面按钮位置
-        Screen.getContentPane().add(ButtonActualT);
-        ButtonActualA.setBounds(220,180,80,15); //A-实际值界面按钮位置
-        Screen.getContentPane().add(ButtonActualA);
-        /*
-        三个
-         */
-        ButtonScatteredP.setBounds(60,190,180,15); //离散化-写字界面按钮位置
-        Screen.getContentPane().add(ButtonScatteredP); //添加到窗口
-
-        ButtonIncrementP.setBounds(70,230,180,15); //增量化-写字界面按钮位置
-        Screen.getContentPane().add(ButtonIncrementP); //添加到窗口
-
-
-        //将按钮添加到按钮组里
-        ButtonFrame.add(ButtonTraditional);
-        ButtonFrame.add(ButtonActualP);
-        ButtonFrame.add(ButtonScatteredP);
-        ButtonFrame.add(ButtonIncrementP);
         //对开始按钮进行监听,要是按下了开始按钮就打开写字板
         /*
         判断之前选择的是哪个写字板模式，然后打开相应的写字板，打开写字板后需要将登陆界面覆盖
