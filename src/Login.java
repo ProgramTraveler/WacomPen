@@ -21,13 +21,25 @@ public class Login extends JFrame{
     private  JTextField JTexGroup = new JTextField(); //用户输入`实验组数`的输入框
     //用户对是否选择`练习`
     Checkbox check = new Checkbox("practice");
+    //提示用户选择模式
+    private JLabel JLabelMode = new JLabel("选择模式:");
     /*
     在这里面还要写四个不同模式的写字板
      */
     private JRadioButton ButtonTraditional = new JRadioButton("传统写字面板模式");
-    private JRadioButton ButtonActual =  new JRadioButton("实际值模式");
-    private JRadioButton ButtonScattered = new JRadioButton("离散化模式");
-    private JRadioButton ButtonIncrement = new JRadioButton("增量化模式");
+    //实际值模式下的选择按钮
+    private JRadioButton ButtonActualP =  new JRadioButton("P-实际值");
+    private JRadioButton ButtonActualT = new JRadioButton("T-实际值");
+    private JRadioButton ButtonActualA = new JRadioButton("A-实际值");
+    //离散值模式下的选择按钮
+    private JRadioButton ButtonScatteredP = new JRadioButton("P-离散值");
+    private JRadioButton ButtonScatteredT = new JRadioButton("T-离散值");
+    private JRadioButton ButtonScatteredA = new JRadioButton("A-离散值");
+    //增量化模式下的选择按钮
+    private JRadioButton ButtonIncrementP = new JRadioButton("P-增量化");
+    private JRadioButton ButtonIncrementT = new JRadioButton("T-增量化");
+    private JRadioButton ButtonIncrementA = new JRadioButton("A-增量化");
+
     private ButtonGroup ButtonFrame = new ButtonGroup(); //保存写字按钮组
 
     public Login() {
@@ -55,22 +67,38 @@ public class Login extends JFrame{
         Screen.setBounds(width / 3, height / 5, 310, 420);
         Screen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Screen.setVisible(true);
+        //选择模式的文字位置
+        JLabelMode.setBounds(20,120,180,15);
+        Screen.add(JLabelMode);
         /*
         设置四种不同写字界面的位置
          */
-        ButtonTraditional.setBounds(40,110,180,20); //传统写字界面按钮位置
+        ButtonTraditional.setBounds(20,150,180,15); //传统写字界面按钮位置
         Screen.getContentPane().add(ButtonTraditional); //添加到窗口
-        ButtonActual.setBounds(50,150,180,20); //实际值-写字界面按钮位置
-        Screen.getContentPane().add(ButtonActual); //添加到窗口
-        ButtonScattered.setBounds(60,190,180,20); //离散化-写字界面按钮位置
-        Screen.getContentPane().add(ButtonScattered); //添加到窗口
-        ButtonIncrement.setBounds(70,230,180,20); //增量化-写字界面按钮位置
-        Screen.getContentPane().add(ButtonIncrement); //添加到窗口
+        /*
+        三个不同实际值模式
+         */
+        ButtonActualP.setBounds(20,180,80,15); //P-实际值界面按钮位置
+        Screen.getContentPane().add(ButtonActualP); //添加到窗口
+        ButtonActualT.setBounds(120,180,80,15); //T-实际值界面按钮位置
+        Screen.getContentPane().add(ButtonActualT);
+        ButtonActualA.setBounds(220,180,80,15); //A-实际值界面按钮位置
+        Screen.getContentPane().add(ButtonActualA);
+        /*
+        三个
+         */
+        ButtonScatteredP.setBounds(60,190,180,15); //离散化-写字界面按钮位置
+        Screen.getContentPane().add(ButtonScatteredP); //添加到窗口
+
+        ButtonIncrementP.setBounds(70,230,180,15); //增量化-写字界面按钮位置
+        Screen.getContentPane().add(ButtonIncrementP); //添加到窗口
+
+
         //将按钮添加到按钮组里
         ButtonFrame.add(ButtonTraditional);
-        ButtonFrame.add(ButtonActual);
-        ButtonFrame.add(ButtonScattered);
-        ButtonFrame.add(ButtonIncrement);
+        ButtonFrame.add(ButtonActualP);
+        ButtonFrame.add(ButtonScatteredP);
+        ButtonFrame.add(ButtonIncrementP);
         //对开始按钮进行监听,要是按下了开始按钮就打开写字板
         /*
         判断之前选择的是哪个写字板模式，然后打开相应的写字板，打开写字板后需要将登陆界面覆盖
