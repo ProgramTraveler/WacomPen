@@ -55,7 +55,7 @@ public class Area extends JPanel {
         //offScreen.fillRect(300,400,400,100);
         //offScreen.fillRect(750,400,400,100);
         //将原来的两次测试区域合为一个测试区域
-        offScreen.fillRect(300,400,1150,100);
+        offScreen.fillRect(300,200,1150,100);
 
         //使用容器中点的信息来画线条
         for (int i = 0; i < arrayListSpot.size() ; i++) {
