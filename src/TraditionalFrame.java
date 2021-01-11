@@ -91,14 +91,18 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
     提示标签和语句
         应该切换的颜色和像素
      */
+    /*
     //提示应该切换的颜色
     private JTextField ShowRandomC = new JTextField();
     //提示应该切换的像素
     private JTextField ShowRandomP = new JTextField();
+    */
+
     //颜色提示语句
     private String StringRandomC = "";
     //像素提示语句
     private String StringRandomP = "";
+
     //用户是否第一次进入颜色测试区域，true表示未进入
     private boolean ColorFlag = true;
     //判断用户是否第一次进入像素测试区域，true表示未进入
@@ -153,19 +157,20 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         //TFInter.add(ShowPixel);
 
         //待切换颜色
-        ShowRandomC.setText(StringRandomC);
+        /*ShowRandomC.setText(StringRandomC);
         ShowRandomC.setBounds(30,270,200,60);
         ShowRandomC.setHorizontalAlignment(ShowRandomC.LEFT);
         ShowRandomC.setFont(new Font("黑体",Font.BOLD,20));
-        ShowRandomC.setEditable(false);
+        ShowRandomC.setEditable(false);*/
         //TFInter.add(ShowRandomC);
         //待切换像素
-        ShowRandomP.setText(StringRandomP);
+        /*ShowRandomP.setText(StringRandomP);
         ShowRandomP.setBounds(30,360,200,65);
         ShowRandomP.setHorizontalAlignment(ShowRandomP.LEFT);
         ShowRandomP.setFont(new Font("黑体",Font.BOLD,20));
-        ShowRandomP.setEditable(false);
+        ShowRandomP.setEditable(false);*/
         //TFInter.add(ShowRandomP);
+
         //传统写字界面的设计
         /*TraFrame.getContentPane().setLayout(new BorderLayout());
         TraFrame.setBackground(Color.WHITE);
@@ -244,14 +249,10 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
                 ShowColorBlock.setBackground(Color.RED);
                 TFInter.removeAll();
                 TFInter.repaint();
-                TFInter.add(ShowRandomC);
-
                 TFInter.add(ShowColorBlock);
                 TFInter.add(ShowColorL);
                 TFInter.add(ShowPixelL);
                 TFInter.add(ShowPixel);
-
-                TFInter.add(ShowRandomP);
                 TFInter.revalidate();
 
             }
@@ -272,12 +273,10 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
 
                 TFInter.removeAll();
                 TFInter.repaint();
-                TFInter.add(ShowRandomC);
                 TFInter.add(ShowColorBlock);
                 TFInter.add(ShowColorL);
                 TFInter.add(ShowPixelL);
                 TFInter.add(ShowPixel);
-                TFInter.add(ShowRandomP);
                 TFInter.revalidate();
 
             }
@@ -297,12 +296,10 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
 
                 TFInter.removeAll();
                 TFInter.repaint();
-                TFInter.add(ShowRandomC);
                 TFInter.add(ShowColorBlock);
                 TFInter.add(ShowColorL);
                 TFInter.add(ShowPixelL);
                 TFInter.add(ShowPixel);
-                TFInter.add(ShowRandomP);
                 TFInter.revalidate();
 
 
@@ -326,12 +323,10 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
 
                 TFInter.removeAll();
                 TFInter.repaint();
-                TFInter.add(ShowRandomC);
                 TFInter.add(ShowColorBlock);
                 TFInter.add(ShowColorL);
                 TFInter.add(ShowPixelL);
                 TFInter.add(ShowPixel);
-                TFInter.add(ShowRandomP);
                 TFInter.revalidate();
 
 
@@ -348,15 +343,12 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
                 //如果在没有进入测试区域就点击切换，误触发次数加一
                 if (PixelFlag == true)
                     pData.SetTouchE();
-                ShowPixel.setText(StringPixel);
                 TFInter.removeAll();
                 TFInter.repaint();
-                TFInter.add(ShowRandomC);
                 TFInter.add(ShowColorBlock);
                 TFInter.add(ShowColorL);
                 TFInter.add(ShowPixelL);
                 TFInter.add(ShowPixel);
-                TFInter.add(ShowRandomP);
                 TFInter.revalidate();
 
 
@@ -377,12 +369,10 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
 
                 TFInter.removeAll();
                 TFInter.repaint();
-                TFInter.add(ShowRandomC);
                 TFInter.add(ShowColorBlock);
                 TFInter.add(ShowColorL);
                 TFInter.add(ShowPixelL);
                 TFInter.add(ShowPixel);
-                TFInter.add(ShowRandomP);
                 TFInter.revalidate();
 
 
@@ -506,12 +496,11 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         dot.SetPixel(SetPixel); //点的像素
         dot.SetDotRandomC(); //点颜色生成的随机数
         dot.SetDotRandomP(); //点像素生成的随机数
-        //dot.RegisterListener(new TraditionalFrame());
 
         double x = dot.DotStarX();
         double y = dot.DotStarY();
 
-        if (x >= 300 && x <= 700 && y >= 400 && y <= 500 && ColorFlag == true) {
+        if (x >= 350 && x <= 850 && y >= 200 && y <= 300 && ColorFlag == true) {
             //System.out.println(x0 + " " + y0);
 
             //当用户进入绿色区域表示开始记录数据
@@ -536,53 +525,19 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
                 //如果没有提示且按下了空格，就记为空
             else pData.SetTargetColor(null);
 
-            ShowRandomC.setText(StringRandomC);
-            /*
-            TFInter.removeAll();
-            TFInter.repaint();
-            TFInter.add(ShowRandomC);
-            TFInter.add(ShowColor);
-            TFInter.add(ShowPixel);
-            TFInter.add(ShowRandomP);
-            TFInter.revalidate();
-             */
-
-
+            //颜色切换提示
+            JOptionPane.showMessageDialog(null, StringRandomC, "颜色提示", JOptionPane.INFORMATION_MESSAGE);
+            //当弹窗出现的时候，笔的绘画会被打断，此时，不会认为是鼠标抬起，所以在这里记录结束的时间
+            pData.AddTime(System.currentTimeMillis());
             ColorFlag = false;
-        } else if (x0 >= 300 && x0 <= 700 && y0 >= 400 && y0 <= 500 && ColorFlag == false){
-            //当用户进入绿色区域表示开始记录数据
-            //EntrySign = true;
+        } else if (x0 >= 350 && x0 <= 850 && y0 >= 200 && y0 <= 300 && ColorFlag == false){
 
-            ShowRandomC.setText(StringRandomC);
-            /*
-            TFInter.removeAll();
-            TFInter.repaint();
-            TFInter.add(ShowRandomC);
-            TFInter.add(ShowColor);
-            TFInter.add(ShowPixel);
-            TFInter.add(ShowRandomP);
-            TFInter.revalidate();
-             */
         }else {
-            //当用户进入绿色区域表示开始记录数据
-            //EntrySign = false;
-
             StringRandomC = "";
-            ShowRandomC.setText(StringRandomC);
-            /*
-            TFInter.removeAll();
-            TFInter.repaint();
-            TFInter.add(ShowRandomC);
-            TFInter.add(ShowColor);
-            TFInter.add(ShowPixel);
-            TFInter.add(ShowRandomP);
-            TFInter.revalidate();
-             */
-
             ColorFlag = true;
         }
 
-        if (x0 >= 750 && x0 <= 1150 && y0 >= 400 && y0 <= 500 && PixelFlag == true) {
+        if (x0 >= 900 && x0 <= 1400 && y0 >= 200 && y0 <= 300 && PixelFlag == true) {
             //当用户进入绿色区域表示开始记录数据
             //EntrySign = true;
 
@@ -604,50 +559,15 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
                 //如果没有提示就按下了空格，就记为空
             else pData.SetTargetLine(null);
 
-            ShowRandomP.setText(StringRandomP);
-            /*
-            TFInter.removeAll();
-            TFInter.repaint();
-            TFInter.add(ShowRandomC);
-            TFInter.add(ShowColor);
-            TFInter.add(ShowPixel);
-            TFInter.add(ShowRandomP);
-            TFInter.revalidate();
-             */
+            JOptionPane.showMessageDialog(null, StringRandomP, "像素切换提示", JOptionPane.INFORMATION_MESSAGE);
+            pData.AddTime(System.currentTimeMillis());
 
             PixelFlag = false;
-        }else if (x0 >= 750 && x0 <= 1150 && y0 >= 400 && y0 <= 500 && PixelFlag == false) {
-            //当用户进入绿色区域表示开始记录数据
-            //EntrySign = true;
-
-            ShowRandomP.setText(StringRandomP);
-            /*
-            TFInter.removeAll();
-            TFInter.repaint();
-            TFInter.add(ShowRandomC);
-            TFInter.add(ShowColor);
-            TFInter.add(ShowPixel);
-            TFInter.add(ShowRandomP);
-            TFInter.revalidate();
-             */
+        }else if (x0 >= 900 && x0 <= 1400 && y0 >= 200 && y0 <= 300 && PixelFlag == false) {
 
         }else {
-            //当用户进入绿色区域表示开始记录数据
-            //EntrySign = false;
-
             StringRandomP = "";
-            ShowRandomP.setText(StringRandomP);
-            /*
-            TFInter.removeAll();
-            TFInter.repaint();
-            TFInter.add(ShowRandomC);
-            TFInter.add(ShowColor);
-            TFInter.add(ShowPixel);
-            TFInter.add(ShowRandomP);
-            TFInter.revalidate();
-             */
             PixelFlag = true;
-
         }
 
         //将点的信息记录在容器中
@@ -663,6 +583,4 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
     public void mouseMoved(MouseEvent e) {
 
     }
-
-
 }
