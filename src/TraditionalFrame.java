@@ -331,7 +331,6 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
                 TFInter.add(ShowPixel);
                 TFInter.revalidate();
 
-
             }
         });
         //选择中等
@@ -409,23 +408,18 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }
-            TraFrame.dispose();
-            Login login = new Login();
-            //检查是否做了9次
-            /*
-            if (pData.GetTrialN() == 1) {
-                //如果组数大于等于1，将组数减一，继续做
-                if (Integer.getInteger(pData.GetBlock()) >= 1) {
-                    pData.SetBlockN(pData.GetBlockN() - 1);
+            //判断一组实验是否做完
+            if (completeExperiment.GetList() == true) {
+                if (completeExperiment.GetExperimentB() >= 1) {
+                    int temp = completeExperiment.GetExperimentB() - 1;
+                    completeExperiment.SetRandomC();
+                    completeExperiment.SetRandomP();
+                    completeExperiment.SetExperimentB(String.valueOf(temp));
                 }else {
-                    //log.setResizable( false );
-                    //关闭当前的写字界面
                     TraFrame.dispose();
-                    //pData.SetTrialN(0);
-                    //Login login = new Login();
+                    Login login = new Login();
                 }
             }
-            */
         }
     }
 

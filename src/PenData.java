@@ -46,7 +46,6 @@ public class PenData {
 
     private RandomAccessFile csv; // 存实验数据的文件
 
-
     /*
     获取笔在使用过程中的数据
      */
