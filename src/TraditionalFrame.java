@@ -5,10 +5,8 @@ import javax.swing.*;
 import javax.swing.event.MouseInputListener;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.Line2D;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Collection;
 import java.util.Date;
 
 /*
@@ -53,6 +51,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
 
     //画板所需变量
     private Area ar1 = new Area();
+    private CompleteExperiment completeExperiment = new  CompleteExperiment();
     private JFrame frame = new JFrame("写字板");
     private JTablet tablet = null;
     private Dot dot = new Dot();
@@ -113,6 +112,9 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         ar1.addMouseListener(this);
         ar1.addMouseMotionListener(this);
         ar1.addKeyListener(this);
+
+        completeExperiment.SetRandomC(); //生成颜色提示语句
+        completeExperiment.SetRandomP(); //生成像素提示语句
         /*
         将界面分割为两部分
          */
@@ -494,37 +496,21 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         dot.SetEndDot(x1,y1);
         dot.SetColor(SetColor); //点的颜色
         dot.SetPixel(SetPixel); //点的像素
-        dot.SetDotRandomC(); //点颜色生成的随机数
-        dot.SetDotRandomP(); //点像素生成的随机数
 
         double x = dot.DotStarX();
         double y = dot.DotStarY();
 
         if (x >= 350 && x <= 850 && y >= 200 && y <= 300 && ColorFlag == true) {
-            //System.out.println(x0 + " " + y0);
-
-            //当用户进入绿色区域表示开始记录数据
-            //EntrySign = true;
-            int temp = dot.GetDotRandomC();
-            if (temp == 0)
-                StringRandomC = "请切换黑色";
-            else if (temp == 1)
-                StringRandomC = "请切换蓝色";
-            else if (temp == 2)
-                StringRandomC = "请切换红色";
-            else if (temp == 3)
-                StringRandomC = "请切换黄色";
-
+            StringRandomC = completeExperiment.GetRandomC();
             //按照系统的提示颜色存入相应的目标颜色
-            if (StringRandomC == "请切换蓝色")
+            if (StringRandomC == "请切换颜色为蓝色")
                 pData.SetTargetColor("蓝色");
-            else if (StringRandomC == "请切换红色")
+            else if (StringRandomC == "请切换颜色为红色")
                 pData.SetTargetColor("红色");
-            else if (StringRandomC == "请切换黄色")
+            else if (StringRandomC == "请切换颜色为黄色")
                 pData.SetTargetColor("黄色");
                 //如果没有提示且按下了空格，就记为空
             else pData.SetTargetColor(null);
-
             //颜色切换提示
             JOptionPane.showMessageDialog(null, StringRandomC, "颜色提示", JOptionPane.INFORMATION_MESSAGE);
             //当弹窗出现的时候，笔的绘画会被打断，此时，不会认为是鼠标抬起，所以在这里记录结束的时间
@@ -541,20 +527,13 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             //当用户进入绿色区域表示开始记录数据
             //EntrySign = true;
 
-            int temp = dot.GetDotRandomP();
-            if (temp == 2)
-                StringRandomP = "请切换笔尖为2.0";
-            else if (temp == 3)
-                StringRandomP = "请切换笔尖为3.0";
-            else if (temp == 4)
-                StringRandomP = "请切换笔尖为4.0";
-
+            StringRandomP = completeExperiment.GetRandomP();
             //按照系统提示的像素存入目标像素
-            if (StringRandomP == "请切换笔尖为2.0")
+            if (StringRandomP == "请切换像素为2.0")
                 pData.SetTargetLine("2.0");
-            else if (StringRandomP == "请切换笔尖为3.0")
+            else if (StringRandomP == "请像素笔尖为3.0")
                 pData.SetTargetLine("3.0");
-            else if (StringRandomP == "请切换笔尖为4.0")
+            else if (StringRandomP == "请切像素为4.0")
                 pData.SetTargetLine("4.0");
                 //如果没有提示就按下了空格，就记为空
             else pData.SetTargetLine(null);
