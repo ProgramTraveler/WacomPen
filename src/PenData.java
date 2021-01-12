@@ -18,7 +18,7 @@ public class PenData {
     private static int azimuth; //当前的方位角
 
     private static String Name; //用户的姓名
-    private static String BlockNumber; //实验组数
+    private static int BlockNumber; //实验组数
     private static int BlockN; //记录int型的实验组数，为了判断所有组数是否做完
     private static int TrialNumber = 0; //一组实验里实验的次数
     private static String ModeTechnique; //选择的模式切换技术
@@ -65,12 +65,12 @@ public class PenData {
     public void SetName(String s) { Name = s; }
     public String GetName() { return Name; }
     //获取实验组数
-    public void SetBlock(String b) {
+    public void SetBlock(int b) {
         BlockNumber = b;
         //将输入的String型的组数变为int型（因为开始做的时候就是第一组，所以组数减一）
         //BlockN = Integer.getInteger(b) ;
     }
-    public String GetBlock() { return BlockNumber; }
+    public int GetBlock() { return BlockNumber; }
     //获取实验组数的int值
     public void SetBlockN(int n) {
         BlockN = n;

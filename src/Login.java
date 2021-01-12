@@ -1,31 +1,33 @@
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Enumeration;
+import javax.swing.*;
+import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
 /*
     date:2020-11-30
     author:王久铭
     purpose:初始化界面，也就是用户的最初的登陆的界面
  */
-public class Login extends JFrame{
-    //新建窗口
-    private JFrame Screen = new JFrame("登录界面");
-    //设置一个开始按钮
-    private JButton Button = new JButton("开始测试");
-    //要求用户输入ID
-    private JLabel JLabelId = new JLabel("输入你的名称:"); //用户输入`ID`的提示
-    private JTextField JTexId = new JTextField(); //用户输入`ID`的输入框
-    //要求用户输入实验组数
-    private JLabel JLabelGroup = new JLabel("实验组数:"); //用户输入`实验组数`的提示
-    private  JTextField JTexGroup = new JTextField(); //用户输入`实验组数`的输入框
-    //用户对是否选择`练习`
-    Checkbox check = new Checkbox("practice");
-    //提示用户选择模式
-    private JLabel JLabelMode = new JLabel("选择模式:");
+public class Login extends JFrame implements ActionListener{
+
+    private String TitleFrame = "登录界面";
+
+    private JPanel IdPanel = new JPanel();
+    private JLabel IdLabel = new JLabel("name:");
+    private JTextField IdTF = new JTextField(5);
+
+    private JPanel BlocksPanel = new JPanel();
+    private JLabel BlocksLabel  = new JLabel("Block:");
+    private JComboBox BlockCB = new JComboBox();
+    private int NumberOFBlocks = 5; //可以选择的实验组数
+    private int SelectedBlock = 1; //选择的组数，默认为1组
+
+    private JPanel TechniquesPanel = new JPanel();
     /*
-    在这里面还要写四个不同模式的写字板
-     */
+   在这里面还要写四个不同模式的写字板
+    */
     private JRadioButton ButtonTraditional = new JRadioButton("传统写字面板模式");
     //实际值模式下的选择按钮
     private JRadioButton ButtonActualP =  new JRadioButton("P-实际值");
@@ -42,54 +44,109 @@ public class Login extends JFrame{
 
     private ButtonGroup ButtonFrame = new ButtonGroup(); //保存写字按钮组
 
+    private String Traditional = "传统写字模式";
+    private String ActualP = "P-实际值";
+    private String ActualT = "T-实际值";
+    private String ActualA = "A-实际值";
+    private String ScatteredP = "P-离散值";
+    private String ScatteredT = "T-离散值";
+    private String ScatteredA = "A-离散值";
+    private String IncrementP = "P-增量化";
+    private String IncrementT = "T-增量化";
+    private String IncrementA = "A-增量化";
+
+    private JPanel PracticePanel = new JPanel();
+    private JCheckBox PracticeCB = new JCheckBox("Practice");
+
+    private JButton StartButton = new JButton("Start");
+    private String StartCom = "Start";
+
+    //保存实验数据
+    PenData penData =new PenData();
+
     public Login() {
-        Screen.getContentPane().setLayout(null);
-        //`开始测试`按钮
-        Button.setBounds(10, 335, 280, 30); //`开始测试`按钮的位置
-        Screen.getContentPane().add(Button); //添加`开始测试`按钮
-        //`ID`显示区域
-        JLabelId.setBounds(20,30,135,40); //`ID`提示符位置
-        Screen.getContentPane().add(JLabelId); //添加`ID`提示符
-        JTexId.setBounds(105,35,78,24); //`ID`输入框的位置
-        Screen.getContentPane().add(JTexId); //添加`ID`文本框
-        //`实验组数`显示区域
-        JLabelGroup.setBounds(30,60,135,40);//`实验组数`提示符位置
-        Screen.getContentPane().add(JLabelGroup); //添加`实验组数`提示符
-        JTexGroup.setBounds(105,70,78,24); //`实验组数`输入框位置
-        Screen.getContentPane().add(JTexGroup); //添加`实验组数`文本框
-        //`练习`选择框的选择
-        check.setBounds(30, 300, 70, 30); //`练习`选择框的位置
-        Screen.getContentPane().add(check); //添加`练习`选择框
-        //选择模式的文字位置
-        JLabelMode.setBounds(20,120,180,15);
-        Screen.add(JLabelMode);
-        /*
-        设置四种不同写字界面的位置
-         */
-        //传统模式
-        ButtonTraditional.setBounds(20,160,180,15); //传统写字界面按钮位置
-        Screen.getContentPane().add(ButtonTraditional); //添加到窗口
-        //三个不同实际值模式
-        ButtonActualP.setBounds(20,200,90,15); //P-实际值界面按钮位置
-        Screen.getContentPane().add(ButtonActualP); //添加到窗口
-        ButtonActualT.setBounds(110,199,80,15); //T-实际值界面按钮位置
-        Screen.getContentPane().add(ButtonActualT);
-        ButtonActualA.setBounds(210,198,80,15); //A-实际值界面按钮位置
-        Screen.getContentPane().add(ButtonActualA);
-        //三个不同离散值模式
-        ButtonScatteredP.setBounds(20,240,80,15); //P-离散化界面按钮位置
-        Screen.getContentPane().add(ButtonScatteredP); //添加到窗口
-        ButtonScatteredT.setBounds(110,239,80,15); //T-离散化界面按钮位置
-        Screen.getContentPane().add(ButtonScatteredT);
-        ButtonScatteredA.setBounds(210,238,80,15); //A-离散化界面按钮位置
-        Screen.getContentPane().add(ButtonScatteredA);
-        //三个不同增量化模式
-        ButtonIncrementP.setBounds(20,280,80,15); //P-增量化界面按钮位置
-        Screen.getContentPane().add(ButtonIncrementP); //添加到窗口
-        ButtonIncrementT.setBounds(110,279,80,15); //T-增量化界面按钮位置
-        Screen.getContentPane().add(ButtonIncrementT);
-        ButtonIncrementA.setBounds(210,278,80,15); //A-增量化界面按钮位置
-        Screen.getContentPane().add(ButtonIncrementA);
+        //创建一个登录界面
+        this.CreateTestFrame();
+
+        //添加开始按钮在当前也页面的监听
+        StartButton.addActionListener(this);
+        StartButton.setActionCommand(StartCom);
+
+    }
+    public void CreateTestFrame() {
+        //界面的名称
+        this.setTitle(TitleFrame);
+
+        this.CreateIDPanel(); //创建ID的轻量级容器
+        this.CreateBlockPanel(); //创建组数的轻量级容器
+        this.CreateTechniquesPanel(); //创建选择的模式的轻量级容器
+        this.CreatePracticePanel(); //创建是否选择练习的轻量级容器
+
+        //将ID和组数加入到NorJPanel的容器中
+        JPanel NorthPanel = new JPanel();
+        JSeparator separator = new JSeparator(SwingConstants.VERTICAL); //在ID和组数间加入一条分界线
+        separator.setPreferredSize(new Dimension(5,30));
+
+        NorthPanel.setLayout(new FlowLayout());
+        NorthPanel.add(IdPanel);
+        NorthPanel.add(separator);
+        NorthPanel.add(BlocksPanel);
+
+        //将选择模式和选择练习加入到CentPanel的容器中
+        JPanel CenterPanel = new JPanel();
+        CenterPanel.setLayout(new BorderLayout());
+        CenterPanel.add(TechniquesPanel,BorderLayout.CENTER);
+        CenterPanel.add(PracticePanel,BorderLayout.SOUTH);
+
+        this.getContentPane().setLayout(new BorderLayout());
+        this.getContentPane().add(NorthPanel,BorderLayout.NORTH);
+        this.getContentPane().add(CenterPanel,BorderLayout.CENTER);
+        this.getContentPane().add(StartButton,BorderLayout.SOUTH);
+
+    }
+    //添加ID组件
+    public void CreateIDPanel() {
+        IdTF.setHorizontalAlignment(JTextField.RIGHT);
+        IdPanel.setLayout(new FlowLayout());
+        IdPanel.add(IdLabel);
+        IdPanel.add(IdTF);
+    }
+    //添加组数的组件
+    public void CreateBlockPanel() {
+        //加入可以选择的组数的个数0-5（因为numberOfBlocks为5）
+        for (int i =1; i <= NumberOFBlocks; i ++) {
+            String item = " " + Integer.toString(i) + " - Block";
+            BlockCB.addItem(item); //为选项列表添加选项
+        }
+
+        BlocksPanel.setLayout(new FlowLayout());
+        BlocksPanel.add(BlocksLabel);
+        BlocksPanel.add(BlockCB);
+    }
+    //添加模式的组件
+    public void CreateTechniquesPanel() {
+        //如果要添加图片的话，可以加到这个容器中
+        JPanel WestPanel = new JPanel();
+
+        //添加选择模式的按钮
+        JPanel EastPanel = new JPanel();
+        EastPanel.setLayout(new BoxLayout(EastPanel,BoxLayout.Y_AXIS));
+        EastPanel.add(ButtonTraditional);
+        EastPanel.add(ButtonActualP);
+        EastPanel.add(ButtonActualT);
+        EastPanel.add(ButtonActualA);
+        EastPanel.add(ButtonScatteredP);
+        EastPanel.add(ButtonScatteredT);
+        EastPanel.add(ButtonScatteredA);
+        EastPanel.add(ButtonIncrementP);
+        EastPanel.add(ButtonIncrementT);
+        EastPanel.add(ButtonIncrementA);
+
+        //划出一个区域，将这些模式圈起来
+        TechniquesPanel.setBorder(new TitledBorder(new LineBorder(Color.lightGray),"Selection Techniques",TitledBorder.LEFT,TitledBorder.TOP));
+        TechniquesPanel.setLayout(new BorderLayout());
+        TechniquesPanel.add(WestPanel);
+        TechniquesPanel.add(EastPanel);
         /*
         将按钮添加到按钮组里
          */
@@ -107,56 +164,21 @@ public class Login extends JFrame{
         ButtonFrame.add(ButtonIncrementP);
         ButtonFrame.add(ButtonIncrementT);
         ButtonFrame.add(ButtonIncrementA);
-        //登录界面的位置和大小
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int width = screenSize.width;
-        int height = screenSize.height - 200;
-        Screen.setBounds(width / 3, height / 5, 310, 420);
-        Screen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Screen.setVisible(true);
-        //对开始按钮进行监听,要是按下了开始按钮就打开写字板
-        /*
-        判断之前选择的是哪个写字板模式，然后打开相应的写字板，打开写字板后需要将登陆界面覆盖
-         */
-        Button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(getSelection(ButtonFrame).getActionCommand() == "传统写字面板模式") {
-                    TraditionalFrame TF = new TraditionalFrame();
-                }else if (getSelection(ButtonFrame).getActionCommand() == "实列化模式"){
-                    //AreaFrame frame=new AreaFrame();
-                }else if (getSelection(ButtonFrame).getActionCommand() == "离散化模式"){
-                    //AreaFrame frame=new AreaFrame();
-                }else if (getSelection(ButtonFrame).getActionCommand() == "增量化模式"){
-                    //AreaFrame frame=new AreaFrame();
-                }
-                /*
-                本来想在这里加一个对选择按钮的判断，当用户没有选择模式的会进行提醒
-                else if (getSelection(ButtonFrame).getActionCommand() == null){
-                    JOptionPane.showMessageDialog(null, "您还没有输入您的id!!");
-                }*/
-                //用户是否选择练习按钮
-                if (check.getState()) {
+        //获取选择的模式
 
-                }else {
-
-                }
-                PenData penData = new PenData();
-                //获取用户输入的用户名
-                penData.SetName(JTexId.getText());
-                //获取用户输入的组数
-                penData.SetBlock(JTexGroup.getText());
-                //获取用户选择的模式
-                penData.SetModeNa(getSelection(ButtonFrame).getActionCommand());
-
-                CompleteExperiment completeExperiment = new CompleteExperiment();
-                //获得输入的实验组数，为后序的组数判断提供条件
-                completeExperiment.SetExperimentB(JTexGroup.getText());
-
-                //关闭当前登录界面，当打开写字面板的时候，将会被关闭
-                Screen.dispose();
-            }
-        });
+    }
+    //添加练习的组件
+    public void CreatePracticePanel() {
+        PracticePanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        PracticePanel.add(PracticeCB);
+    }
+    public void SetInputId(String id) {
+        IdTF.setText(id);
+    }
+    public void SetSelectBlock(int Block) {
+        BlockCB.setSelectedIndex(Block - 1); // 选择索引 Block - 1 处的项
+    }
+    public void SetSelectTechnique(String s) {
 
     }
     //从按钮组中获得选择的按钮
@@ -168,5 +190,27 @@ public class Login extends JFrame{
         }
         return null;
 
+    }
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(getSelection(ButtonFrame).getActionCommand() == "传统写字面板模式") {
+            TraditionalFrame TF = new TraditionalFrame();
+        }else if (getSelection(ButtonFrame).getActionCommand() == "实列化模式"){
+            //AreaFrame frame=new AreaFrame();
+        }else if (getSelection(ButtonFrame).getActionCommand() == "离散化模式"){
+            //AreaFrame frame=new AreaFrame();
+        }else if (getSelection(ButtonFrame).getActionCommand() == "增量化模式"){
+            //AreaFrame frame=new AreaFrame();
+        }
+
+        SelectedBlock = BlockCB.getSelectedIndex() + 1; //返回列表中与给定项匹配的第一个选项
+
+        //将在登录界面的相关信息保留
+        penData.SetName(IdTF.getText()); //用户输入的名称
+        penData.SetBlock(SelectedBlock); //用户选择的组数
+        penData.SetModeNa(getSelection(ButtonFrame).getActionCommand()); //用户选择的模式
+
+
+        this.dispose();
     }
 }
