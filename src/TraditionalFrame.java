@@ -418,8 +418,19 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
                     completeExperiment.SetRandomP();
                     completeExperiment.SetExperimentB(String.valueOf(temp));
                 }else {
-                    TraFrame.dispose();
                     Login login = new Login();
+
+                    login.SetInputId("");
+                    login.SetSelectBlock(1);
+                    login.SetSelectTechnique("");
+
+                    login.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    login.pack();
+                    login.setLocationRelativeTo(login);
+                    login.setResizable(false);
+                    login.setVisible(true);
+
+                    TraFrame.dispose();
                 }
             }
         }
