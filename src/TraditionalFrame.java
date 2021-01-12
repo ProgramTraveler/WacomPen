@@ -410,7 +410,9 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             }
             //判断一组实验是否做完
             if (completeExperiment.GetList() == true) {
-                if (completeExperiment.GetExperimentB() >= 1) {
+                System.out.println("=====" + completeExperiment.GetExperimentB());
+                if (completeExperiment.GetExperimentB() -1 >= 1) {
+                    System.out.println("------------");
                     int temp = completeExperiment.GetExperimentB() - 1;
                     completeExperiment.SetRandomC();
                     completeExperiment.SetRandomP();

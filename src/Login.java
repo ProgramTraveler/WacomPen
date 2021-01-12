@@ -149,6 +149,10 @@ public class Login extends JFrame{
                 //获取用户选择的模式
                 penData.SetModeNa(getSelection(ButtonFrame).getActionCommand());
 
+                CompleteExperiment completeExperiment = new CompleteExperiment();
+                //获得输入的实验组数，为后序的组数判断提供条件
+                completeExperiment.SetExperimentB(JTexGroup.getText());
+
                 //关闭当前登录界面，当打开写字面板的时候，将会被关闭
                 Screen.dispose();
             }
@@ -165,9 +169,4 @@ public class Login extends JFrame{
         return null;
 
     }
-    public static void main(String[] arge){
-        Login login = new Login();
-
-    }
-
 }

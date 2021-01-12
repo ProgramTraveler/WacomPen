@@ -11,7 +11,7 @@ public class CompleteExperiment {
     private ArrayList<String> RandomC = new ArrayList<String>();
     //用来保存在一组实验中应该提示的像素
     private ArrayList<String> RandomP = new ArrayList<String>();
-    private int ExperimentBlock = 0; //整个实验的总组数
+    private int ExperimentBlock; //整个实验的总组数
 
     public CompleteExperiment() {}
     //保存实验的总组数
