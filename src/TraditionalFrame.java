@@ -27,10 +27,6 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         分别为颜色的下拉菜单和像素的下拉菜单
      */
     //设置颜色选择的下拉菜单
-    /*
-    黑色这部分作为选择条件去掉，设为默认条件
-    private JMenuItem ItColor0 = new JMenuItem("黑色");
-     */
     private JMenuItem ItColor1 = new JMenuItem("蓝色");
     private JMenuItem ItColor2 = new JMenuItem("红色");
     private JMenuItem ItColor3 = new JMenuItem("黄色");
@@ -90,13 +86,6 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
     提示标签和语句
         应该切换的颜色和像素
      */
-    /*
-    //提示应该切换的颜色
-    private JTextField ShowRandomC = new JTextField();
-    //提示应该切换的像素
-    private JTextField ShowRandomP = new JTextField();
-    */
-
     //颜色提示语句
     private String StringRandomC = "";
     //像素提示语句
@@ -115,97 +104,14 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
 
         completeExperiment.SetRandomC(); //生成颜色提示语句
         completeExperiment.SetRandomP(); //生成像素提示语句
-        /*
-        将界面分割为两部分
-         */
 
-        JSplitPane jSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,false,TFInter,TFDraw); //这里第一个参数是控制分割线竖直，第二个参数是当你拖曳切割面版的分隔线时，窗口内的组件是否会随着分隔线的拖曳而动态改变大小，最后两个参数就是我分割完成后分割线两边各添加哪个容器。
-        jSplitPane.setDividerLocation(250); //分割线的位置  也就是初始位置
-        jSplitPane.setOneTouchExpandable(false); //是否可展开或收起，在这里没用
-        jSplitPane.setDividerSize(1);//设置分割线的宽度 像素为单位
-        jSplitPane.setEnabled(false); //设置分割线不可拖动！！
-        TraFrame.add(jSplitPane);  //加入到面板中就好了
+        //生成传统的界面
+        this.CreateTraditionalFrame();
 
-
-        //左边的界面,颜色为默认颜色
-        TFInter.setLayout(null); //不使用布局管理器
-
-        //当前颜色
-        /*ShowColor.setText(StringColor);
-        ShowColor.setBounds(30,90,200,60); //设置当前颜色提示的位置
-        ShowColor.setHorizontalAlignment(ShowColor.LEFT); //设置为靠左
-        ShowColor.setFont(new Font("黑体",Font.BOLD,20)); //设置字体颜色
-        ShowColor.setEditable(false);//设置文本不可编辑
-        TFInter.add(ShowColor); //添加到左边的界面中*/
-
-        //当前颜色（颜色块）
-        ShowColorBlock.setBackground(Color.BLACK);
-        ShowColorBlock.setBounds(500,80,30,30);
-        TFInter.add(ShowColorBlock);
-        //颜色提示标签
-        ShowColorL.setBounds(420,80,80,50);
-        ShowColorL.setFont(new Font("黑体",Font.BOLD,15));
-        TFInter.add(ShowColorL);
-        //当前像素
-        ShowPixel.setText(StringPixel);
-        ShowPixel.setBounds(800,75,60,60);
-        ShowPixel.setHorizontalAlignment(ShowPixel.LEFT);
-        ShowPixel.setFont(new Font("黑体",Font.BOLD,20));
-        TFInter.add(ShowPixel);
-        //像素提示标签
-        ShowPixelL.setBounds(720,80,80,50);
-        ShowPixelL.setFont(new Font("黑体",Font.BOLD,15));
-        TFInter.add(ShowPixelL);
-        //TFInter.add(ShowPixel);
-
-        //待切换颜色
-        /*ShowRandomC.setText(StringRandomC);
-        ShowRandomC.setBounds(30,270,200,60);
-        ShowRandomC.setHorizontalAlignment(ShowRandomC.LEFT);
-        ShowRandomC.setFont(new Font("黑体",Font.BOLD,20));
-        ShowRandomC.setEditable(false);*/
-        //TFInter.add(ShowRandomC);
-        //待切换像素
-        /*ShowRandomP.setText(StringRandomP);
-        ShowRandomP.setBounds(30,360,200,65);
-        ShowRandomP.setHorizontalAlignment(ShowRandomP.LEFT);
-        ShowRandomP.setFont(new Font("黑体",Font.BOLD,20));
-        ShowRandomP.setEditable(false);*/
-        //TFInter.add(ShowRandomP);
-
-        //传统写字界面的设计
-        /*TraFrame.getContentPane().setLayout(new BorderLayout());
-        TraFrame.setBackground(Color.WHITE);
-        TraFrame.getContentPane().add(ar1,BorderLayout.CENTER);*/
-        //右边的界面
-        TFDraw.setLayout(new BorderLayout());
-        TFDraw.setBackground(Color.WHITE);
-        TFDraw.add(ar1,BorderLayout.CENTER);
-        //添加菜单栏
-        TraFrame.setJMenuBar(MenuB);
-        //添加下拉菜单到菜单栏
-        MenuB.add(MenuColor);
-        MenuB.add(MenuPixel);
-        //将颜色的下拉菜单添加到颜色菜单中
-        /*
-        黑色的选择条件去掉，下拉菜单也做修改
-        MenuColor.add(ItColor0);
-         */
-        MenuColor.add(ItColor1);
-        MenuColor.add(ItColor2);
-        MenuColor.add(ItColor3);
-        //将像素的下拉菜单添加到像素菜单中
-        MenuPixel.add(ItPixel1);
-        MenuPixel.add(ItPixel2);
-        MenuPixel.add(ItPixel3);
-
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        /*Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int width = screenSize.width;
-        TraFrame.setBounds(width / 5, 30, 875, 875);
-        //界面全屏设置
-        TraFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        TraFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        TraFrame.setVisible(true);
+        TraFrame.setBounds(width / 5, 30, 875, 875);*/
+
         ar1.requestFocusInWindow(); //让其获得焦点，这样才能是键盘监听能够正常使用
 
         try {
@@ -213,30 +119,9 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         } catch (JTabletException e) {
             e.printStackTrace();
         }
-
-
         /*
         这一部分主要是监听用户选择的是哪个颜色
          */
-
-        //选择黑色
-        /*
-        MenuColor.getItem(0).addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                SetColor = 0;
-                StringColor = "当前颜色为黑色";
-                ShowColor.setText(StringColor);
-                TFInter.removeAll();
-                TFInter.repaint();
-                TFInter.add(ShowRandomC);
-                TFInter.add(ShowColor);
-                TFInter.add(ShowPixel);
-                TFInter.add(ShowRandomP);
-                TFInter.revalidate();
-            }
-        });
-        */
         //选择红色
         MenuColor.getItem(1).addActionListener(new ActionListener() {
             @Override
@@ -249,10 +134,11 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
                 if (ColorFlag == true)
                     pData.SetTouchE();
                 ShowColorBlock.setBackground(Color.RED);
+
                 TFInter.removeAll();
                 TFInter.repaint();
-                TFInter.add(ShowColorBlock);
                 TFInter.add(ShowColorL);
+                TFInter.add(ShowColorBlock);
                 TFInter.add(ShowPixelL);
                 TFInter.add(ShowPixel);
                 TFInter.revalidate();
@@ -275,8 +161,8 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
 
                 TFInter.removeAll();
                 TFInter.repaint();
-                TFInter.add(ShowColorBlock);
                 TFInter.add(ShowColorL);
+                TFInter.add(ShowColorBlock);
                 TFInter.add(ShowPixelL);
                 TFInter.add(ShowPixel);
                 TFInter.revalidate();
@@ -298,8 +184,8 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
 
                 TFInter.removeAll();
                 TFInter.repaint();
-                TFInter.add(ShowColorBlock);
                 TFInter.add(ShowColorL);
+                TFInter.add(ShowColorBlock);
                 TFInter.add(ShowPixelL);
                 TFInter.add(ShowPixel);
                 TFInter.revalidate();
@@ -325,8 +211,8 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
 
                 TFInter.removeAll();
                 TFInter.repaint();
-                TFInter.add(ShowColorBlock);
                 TFInter.add(ShowColorL);
+                TFInter.add(ShowColorBlock);
                 TFInter.add(ShowPixelL);
                 TFInter.add(ShowPixel);
                 TFInter.revalidate();
@@ -344,10 +230,12 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
                 //如果在没有进入测试区域就点击切换，误触发次数加一
                 if (PixelFlag == true)
                     pData.SetTouchE();
+                ShowPixel.setText(StringPixel);
+
                 TFInter.removeAll();
                 TFInter.repaint();
-                TFInter.add(ShowColorBlock);
                 TFInter.add(ShowColorL);
+                TFInter.add(ShowColorBlock);
                 TFInter.add(ShowPixelL);
                 TFInter.add(ShowPixel);
                 TFInter.revalidate();
@@ -370,16 +258,94 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
 
                 TFInter.removeAll();
                 TFInter.repaint();
-                TFInter.add(ShowColorBlock);
                 TFInter.add(ShowColorL);
+                TFInter.add(ShowColorBlock);
                 TFInter.add(ShowPixelL);
                 TFInter.add(ShowPixel);
                 TFInter.revalidate();
 
-
             }
         });
 
+    }
+    public void CreateTraditionalFrame() {
+        //生成上半部分的界面
+        this.CreateTFInter();
+        //生成下半部分界面
+        this.CreateTFDraw();
+        /*
+        将界面分割为两部分
+         */
+        JSplitPane jSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,false,TFInter,TFDraw); //这里第一个参数是控制分割线竖直，第二个参数是当你拖曳切割面版的分隔线时，窗口内的组件是否会随着分隔线的拖曳而动态改变大小，最后两个参数就是我分割完成后分割线两边各添加哪个容器。
+        jSplitPane.setDividerLocation(300); //分割线的位置  也就是初始位置
+        jSplitPane.setOneTouchExpandable(false); //是否可展开或收起，在这里没用
+        jSplitPane.setDividerSize(1);//设置分割线的宽度 像素为单位(这里设为0，择时不显示分割线)
+        jSplitPane.setEnabled(false); //设置分割线不可拖动！！
+        TraFrame.add(jSplitPane);  //加入到面板中就好了
+
+        //生成下拉菜单
+        this.CreateMenu();
+
+        //界面全屏设置
+        TraFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        TraFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        TraFrame.setVisible(true);
+
+    }
+    //生成下拉选择的菜单栏
+    public void CreateMenu() {
+        //添加菜单栏
+        TraFrame.setJMenuBar(MenuB);
+        //添加下拉菜单到菜单栏
+        MenuB.add(MenuColor);
+        MenuB.add(MenuPixel);
+        //将颜色的下拉菜单添加到颜色菜单中
+        MenuColor.add(ItColor1);
+        MenuColor.add(ItColor2);
+        MenuColor.add(ItColor3);
+        //将像素的下拉菜单添加到像素菜单中
+        MenuPixel.add(ItPixel1);
+        MenuPixel.add(ItPixel2);
+        MenuPixel.add(ItPixel3);
+
+    }
+    //创建上半部分的提示区域
+    public void CreateTFInter() {
+        /*
+        临时注释：
+            当切换后出现字体变化的原因应该是ColorPanel和PixelJPanel在切换时没有加入到组件
+            ->为了让界面更贴近PPT的样式，只能自己采用没有布局，采用坐标来排版了
+            ->还是把ColorPanel和PixelJPanel去掉，这两个没什么用
+         */
+        //上半部分的界面,背景颜色为默认颜色
+        TFInter.setLayout(null); //不采用布局管理器
+
+        //颜色提示标签
+        ShowColorL.setBounds(500,250,200,20);
+        ShowColorL.setFont(new Font("楷体",Font.BOLD,20));
+        TFInter.add(ShowColorL);
+        //当前颜色（颜色块）
+        ShowColorBlock.setBackground(Color.BLACK);
+        TFInter.add(ShowColorBlock);
+
+
+        //像素提示标签
+        ShowPixelL.setBounds(800,250,200,20);
+        ShowPixelL.setFont(new Font("楷体",Font.BOLD,20));
+        TFInter.add(ShowPixelL);
+        //当前像素
+        ShowPixel.setText(StringPixel);
+        ShowPixel.setHorizontalAlignment(ShowPixel.LEFT);
+        ShowPixel.setFont(new Font("黑体",Font.BOLD,15));
+        TFInter.add(ShowPixel);
+
+
+    }
+    //生成下半部分的绘画界面
+    public void CreateTFDraw() {
+        TFDraw.setLayout(new BorderLayout());
+        TFDraw.setBackground(Color.WHITE);
+        TFDraw.add(ar1,BorderLayout.CENTER);
     }
 
     @Override
@@ -419,17 +385,14 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
                     completeExperiment.SetExperimentB(String.valueOf(temp));
                 }else {
                     Login login = new Login();
-
                     login.SetInputId("");
                     login.SetSelectBlock(1);
                     login.SetSelectTechnique("");
-
                     login.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                     login.pack();
                     login.setLocationRelativeTo(login);
                     login.setResizable(false);
                     login.setVisible(true);
-
                     TraFrame.dispose();
                 }
             }

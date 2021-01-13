@@ -24,6 +24,7 @@ public class Login extends JFrame implements ActionListener{
     private int NumberOFBlocks = 5; //可以选择的实验组数
     private int SelectedBlock = 1; //选择的组数，默认为1组
 
+    //保存模式按钮的轻量级容器
     private JPanel TechniquesPanel = new JPanel();
     /*
    在这里面还要写四个不同模式的写字板
@@ -125,9 +126,6 @@ public class Login extends JFrame implements ActionListener{
     }
     //添加模式的组件
     public void CreateTechniquesPanel() {
-        //如果要添加图片的话，可以加到这个容器中
-        JPanel WestPanel = new JPanel();
-
         //添加选择模式的按钮
         JPanel EastPanel = new JPanel();
         EastPanel.setLayout(new BoxLayout(EastPanel,BoxLayout.Y_AXIS));
@@ -145,7 +143,6 @@ public class Login extends JFrame implements ActionListener{
         //划出一个区域，将这些模式圈起来
         TechniquesPanel.setBorder(new TitledBorder(new LineBorder(Color.lightGray),"Selection Techniques",TitledBorder.LEFT,TitledBorder.TOP));
         TechniquesPanel.setLayout(new BorderLayout());
-        TechniquesPanel.add(WestPanel);
         TechniquesPanel.add(EastPanel);
         /*
         将按钮添加到按钮组里
