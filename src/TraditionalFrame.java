@@ -96,7 +96,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
     //判断用户是否第一次进入像素测试区域，true表示未进入
     private boolean PixelFlag = true;
 
-    public TraditionalFrame() {
+    public TraditionalFrame(int BlockNumber) {
         ar1.setLayout(new BorderLayout());
         ar1.addMouseListener(this);
         ar1.addMouseMotionListener(this);
@@ -104,6 +104,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
 
         completeExperiment.SetRandomC(); //生成颜色提示语句
         completeExperiment.SetRandomP(); //生成像素提示语句
+        completeExperiment.SetExperimentB(BlockNumber);
 
         //生成传统的界面
         this.CreateTraditionalFrame();
@@ -279,7 +280,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         JSplitPane jSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,false,TFInter,TFDraw); //这里第一个参数是控制分割线竖直，第二个参数是当你拖曳切割面版的分隔线时，窗口内的组件是否会随着分隔线的拖曳而动态改变大小，最后两个参数就是我分割完成后分割线两边各添加哪个容器。
         jSplitPane.setDividerLocation(300); //分割线的位置  也就是初始位置
         jSplitPane.setOneTouchExpandable(false); //是否可展开或收起，在这里没用
-        jSplitPane.setDividerSize(1);//设置分割线的宽度 像素为单位(这里设为0，择时不显示分割线)
+        jSplitPane.setDividerSize(0);//设置分割线的宽度 像素为单位(这里设为0，择时不显示分割线)
         jSplitPane.setEnabled(false); //设置分割线不可拖动！！
         TraFrame.add(jSplitPane);  //加入到面板中就好了
 
@@ -311,32 +312,29 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
     }
     //创建上半部分的提示区域
     public void CreateTFInter() {
-        /*
-        临时注释：
-            当切换后出现字体变化的原因应该是ColorPanel和PixelJPanel在切换时没有加入到组件
-            ->为了让界面更贴近PPT的样式，只能自己采用没有布局，采用坐标来排版了
-            ->还是把ColorPanel和PixelJPanel去掉，这两个没什么用
-         */
+
         //上半部分的界面,背景颜色为默认颜色
-        TFInter.setLayout(null); //不采用布局管理器
+        TFInter.setLayout(null); //不采用布局管理器,由坐标定位
 
         //颜色提示标签
-        ShowColorL.setBounds(500,250,200,20);
+        ShowColorL.setBounds(500,250,100,20);
         ShowColorL.setFont(new Font("楷体",Font.BOLD,20));
         TFInter.add(ShowColorL);
         //当前颜色（颜色块）
+        ShowColorBlock.setBounds(600,250,60,20);
         ShowColorBlock.setBackground(Color.BLACK);
         TFInter.add(ShowColorBlock);
 
 
         //像素提示标签
-        ShowPixelL.setBounds(800,250,200,20);
+        ShowPixelL.setBounds(700,250,100,20);
         ShowPixelL.setFont(new Font("楷体",Font.BOLD,20));
         TFInter.add(ShowPixelL);
         //当前像素
+        ShowPixel.setBounds(800,250,100,20);
         ShowPixel.setText(StringPixel);
         ShowPixel.setHorizontalAlignment(ShowPixel.LEFT);
-        ShowPixel.setFont(new Font("黑体",Font.BOLD,15));
+        ShowPixel.setFont(new Font("黑体",Font.BOLD,20));
         TFInter.add(ShowPixel);
 
 
@@ -382,8 +380,9 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
                     int temp = completeExperiment.GetExperimentB() - 1;
                     completeExperiment.SetRandomC();
                     completeExperiment.SetRandomP();
-                    completeExperiment.SetExperimentB(String.valueOf(temp));
+                    completeExperiment.SetExperimentB(temp);
                 }else {
+
                     Login login = new Login();
                     login.SetInputId("");
                     login.SetSelectBlock(1);
@@ -470,7 +469,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         double x = dot.DotStarX();
         double y = dot.DotStarY();
 
-        if (x >= 350 && x <= 850 && y >= 200 && y <= 300 && ColorFlag == true) {
+        if (x >= 350 && x <= 850 && y >= 50 && y <= 150 && ColorFlag == true) {
             StringRandomC = completeExperiment.GetRandomC();
             //按照系统的提示颜色存入相应的目标颜色
             if (StringRandomC == "请切换颜色为蓝色")
@@ -486,14 +485,14 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             //当弹窗出现的时候，笔的绘画会被打断，此时，不会认为是鼠标抬起，所以在这里记录结束的时间
             pData.AddTime(System.currentTimeMillis());
             ColorFlag = false;
-        } else if (x0 >= 350 && x0 <= 850 && y0 >= 200 && y0 <= 300 && ColorFlag == false){
+        } else if (x0 >= 350 && x0 <= 850 && y0 >= 50 && y0 <= 150 && ColorFlag == false){
 
         }else {
             StringRandomC = "";
             ColorFlag = true;
         }
 
-        if (x0 >= 900 && x0 <= 1400 && y0 >= 200 && y0 <= 300 && PixelFlag == true) {
+        if (x0 >= 900 && x0 <= 1400 && y0 >= 50 && y0 <= 150 && PixelFlag == true) {
             //当用户进入绿色区域表示开始记录数据
             //EntrySign = true;
 
@@ -512,7 +511,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             pData.AddTime(System.currentTimeMillis());
 
             PixelFlag = false;
-        }else if (x0 >= 900 && x0 <= 1400 && y0 >= 200 && y0 <= 300 && PixelFlag == false) {
+        }else if (x0 >= 900 && x0 <= 1400 && y0 >= 50 && y0 <= 150 && PixelFlag == false) {
 
         }else {
             StringRandomP = "";

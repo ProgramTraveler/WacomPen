@@ -71,13 +71,6 @@ public class PenData {
         //BlockN = Integer.getInteger(b) ;
     }
     public int GetBlock() { return BlockNumber; }
-    //获取实验组数的int值
-    public void SetBlockN(int n) {
-        BlockN = n;
-    }
-    public int GetBlockN() {
-        return BlockN;
-    }
 
     //一组实验中的实验次数
     public void SetTrialN(int n) { TrialNumber = n; }

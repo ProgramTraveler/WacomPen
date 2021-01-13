@@ -73,6 +73,7 @@ public class Login extends JFrame implements ActionListener{
         StartButton.addActionListener(this);
         StartButton.setActionCommand(StartCom);
 
+
     }
     public void CreateTestFrame() {
         //界面的名称
@@ -190,8 +191,11 @@ public class Login extends JFrame implements ActionListener{
     }
     @Override
     public void actionPerformed(ActionEvent e) {
+
+        SelectedBlock = BlockCB.getSelectedIndex() + 1; //返回列表中与给定项匹配的第一个选项
+
         if(getSelection(ButtonFrame).getActionCommand() == "传统写字面板模式") {
-            TraditionalFrame TF = new TraditionalFrame();
+            TraditionalFrame TF = new TraditionalFrame(SelectedBlock);
         }else if (getSelection(ButtonFrame).getActionCommand() == "实列化模式"){
             //AreaFrame frame=new AreaFrame();
         }else if (getSelection(ButtonFrame).getActionCommand() == "离散化模式"){
@@ -200,13 +204,11 @@ public class Login extends JFrame implements ActionListener{
             //AreaFrame frame=new AreaFrame();
         }
 
-        SelectedBlock = BlockCB.getSelectedIndex() + 1; //返回列表中与给定项匹配的第一个选项
-
         //将在登录界面的相关信息保留
         penData.SetName(IdTF.getText()); //用户输入的名称
         penData.SetBlock(SelectedBlock); //用户选择的组数
         penData.SetModeNa(getSelection(ButtonFrame).getActionCommand()); //用户选择的模式
-
+        penData.SetTrialN(0); //初始化实验组数
 
         this.dispose();
     }

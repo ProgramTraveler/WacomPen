@@ -15,7 +15,7 @@ public class CompleteExperiment {
 
     public CompleteExperiment() {}
     //保存实验的总组数
-    public void SetExperimentB(String s) { ExperimentBlock = Integer.getInteger(s); }
+    public void SetExperimentB(int i) { ExperimentBlock = i; }
     //返回剩下的实验组数
     public int GetExperimentB() { return ExperimentBlock; }
     //判断集合是否为空，如果为空，说明一组实验已经做完，可以进行下一组实验，因为颜色和像素一一对应的，所以只要判断一个就好了
