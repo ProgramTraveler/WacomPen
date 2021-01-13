@@ -133,7 +133,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
                 pData.SetResultC("红色");
                 //如果在没有进入测试区域就点击切换，误触发次数加一
                 if (ColorFlag == true)
-                    pData.SetTouchE();
+                    pData.AddTouchE();
                 ShowColorBlock.setBackground(Color.RED);
 
                 TFInter.removeAll();
@@ -156,7 +156,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
                 pData.SetResultC("蓝色");
                 //如果在没有进入测试区域就点击切换，误触发次数加一
                 if (ColorFlag == true)
-                    pData.SetTouchE();
+                    pData.AddTouchE();
 
                 ShowColorBlock.setBackground(Color.BLUE);
 
@@ -180,7 +180,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
                 pData.SetResultC("黄色");
                 //如果在没有进入测试区域就点击切换，误触发次数加一
                 if (ColorFlag == true)
-                    pData.SetTouchE();
+                    pData.AddTouchE();
                 ShowColorBlock.setBackground(Color.ORANGE);
 
                 TFInter.removeAll();
@@ -207,7 +207,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
                 pData.SetResultP("2.0");
                 //如果在没有进入测试区域就点击切换，误触发次数加一
                 if (PixelFlag == true)
-                    pData.SetTouchE();
+                    pData.AddTouchE();
                 ShowPixel.setText(StringPixel);
 
                 TFInter.removeAll();
@@ -230,7 +230,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
                 pData.SetResultP("3.0");
                 //如果在没有进入测试区域就点击切换，误触发次数加一
                 if (PixelFlag == true)
-                    pData.SetTouchE();
+                    pData.AddTouchE();
                 ShowPixel.setText(StringPixel);
 
                 TFInter.removeAll();
@@ -254,7 +254,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
                 pData.SetResultP("4.0");
                 //如果在没有进入测试区域就点击切换，误触发次数加一
                 if (PixelFlag == true)
-                    pData.SetTouchE();
+                    pData.AddTouchE();
                 ShowPixel.setText(StringPixel);
 
                 TFInter.removeAll();
@@ -363,7 +363,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             //在一组中做完一次实验
             pData.AddTrialN();
             //模式切换出现的错误数
-            pData.SetModeE();
+            pData.AddModeE();
             //将笔的压力保存在指定文件中
             try {
                 pData.AllocateTime();
@@ -374,24 +374,24 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             }
             //判断一组实验是否做完
             if (completeExperiment.GetList() == true) {
-                System.out.println("=====" + completeExperiment.GetExperimentB());
                 if (completeExperiment.GetExperimentB() -1 >= 1) {
-                    System.out.println("------------");
                     int temp = completeExperiment.GetExperimentB() - 1;
                     completeExperiment.SetRandomC();
                     completeExperiment.SetRandomP();
                     completeExperiment.SetExperimentB(temp);
                 }else {
-
+                    //打开一个新的登录界面
                     Login login = new Login();
                     login.SetInputId("");
                     login.SetSelectBlock(1);
                     login.SetSelectTechnique("");
+
                     login.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                     login.pack();
                     login.setLocationRelativeTo(login);
                     login.setResizable(false);
                     login.setVisible(true);
+                    //关闭当前的界面
                     TraFrame.dispose();
                 }
             }

@@ -98,14 +98,18 @@ public class PenData {
         return TargetLine;
     }
     //错误触发次数
-    public void SetTouchE() {
+    public void SetTouchE(int i) { TouchError = i; }
+    public void AddTouchE() {
         TouchError ++;
     }
     public int GetTouchE() {
         return TouchError;
     }
     //切换模式错误的次数
-    public void SetModeE() {
+    public void SetModeE(int i) {
+        ModelError = i;
+    }
+    public void AddModeE() {
         if (TargetColor.equals(ResultColor) == false)
             ModelError ++;
         if (TargetLine.equals(ResultPixel) == false)
