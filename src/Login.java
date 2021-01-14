@@ -208,6 +208,7 @@ public class Login extends JFrame implements ActionListener{
         penData.SetName(IdTF.getText()); //用户输入的名称
         penData.SetBlock(SelectedBlock); //用户选择的组数
         penData.SetModeNa(getSelection(ButtonFrame).getActionCommand()); //用户选择的模式
+
         penData.SetTrialN(0); //初始化实验组数
         penData.SetTouchE(0); //初始化实验误触发数
         penData.SetModeE(0); //初始化模式切换错误数

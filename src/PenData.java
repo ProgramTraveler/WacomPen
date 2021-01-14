@@ -22,19 +22,31 @@ public class PenData {
     private static int BlockN; //记录int型的实验组数，为了判断所有组数是否做完
     private static int TrialNumber = 0; //一组实验里实验的次数
     private static String ModeTechnique; //选择的模式切换技术
+
     private static String TargetColor; //每次实验的出现的目标颜色
     private static String TargetLine; //每次实验出现的目标线条粗细
+
     private static long StartTime; //当前绘制开始的时间(第一次绘制落笔的时间)
     private static String StartTimeDate; //绘制开始的时间以文字格式保存
     private static long EndTime; //当前绘制结束的时间（第三次绘制抬笔的时间）
     private static String EndTimeDate; //绘制结束的时间以文字格式保存
-    private static String ModeSwitchTime; //模式切换时间（两次切换的时间之和）
-    private static String CompleteTime; //绘制完整时间（整体三次绘制的时间之和）
-    private static String PaintTime1; //第一段画线绘制的时间
-    private static String PaintTime2; //第二段画线绘制的时间
-    private static String PaintTime3; //第三段画线绘制的时间
+
+    private static long ModeSwitchTime; //模式切换时间（两次切换的时间之和）
+    private static long ColorModeSwitchT; //颜色切换时间
+    private static long PixelModeSwitchT; //像素切换时间
+
+    private static long CompleteTime; //绘制完整时间（整体三次绘制的时间之和）
+    private static long PaintTime1; //第一段画线绘制的时间
+    private static long PaintTime2; //第二段画线绘制的时间
+    private static long PaintTime3; //第三段画线绘制的时间
+
     private static int TouchError = 0; //误触发次数（在未弹出切换指令前，错误的切换出命令菜单）
+    private static int ColorTouchE = 0; //颜色切换的误触发数
+    private static int PixelTouchE = 0; //像素切换的误触发数
+
     private static int ModelError = 0; //切换模式错误
+    private static int ColorModeE = 0; //颜色模式切换错误数
+    private static int PixelModeE = 0; //像素切换错误数
 
     private static String ResultColor; //用户实际切换的颜色
     private static String ResultPixel; //用户实际切换的像素
@@ -97,7 +109,7 @@ public class PenData {
     public String GetTargetLine() {
         return TargetLine;
     }
-    //错误触发次数
+    //错误触发总的次数
     public void SetTouchE(int i) { TouchError = i; }
     public void AddTouchE() {
         TouchError ++;
@@ -105,19 +117,35 @@ public class PenData {
     public int GetTouchE() {
         return TouchError;
     }
-    //切换模式错误的次数
+    //颜色错误触发的次数
+    public void SetColorTouchE(int i) { ColorTouchE = i; }
+    public void AddColorTouchE() { ColorTouchE ++; }
+    //像素错误触发的次数
+    public void SetPixelTouchE(int i) { PixelTouchE = i; }
+    public void AddPixelTouchE() { PixelTouchE ++; }
+    //切换模式错误的总次数
     public void SetModeE(int i) {
         ModelError = i;
     }
+    //由于模式切换错误数是在实验结束之后判断的，所以在这里一起处理了
     public void AddModeE() {
-        if (TargetColor.equals(ResultColor) == false)
+        if (TargetColor.equals(ResultColor) == false) {
             ModelError ++;
-        if (TargetLine.equals(ResultPixel) == false)
+            ColorModeE ++;
+        }
+        if (TargetLine.equals(ResultPixel) == false) {
             ModelError ++;
+            PixelModeE ++;
+        }
+
     }
     public int GetModeE() {
         return ModelError;
     }
+    //颜色模式切换错误
+    public void SetColorModeE(int i) { ColorModeE = i; }
+    //像素模式切换错误
+    public void SetPixelModeE(int i) { PixelModeE = i; }
 
     //将测试进行的时间戳存入集合中
     public void AddTime(long l) { TimeList.add(l); }
@@ -131,15 +159,20 @@ public class PenData {
          */
         DecimalFormat df = new DecimalFormat("0.00");
         //第三段绘制的时间
-        PaintTime3 = df.format((float)(TimeList.get(temp) - TimeList.get(temp -1)) / 1000);
+        //PaintTime3 = df.format((float)(TimeList.get(temp) - TimeList.get(temp -1)) / 1000);
+        PaintTime3 = TimeList.get(temp) - TimeList.get(temp -1);
         //第二段绘制的时间
-        PaintTime2 = df.format((float)(TimeList.get(temp - 2) - TimeList.get(temp - 3)) / 1000);
+        PaintTime2 = TimeList.get(temp - 2) - TimeList.get(temp - 3);
         //第一段绘制的时间
-        PaintTime1 = df.format((float)(TimeList.get(temp - 4) - TimeList.get(temp - 5)) / 1000);
+        PaintTime1 = TimeList.get(temp - 4) - TimeList.get(temp - 5);
         //模式切换的时间（两次切换的时间和）
-        ModeSwitchTime = df.format((float)((TimeList.get(temp - 1) - TimeList.get(temp - 2))  + (TimeList.get(temp -3) - TimeList.get(temp - 4))) / 1000);
+        ModeSwitchTime = TimeList.get(temp - 1) - TimeList.get(temp - 2)  + TimeList.get(temp -3) - TimeList.get(temp - 4);
+        //颜色模式切换时间
+        ColorModeSwitchT = TimeList.get(temp -3) - TimeList.get(temp - 4);
+        //像素模式切换时间
+        PixelModeSwitchT = TimeList.get(temp - 1) -TimeList.get(temp - 2);
         //绘制的完整时间（三次绘制的时间和）
-        CompleteTime = df.format((float)(TimeList.get(temp) - TimeList.get(temp - 5)) / 1000);
+        CompleteTime = TimeList.get(temp) - TimeList.get(temp - 5);
         //System.out.println(PaintTime3 +"--"+PaintTime2 +"--"+PaintTime1+"--"+ModeSwitchTime+"--"+CompleteTime);
     }
     //将测试进行的文字时间存入集合
@@ -147,22 +180,13 @@ public class PenData {
     //将文字时间容器的内容分配
     public void AllocateTimeString() {
         int temp = TimeListString.size() - 1;
-        StartTimeDate = TimeListString.get(0);
+        StartTimeDate = TimeListString.get(temp - 1);
         EndTimeDate = TimeListString.get(temp);
     }
     //获得用户实际选择的颜色
     public void SetResultC(String s) { ResultColor = s; }
     //获得用户实际选择的像素
     public void SetResultP(String s) { ResultPixel = s; }
-    /*
-    在文件记录数据这一部分有待改善，文件存储的数据有待讨论，目前以压力值的存储为测试
-    在不同模式下，需要记录的信息不一样
-        传统写字面板模式：
-            用户ID，实验组数，一组实验里的实验次数，模式切换技术，每次切换的技术，每次实验出现的目标颜色，
-            每次实验出现的目标线条粗细，绘画开始的时间（第一次绘制落笔时间），画线绘制结束时间（第二次抬笔时间），
-            模式切换时间（两次切换时间之和），绘制完整时间（整体绘制三次时间之和），误触发数（在未弹出切换指令前，错误的切换出命令菜单），
-            模式切换错误数，做切换过程时到达的最后压力，做切换过程时到达的最后倾斜角，做切换时到达最后方位角
-    */
     /*
     保留笔在测试过程中的数据
      */
@@ -177,15 +201,15 @@ public class PenData {
                     "Start Time" + "End Time" + "Mode Switching Time" + "Complete Time" + "Painting Time 1" + "Paint Time 2" + "Paint Time 3"
                     + "Number of false trigger" + "Switching Error Number" + "Pressure" + "Tilt" + "Azimuth" + "\n";*/
             saveText = "姓名" + "," + "实验组数" + "," + "一组实验次数" + "," + "模式切换技术" + "," + "目标颜色" + "," + "目标粗细" + "," +
-                    "开始时间" + "," + "结束时间" + "," + "模式切换时间" + "," + "绘制完整时间" + "," + "第一段绘制时间" + "," + "第二段绘制时间" + "," + "第三段绘制时间"
-                    + "," + "误触发数" + "," + "模式切换错误数" + "," + "压力" + "," + "方位角" + "," + "倾斜角" + "," + "\n";
+                    "开始时间" + "," + "结束时间" + "," + "颜色切换时间" +"," + "像素切换时间" + "," + "模式切换总时间" + "," + "绘制完整时间" + "," + "第一段绘制时间" + "," + "第二段绘制时间" + "," + "第三段绘制时间"
+                    + "," + "颜色菜单误触发数" + "," + "像素菜单误触发数" + "," + "误触发总数" + "," + "颜色切换错误数" +","+ "像素切换错误数" +","+"模式切换总错误数" + "," + "压力" + "," + "方位角" + "," + "倾斜角" + "," + "\n";
             csv.write(saveText.getBytes("GBK"));
         }
         csv.skipBytes(CsvLine);
         //最后写了两个tilt，写一个好像记录不上，不知道为什么
         saveText = Name + "," + BlockNumber + "," + TrialNumber + "," + ModeTechnique + "," + TargetColor + "," + TargetLine + ","
-                + StartTimeDate + "," + EndTimeDate + "," + ModeSwitchTime + "," + CompleteTime + "," +PaintTime1 + ","
-                + PaintTime2 + "," + PaintTime3 + "," + TouchError + "," + ModelError + "," + pressure +"." + azimuth + "," + tilt + "," + tilt+ ","+ "\n";
+                + StartTimeDate + "," + EndTimeDate + ","+ ColorModeSwitchT + "," + PixelModeSwitchT + "," + ModeSwitchTime + "," + CompleteTime + "," +PaintTime1 + ","
+                + PaintTime2 + "," + PaintTime3 + "," + ColorTouchE + "," + PixelTouchE + "," + TouchError + "," + ColorModeE + "," + PixelModeE +","+ModelError + "," + pressure +"." + azimuth + "," + tilt + "," + tilt+ ","+ "\n";
         csv.write(saveText.getBytes("GBK"));
         csv.close();
     }
