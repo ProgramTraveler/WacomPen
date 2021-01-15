@@ -50,7 +50,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
     private CompleteExperiment completeExperiment = new  CompleteExperiment();
     private JFrame frame = new JFrame("写字板");
     private JTablet tablet = null;
-    private Dot dot = new Dot();
+
     //获取笔的信息所需的变量
     private double x0,y0; //实验开始时笔尖的位置
     private double x1, y1; //每一次笔结束的位置
@@ -76,20 +76,24 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
     private JPanel ShowColorBlock = new JPanel();
     //设置当前颜色的像素标签
     private JLabel ShowPixelL = new JLabel("当前像素:");
-    //像素值
+    //展示像素值
     private JLabel ShowPixel = new JLabel();
-    //颜色语句，用于后面的判断
-    private String StringColor = "黑色";
-    //像素语句，用于后面的判断
+    //像素语句，用于提示当前的像素值
     private String StringPixel = "1.0";
     /*
     提示标签和语句
         应该切换的颜色和像素
      */
-    //颜色提示语句
-    private String StringRandomC = "";
+    //切换颜色的提示
+    private JLabel ShowColorT = new JLabel("目标颜色");
+    //颜色提示块
+    private JPanel JPanelRandomC = new JPanel();
+    //切换像素显示
+    private JLabel ShowPixelT = new JLabel("目标像素");
+    //展示目标像素值
+    private JLabel JPanelRandomP = new JLabel();
     //像素提示语句
-    private String StringRandomP = "";
+    private String RandomPixel = "";
 
     //用户是否第一次进入颜色测试区域，true表示未进入
     private boolean ColorFlag = true;
@@ -102,6 +106,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         ar1.addMouseMotionListener(this);
         ar1.addKeyListener(this);
 
+        completeExperiment.SetRandomNUmber(); //生成测试的随机数
         completeExperiment.SetRandomC(); //生成颜色提示语句
         completeExperiment.SetRandomP(); //生成像素提示语句
         completeExperiment.SetExperimentB(BlockNumber);
@@ -109,9 +114,6 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         //生成传统的界面
         this.CreateTraditionalFrame();
 
-        /*Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int width = screenSize.width;
-        TraFrame.setBounds(width / 5, 30, 875, 875);*/
 
         ar1.requestFocusInWindow(); //让其获得焦点，这样才能是键盘监听能够正常使用
 
@@ -128,7 +130,6 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             @Override
             public void actionPerformed(ActionEvent e) {
                 SetColor = 2;
-                StringColor = "当前颜色为红色";
                 //存入目标颜色
                 pData.SetResultC("红色");
                 //如果在没有进入测试区域就点击切换，误触发次数加一
@@ -138,14 +139,6 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
                 }
                 ShowColorBlock.setBackground(Color.RED);
 
-                TFInter.removeAll();
-                TFInter.repaint();
-                TFInter.add(ShowColorL);
-                TFInter.add(ShowColorBlock);
-                TFInter.add(ShowPixelL);
-                TFInter.add(ShowPixel);
-                TFInter.revalidate();
-
             }
         });
         //选择蓝色
@@ -153,7 +146,6 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             @Override
             public void actionPerformed(ActionEvent e) {
                 SetColor = 1;
-                StringColor = "当前颜色为蓝色";
                 //存入目标颜色
                 pData.SetResultC("蓝色");
                 //如果在没有进入测试区域就点击切换，误触发次数加一
@@ -161,17 +153,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
                     pData.AddTouchE();
                     pData.AddColorTouchE();
                 }
-
                 ShowColorBlock.setBackground(Color.BLUE);
-
-                TFInter.removeAll();
-                TFInter.repaint();
-                TFInter.add(ShowColorL);
-                TFInter.add(ShowColorBlock);
-                TFInter.add(ShowPixelL);
-                TFInter.add(ShowPixel);
-                TFInter.revalidate();
-
             }
         });
         //选择黄色
@@ -179,7 +161,6 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             @Override
             public void actionPerformed(ActionEvent e) {
                 SetColor = 3;
-                StringColor = "当前颜色为黄色";
                 //存入目标颜色
                 pData.SetResultC("黄色");
                 //如果在没有进入测试区域就点击切换，误触发次数加一
@@ -188,18 +169,11 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
                     pData.AddColorTouchE();
                 }
                 ShowColorBlock.setBackground(Color.ORANGE);
-
-                TFInter.removeAll();
-                TFInter.repaint();
-                TFInter.add(ShowColorL);
-                TFInter.add(ShowColorBlock);
-                TFInter.add(ShowPixelL);
-                TFInter.add(ShowPixel);
-                TFInter.revalidate();
-
-
             }
         });
+        //选完颜色后重绘IFInter界面
+        this.RepaintIFInter();
+
         /*
         以下部分主要是监听用户选择的哪个像素
          */
@@ -217,15 +191,6 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
                     pData.AddPixelTouchE();
                 }
                 ShowPixel.setText(StringPixel);
-
-                TFInter.removeAll();
-                TFInter.repaint();
-                TFInter.add(ShowColorL);
-                TFInter.add(ShowColorBlock);
-                TFInter.add(ShowPixelL);
-                TFInter.add(ShowPixel);
-                TFInter.revalidate();
-
             }
         });
         //选择中等
@@ -242,16 +207,6 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
                     pData.AddPixelTouchE();
                 }
                 ShowPixel.setText(StringPixel);
-
-                TFInter.removeAll();
-                TFInter.repaint();
-                TFInter.add(ShowColorL);
-                TFInter.add(ShowColorBlock);
-                TFInter.add(ShowPixelL);
-                TFInter.add(ShowPixel);
-                TFInter.revalidate();
-
-
             }
         });
         //选择粗
@@ -268,17 +223,10 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
                     pData.AddPixelTouchE();
                 }
                 ShowPixel.setText(StringPixel);
-
-                TFInter.removeAll();
-                TFInter.repaint();
-                TFInter.add(ShowColorL);
-                TFInter.add(ShowColorBlock);
-                TFInter.add(ShowPixelL);
-                TFInter.add(ShowPixel);
-                TFInter.revalidate();
-
             }
         });
+        //选择完像素后重绘IFInter界面
+        this.RepaintIFInter();
 
     }
     public void CreateTraditionalFrame() {
@@ -292,7 +240,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         JSplitPane jSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,false,TFInter,TFDraw); //这里第一个参数是控制分割线竖直，第二个参数是当你拖曳切割面版的分隔线时，窗口内的组件是否会随着分隔线的拖曳而动态改变大小，最后两个参数就是我分割完成后分割线两边各添加哪个容器。
         jSplitPane.setDividerLocation(300); //分割线的位置  也就是初始位置
         jSplitPane.setOneTouchExpandable(false); //是否可展开或收起，在这里没用
-        jSplitPane.setDividerSize(0);//设置分割线的宽度 像素为单位(这里设为0，择时不显示分割线)
+        jSplitPane.setDividerSize(1);//设置分割线的宽度 像素为单位(这里设为0，择时不显示分割线)
         jSplitPane.setEnabled(false); //设置分割线不可拖动！！
         TraFrame.add(jSplitPane);  //加入到面板中就好了
 
@@ -328,7 +276,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         //上半部分的界面,背景颜色为默认颜色
         TFInter.setLayout(null); //不采用布局管理器,由坐标定位
 
-        //颜色提示标签
+        //当前颜色提示标签
         ShowColorL.setBounds(500,250,100,20);
         ShowColorL.setFont(new Font("楷体",Font.BOLD,20));
         TFInter.add(ShowColorL);
@@ -337,8 +285,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         ShowColorBlock.setBackground(Color.BLACK);
         TFInter.add(ShowColorBlock);
 
-
-        //像素提示标签
+        //当前像素提示标签
         ShowPixelL.setBounds(700,250,100,20);
         ShowPixelL.setFont(new Font("楷体",Font.BOLD,20));
         TFInter.add(ShowPixelL);
@@ -349,7 +296,6 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         ShowPixel.setFont(new Font("黑体",Font.BOLD,20));
         TFInter.add(ShowPixel);
 
-
     }
     //生成下半部分的绘画界面
     public void CreateTFDraw() {
@@ -357,7 +303,44 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         TFDraw.setBackground(Color.WHITE);
         TFDraw.add(ar1,BorderLayout.CENTER);
     }
+    //重绘IFInter界面
+    public void RepaintIFInter() {
+        TFInter.removeAll();
+        TFInter.repaint();
+        //当前颜色和像素的展示
+        TFInter.add(ShowColorL);
+        TFInter.add(ShowColorBlock);
+        TFInter.add(ShowPixelL);
+        TFInter.add(ShowPixel);
+        //目标颜色和像素的展示
+        TFInter.add(ShowColorT);
+        TFInter.add(JPanelRandomC);
+        TFInter.add(ShowPixelT);
+        TFInter.add(JPanelRandomP);
 
+        TFInter.revalidate();
+    }
+    //重绘IFInter界面(将提示的移除掉)
+    public void RemoveRandom() {
+        TFInter.removeAll();
+        TFInter.repaint();
+        //将笔的当前的提示颜色变为黑色
+        ShowColorBlock.setBackground(Color.BLACK);
+        //将笔的当前提示像素变为1.0
+        StringPixel = "1.0";
+        ShowPixel.setText(StringPixel);
+        //当前颜色和像素的展示
+        TFInter.add(ShowColorL);
+        TFInter.add(ShowColorBlock);
+        TFInter.add(ShowPixelL);
+        TFInter.add(ShowPixel);
+        TFInter.revalidate();
+
+        //将笔的颜色变为黑色
+        SetColor = 0;
+        //将笔的像素变为1.0
+        SetPixel = 1;
+    }
     @Override
     public void actionPerformed(ActionEvent e) { }
 
@@ -372,6 +355,8 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             ar1.arrayListSpot.clear();
             //重绘
             ar1.repaint();
+            //将提示语句移除
+            this.RemoveRandom();
             //在一组中做完一次实验
             pData.AddTrialN();
             //模式切换出现的错误数
@@ -489,51 +474,87 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         double y = dot.DotStarY();
 
         if (x >= 350 && x <= 850 && y >= 50 && y <= 150 && ColorFlag == true) {
-            StringRandomC = completeExperiment.GetRandomC();
+            int indexC = completeExperiment.GetRandomNumberC();
+            String StringRandomC = completeExperiment.GetRandomC(indexC);
             //按照系统的提示颜色存入相应的目标颜色
-            if (StringRandomC == "请切换颜色为蓝色")
+            if (StringRandomC == "请切换颜色为蓝色") {
                 pData.SetTargetColor("蓝色");
-            else if (StringRandomC == "请切换颜色为红色")
+                JPanelRandomC.setBackground(Color.BLUE);
+            }
+            else if (StringRandomC == "请切换颜色为红色") {
                 pData.SetTargetColor("红色");
-            else if (StringRandomC == "请切换颜色为黄色")
+                JPanelRandomC.setBackground(Color.RED);
+            }
+            else if (StringRandomC == "请切换颜色为黄色") {
                 pData.SetTargetColor("黄色");
-                //如果没有提示且按下了空格，就记为空
+                JPanelRandomC.setBackground(Color.ORANGE);
+            }
+            //如果没有提示且按下了空格，就记为空
             else pData.SetTargetColor(null);
-            //颜色切换提示
-            JOptionPane.showMessageDialog(null, StringRandomC, "颜色提示", JOptionPane.INFORMATION_MESSAGE);
-            //当弹窗出现的时候，笔的绘画会被打断，此时，不会认为是鼠标抬起，所以在这里记录结束的时间
-            pData.AddTime(System.currentTimeMillis());
+
+            //设置插件位置
+            ShowColorT.setBounds(880,250,100,20);
+            ShowColorT.setFont(new Font("楷体",Font.BOLD,20));
+
+            JPanelRandomC.setBounds(980,250,60,20);
+            //将插件添加到TFInter中
+            TraFrame.add(ShowColorT);
+            TraFrame.add(JPanelRandomC);
+            //重绘TFInter界面
+            this.RepaintIFInter();
+
             ColorFlag = false;
         } else if (x0 >= 350 && x0 <= 850 && y0 >= 50 && y0 <= 150 && ColorFlag == false){
 
         }else {
-            StringRandomC = "";
             ColorFlag = true;
         }
 
         if (x0 >= 900 && x0 <= 1400 && y0 >= 50 && y0 <= 150 && PixelFlag == true) {
-            //当用户进入绿色区域表示开始记录数据
-            //EntrySign = true;
 
-            StringRandomP = completeExperiment.GetRandomP();
+            int indexP = completeExperiment.GetRandomNumberP();
+            String StringRandomP = completeExperiment.GetRandomP(indexP);
+            System.out.println(StringRandomP);
             //按照系统提示的像素存入目标像素
-            if (StringRandomP == "请切换像素为2.0")
+            if (StringRandomP == "请切换像素为2.0") {
+                System.out.println("-");
+                RandomPixel = "2.0";
                 pData.SetTargetLine("2.0");
-            else if (StringRandomP == "请像素笔尖为3.0")
+            }
+            else if (StringRandomP == "请切换像素为3.0") {
+                System.out.println("--");
+                RandomPixel = "3.0";
                 pData.SetTargetLine("3.0");
-            else if (StringRandomP == "请切像素为4.0")
+            }
+            else if (StringRandomP == "请切换像素为4.0") {
+                System.out.println("---");
+                RandomPixel = "4.0";
                 pData.SetTargetLine("4.0");
-                //如果没有提示就按下了空格，就记为空
+            }
+            //如果没有提示就按下了空格，就记为空
             else pData.SetTargetLine(null);
 
-            JOptionPane.showMessageDialog(null, StringRandomP, "像素切换提示", JOptionPane.INFORMATION_MESSAGE);
-            pData.AddTime(System.currentTimeMillis());
+            //设置插件位置
+            ShowPixelT.setBounds(1080,250,100,20);
+            ShowPixelT.setFont(new Font("楷体",Font.BOLD,20));
+
+            System.out.println(RandomPixel);
+            JPanelRandomP.setBounds(1180,250,100,20);
+            JPanelRandomP.setText(RandomPixel);
+            JPanelRandomP.setHorizontalAlignment(JPanelRandomP.LEFT);
+            JPanelRandomP.setFont(new Font("黑体",Font.BOLD,20));
+
+            //把插件添加到TFInter中
+            TFInter.add(ShowPixelT);
+            TFInter.add(JPanelRandomP);
+
+            //重绘TFInter界面
+            this.RepaintIFInter();
 
             PixelFlag = false;
         }else if (x0 >= 900 && x0 <= 1400 && y0 >= 50 && y0 <= 150 && PixelFlag == false) {
 
         }else {
-            StringRandomP = "";
             PixelFlag = true;
         }
 
