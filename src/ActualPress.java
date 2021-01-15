@@ -332,7 +332,7 @@ public class ActualPress implements ActionListener, MouseInputListener, KeyListe
 
             int indexP = completeExperiment.GetRandomNumberP();
             String StringRandomP = completeExperiment.GetRandomP(indexP);
-            System.out.println(StringRandomP);
+            //System.out.println(StringRandomP);
             //按照系统提示的像素存入目标像素
             if (StringRandomP == "请切换像素为2.0") {
                 //System.out.println("-");
