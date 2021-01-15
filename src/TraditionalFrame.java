@@ -307,6 +307,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
     public void RepaintIFInter() {
         TFInter.removeAll();
         TFInter.repaint();
+
         //当前颜色和像素的展示
         TFInter.add(ShowColorL);
         TFInter.add(ShowColorBlock);
@@ -324,6 +325,12 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
     public void RemoveRandom() {
         TFInter.removeAll();
         TFInter.repaint();
+        //将颜色提示语句和颜色块隐藏
+        ShowColorT.setBounds(0,0,0,0);
+        JPanelRandomC.setBounds(0,0,0,0);
+        //将像素提示语句和像素值隐藏
+        ShowPixelT.setBounds(0,0,0,0);
+        JPanelRandomP.setBounds(0,0,0,0);
         //将笔的当前的提示颜色变为黑色
         ShowColorBlock.setBackground(Color.BLACK);
         //将笔的当前提示像素变为1.0
@@ -335,7 +342,6 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         TFInter.add(ShowPixelL);
         TFInter.add(ShowPixel);
         TFInter.revalidate();
-
         //将笔的颜色变为黑色
         SetColor = 0;
         //将笔的像素变为1.0
@@ -476,6 +482,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         if (x >= 350 && x <= 850 && y >= 50 && y <= 150 && ColorFlag == true) {
             int indexC = completeExperiment.GetRandomNumberC();
             String StringRandomC = completeExperiment.GetRandomC(indexC);
+            //System.out.println("进入颜色区域");
             //按照系统的提示颜色存入相应的目标颜色
             if (StringRandomC == "请切换颜色为蓝色") {
                 pData.SetTargetColor("蓝色");
@@ -517,17 +524,17 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             System.out.println(StringRandomP);
             //按照系统提示的像素存入目标像素
             if (StringRandomP == "请切换像素为2.0") {
-                System.out.println("-");
+                //System.out.println("-");
                 RandomPixel = "2.0";
                 pData.SetTargetLine("2.0");
             }
             else if (StringRandomP == "请切换像素为3.0") {
-                System.out.println("--");
+                //System.out.println("--");
                 RandomPixel = "3.0";
                 pData.SetTargetLine("3.0");
             }
             else if (StringRandomP == "请切换像素为4.0") {
-                System.out.println("---");
+                //System.out.println("---");
                 RandomPixel = "4.0";
                 pData.SetTargetLine("4.0");
             }
@@ -538,7 +545,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             ShowPixelT.setBounds(1080,250,100,20);
             ShowPixelT.setFont(new Font("楷体",Font.BOLD,20));
 
-            System.out.println(RandomPixel);
+            //System.out.println(RandomPixel);
             JPanelRandomP.setBounds(1180,250,100,20);
             JPanelRandomP.setText(RandomPixel);
             JPanelRandomP.setHorizontalAlignment(JPanelRandomP.LEFT);
