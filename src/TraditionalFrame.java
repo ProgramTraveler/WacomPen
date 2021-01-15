@@ -16,7 +16,7 @@ import java.util.Date;
  */
 public class TraditionalFrame implements ActionListener, MouseInputListener, KeyListener{
     //传统写字界面的定义
-    private JFrame TraFrame = new JFrame("传统写字界面");
+    private JFrame TraFrame = new JFrame("传统界面");
     //创建菜单栏并添加到顶部
     private JMenuBar MenuB = new JMenuBar();
     //创建两个下拉式菜单
@@ -42,25 +42,26 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
     private int SetPixel = 1;
 
     /*
-    画线这部分还是和AreaFrame类中差不多
+        画线这部分还是和AreaFrame类中差不多
      */
 
     //画板所需变量
-    private Area ar1 = new Area();
+    private Area area = new Area();
     private CompleteExperiment completeExperiment = new  CompleteExperiment();
-    private JFrame frame = new JFrame("写字板");
     private JTablet tablet = null;
 
     //获取笔的信息所需的变量
     private double x0,y0; //实验开始时笔尖的位置
     private double x1, y1; //每一次笔结束的位置
-    //获取笔的信息
+    //存储测试的信息
     private PenData pData = new PenData();
     //这个应该才是获得笔的数据
     private PenValue pValue = new PenValue();
 
 
-    //将TraFrame分割为两个区域
+    /*
+        将TraFrame分割为两个区域
+     */
     //上边边区域，用于提示信息
     private JPanel TFInter = new JPanel();
     //下边区域，用于画图
@@ -101,10 +102,10 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
     private boolean PixelFlag = true;
 
     public TraditionalFrame(int BlockNumber) {
-        ar1.setLayout(new BorderLayout());
-        ar1.addMouseListener(this);
-        ar1.addMouseMotionListener(this);
-        ar1.addKeyListener(this);
+        area.setLayout(new BorderLayout());
+        area.addMouseListener(this);
+        area.addMouseMotionListener(this);
+        area.addKeyListener(this);
 
         completeExperiment.SetRandomNUmber(); //生成测试的随机数
         completeExperiment.SetRandomC(); //生成颜色提示语句
@@ -114,8 +115,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         //生成传统的界面
         this.CreateTraditionalFrame();
 
-
-        ar1.requestFocusInWindow(); //让其获得焦点，这样才能是键盘监听能够正常使用
+        area.requestFocusInWindow(); //让其获得焦点，这样才能是键盘监听能够正常使用
 
         try {
             tablet = new JTablet();
@@ -240,7 +240,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         JSplitPane jSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,false,TFInter,TFDraw); //这里第一个参数是控制分割线竖直，第二个参数是当你拖曳切割面版的分隔线时，窗口内的组件是否会随着分隔线的拖曳而动态改变大小，最后两个参数就是我分割完成后分割线两边各添加哪个容器。
         jSplitPane.setDividerLocation(300); //分割线的位置  也就是初始位置
         jSplitPane.setOneTouchExpandable(false); //是否可展开或收起，在这里没用
-        jSplitPane.setDividerSize(1);//设置分割线的宽度 像素为单位(这里设为0，择时不显示分割线)
+        jSplitPane.setDividerSize(0);//设置分割线的宽度 像素为单位(这里设为0，择时不显示分割线)
         jSplitPane.setEnabled(false); //设置分割线不可拖动！！
         TraFrame.add(jSplitPane);  //加入到面板中就好了
 
@@ -301,7 +301,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
     public void CreateTFDraw() {
         TFDraw.setLayout(new BorderLayout());
         TFDraw.setBackground(Color.WHITE);
-        TFDraw.add(ar1,BorderLayout.CENTER);
+        TFDraw.add(area,BorderLayout.CENTER);
     }
     //重绘IFInter界面
     public void RepaintIFInter() {
@@ -358,9 +358,9 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         //当一次实验完成，用户按下空格键
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             //清空集合中的点的信息
-            ar1.arrayListSpot.clear();
+            area.arrayListSpot.clear();
             //重绘
-            ar1.repaint();
+            area.repaint();
             //将提示语句移除
             this.RemoveRandom();
             //在一组中做完一次实验
@@ -440,9 +440,9 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
     public void mouseReleased(MouseEvent e) {
 
         //获取笔尖压力的值，应该是第一次笔尖的压力（也就是第一个点的压力值）
-        System.out.println("pressure:"+pData.GetPressure());
-        System.out.println("azimuth:" + pData.GetAzimuth());
-        System.out.println("tilt:" + pData.GetTilt());
+        //System.out.println("pressure:"+pData.GetPressure());
+        //System.out.println("azimuth:" + pData.GetAzimuth());
+        //System.out.println("tilt:" + pData.GetTilt());
 
         //获得落笔的时间戳
         pData.AddTime(System.currentTimeMillis());
@@ -566,8 +566,8 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         }
 
         //将点的信息记录在容器中
-        ar1.arrayListSpot.add(dot);
-        ar1.repaint();
+        area.arrayListSpot.add(dot);
+        area.repaint();
         //更新点的起始坐标（下一个点的开始为上一个点的结束）
         x0 = x1;
         y0 = y1;

@@ -29,7 +29,7 @@ public class Login extends JFrame implements ActionListener{
     /*
    在这里面还要写四个不同模式的写字板
     */
-    private JRadioButton ButtonTraditional = new JRadioButton("传统写字面板模式");
+    private JRadioButton ButtonTraditional = new JRadioButton("传统画线模式");
     //实际值模式下的选择按钮
     private JRadioButton ButtonActualP =  new JRadioButton("P-实际值");
     private JRadioButton ButtonActualT = new JRadioButton("T-实际值");
@@ -45,7 +45,7 @@ public class Login extends JFrame implements ActionListener{
 
     private ButtonGroup ButtonFrame = new ButtonGroup(); //保存写字按钮组
 
-    private String Traditional = "传统写字模式";
+    private String Traditional = "传统画线模式";
     private String ActualP = "P-实际值";
     private String ActualT = "T-实际值";
     private String ActualA = "A-实际值";
@@ -194,14 +194,26 @@ public class Login extends JFrame implements ActionListener{
 
         SelectedBlock = BlockCB.getSelectedIndex() + 1; //返回列表中与给定项匹配的第一个选项
 
-        if(getSelection(ButtonFrame).getActionCommand() == "传统写字面板模式") {
-            TraditionalFrame TF = new TraditionalFrame(SelectedBlock);
-        }else if (getSelection(ButtonFrame).getActionCommand() == "实列化模式"){
+        if(getSelection(ButtonFrame).getActionCommand() == "传统画线模式") {
+            TraditionalFrame traditionalFrame = new TraditionalFrame(SelectedBlock);
+        }else if (getSelection(ButtonFrame).getActionCommand() == "P-实际值") {
+            ActualPress actualPress = new ActualPress(SelectedBlock);
+        }else if (getSelection(ButtonFrame).getActionCommand() == "T-实际值") {
             //AreaFrame frame=new AreaFrame();
-        }else if (getSelection(ButtonFrame).getActionCommand() == "离散化模式"){
+        }else if (getSelection(ButtonFrame).getActionCommand() == "A-实际值") {
             //AreaFrame frame=new AreaFrame();
-        }else if (getSelection(ButtonFrame).getActionCommand() == "增量化模式"){
-            //AreaFrame frame=new AreaFrame();
+        }else if (getSelection(ButtonFrame).getActionCommand() == "P-离散值") {
+
+        }else if (getSelection(ButtonFrame).getActionCommand() == "T-离散值") {
+
+        }else if (getSelection(ButtonFrame).getActionCommand() == "A-离散值") {
+
+        }else if (getSelection(ButtonFrame).getActionCommand() == "P-增量化") {
+
+        }else if (getSelection(ButtonFrame).getActionCommand() == "T-增量化") {
+
+        }else if (getSelection(ButtonFrame).getActionCommand() == "A-增量化") {
+
         }
 
         //将在登录界面的相关信息保留
