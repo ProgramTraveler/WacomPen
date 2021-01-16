@@ -173,7 +173,6 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         });
         //选完颜色后重绘IFInter界面
         this.RepaintIFInter();
-
         /*
         以下部分主要是监听用户选择的哪个像素
          */
@@ -571,8 +570,6 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         //更新点的起始坐标（下一个点的开始为上一个点的结束）
         x0 = x1;
         y0 = y1;
-
-
     }
     @Override
     public void mouseMoved(MouseEvent e) {

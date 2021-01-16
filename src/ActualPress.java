@@ -14,7 +14,7 @@ import java.util.Date;
     author:王久铭
     purpose:压力实例化界面，用来实现通过压力的实例化来选择想要的颜色和想要的像素
  */
-public class ActualPress implements ActionListener, MouseInputListener, KeyListener {
+public class ActualPress extends JFrame implements ActionListener, MouseInputListener, KeyListener {
     private int time = 50; //更新时间为50毫秒
     private Timer timer = new Timer(50,this); //以每50毫秒触发一次actionPerformed触发器
     private PAExperimentPanel paExperimentPanel = new PAExperimentPanel(); //创建PAExperimentPanel类
@@ -24,7 +24,7 @@ public class ActualPress implements ActionListener, MouseInputListener, KeyListe
     private int TriggerPress = 1024 -1024 / 6; //目标压力值
 
     //压力实列化界面的定义
-    private JFrame ActualPFrame = new JFrame();
+    private JFrame ActualPFrame = new JFrame("P-实列化界面");
 
     //设置画笔的初始颜色
     private int SetColor = 0;
@@ -87,10 +87,10 @@ public class ActualPress implements ActionListener, MouseInputListener, KeyListe
     private boolean PixelFlag = true;
 
     public ActualPress(int BlockNumber) {
-        area.setLayout(new BorderLayout());
-        area.addMouseListener(this);
-        area.addMouseMotionListener(this);
-        area.addKeyListener(this);
+        paExperimentPanel.setLayout(new BorderLayout());
+        paExperimentPanel.addMouseListener(this);
+        paExperimentPanel.addMouseMotionListener(this);
+        paExperimentPanel.addKeyListener(this);
 
         completeExperiment.SetRandomNUmber(); //生成测试的随机数
         completeExperiment.SetRandomC(); //生成颜色提示语句
@@ -99,8 +99,16 @@ public class ActualPress implements ActionListener, MouseInputListener, KeyListe
 
         //生成压力实列化测试界面
         this.CreateAPFrame();
-        area.requestFocusInWindow(); //让其获得焦点，这样才能是键盘监听能够正常使用
 
+        paExperimentPanel.requestFocusInWindow(); //让其获得焦点，这样才能是键盘监听能够正常使用
+
+        try {
+            tablet = new JTablet();
+        } catch (JTabletException e) {
+            e.printStackTrace();
+        }
+
+        timer.start();
     }
     public void CreateAPFrame() {
         this.CreateAPInter();
@@ -148,7 +156,7 @@ public class ActualPress implements ActionListener, MouseInputListener, KeyListe
     public void CreateAPDraw() {
         APDraw.setLayout(new BorderLayout());
         APDraw.setBackground(Color.WHITE);
-        APDraw.add(area,BorderLayout.CENTER);
+        APDraw.add(paExperimentPanel,BorderLayout.CENTER);
     }
     //重绘IFInter界面(将提示的移除掉)
     public void RemoveRandom() {
@@ -214,6 +222,7 @@ public class ActualPress implements ActionListener, MouseInputListener, KeyListe
             timer.stop(); //停止触发actionPerformed
             this.ProcessTriggerSwitch(); //当压力到达规定值时，弹出选择框
         }else {
+            //System.out.println("画面");
             paExperimentPanel.SetCurrentPress(CurrentPress);
             paExperimentPanel.repaint();
         }
@@ -295,6 +304,7 @@ public class ActualPress implements ActionListener, MouseInputListener, KeyListe
             //获得开始时鼠标的位置
             x0 = e.getX();
             y0 = e.getY();
+
             penData.SetPressure(penValue.Pressure());
             penData.SetTilt(penValue.Tilt());
             penData.SetAzimuth(penValue.Azimuth());
@@ -337,6 +347,9 @@ public class ActualPress implements ActionListener, MouseInputListener, KeyListe
         //获得笔在拖动时的坐标
         x1 = e.getX();
         y1 = e.getY();
+
+        System.out.println(x0 + "+" + y0);
+        paExperimentPanel.SetShowPoint(new Point((int)x0,(int)y0));
 
         Dot dot = new Dot();
         dot.SetStarDot(x0,y0);
@@ -423,7 +436,7 @@ public class ActualPress implements ActionListener, MouseInputListener, KeyListe
             APInter.add(ShowPixelT);
             APInter.add(JPanelRandomP);
 
-            //重绘TFInter界面
+            //重绘APInter界面
             this.RepaintAPInter();
 
             PixelFlag = false;

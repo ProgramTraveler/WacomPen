@@ -4,7 +4,7 @@ import java.awt.*;
 /*
     date:2021-01-16
     author:王久铭
-    purpose:该类的作用是将笔压力的动态信息进行图像的动态展示
+    purpose:该类的作用是将笔压力的动态信息进行图像的动态展示，专门为P-实列化界面使用
  */
 public class PAExperimentPanel extends JPanel {
     private boolean OpenMenu = false; //表示是否打开选择菜单
@@ -17,7 +17,7 @@ public class PAExperimentPanel extends JPanel {
     private Color ClearBlack = new Color( Color.black.getRed(), Color.black.getGreen(), Color.black.getBlue(), permeationRate);
     private Color ClearGreen = new Color( Color.green.getRed(), Color.green.getGreen(), Color.green.getBlue(), permeationRate);
 
-    private Point FeedbackShowPoint = new Point(); //作用？
+    private Point FeedbackShowPoint = new Point(); //记录点的位置，为后面的压力提示，颜色和像素菜单切换提供位置基础
     private int PressureFeedbackWidth = 50;
     private int PressureFeedbackHeight = 80;
     private int PressureCursorRadius = 3;
@@ -37,13 +37,16 @@ public class PAExperimentPanel extends JPanel {
     private Color SelectMenuTargetItem = Color.GREEN;
     private Color MenuTargetItemColor = Color.RED;
 
-
+    //用来控制像素和颜色选择菜单是否展开
     public void SetOpenMenu(boolean b) { this.OpenMenu = b; }
+    //传入的笔尖压力值
     public void SetCurrentPress(int c) { this.CurrentPress = c; }
+    //传入当前点的坐标
+    public void SetShowPoint(Point p) { this.FeedbackShowPoint = p; }
     //图像的重绘界面
     public void paintComponent(Graphics g) {
+        //System.out.println("repaint");
         super.paintComponent(g);
-
         Graphics2D graphics2D = (Graphics2D) g;
         //这一步是干嘛的？
         graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);

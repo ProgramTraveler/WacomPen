@@ -12,7 +12,7 @@ import static java.lang.Thread.sleep;
 /*
     date:2020-12-05
     author:王久铭
-    purpose:在写字板的线条处理
+    purpose:在写字板的线条处理，专门是为传统写字面板使用
  */
 public class Area extends JPanel {
     //用于存储写字过程中的点的信息
@@ -40,7 +40,6 @@ public class Area extends JPanel {
         /*
         没有这两步的话可能会导致界面错位
          */
-
         //得到图片的一份Copy
         offScreenImg = this.createImage(Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height+20);
         //绘制与已经缩放以适应指定矩形内的指定图像的大小
