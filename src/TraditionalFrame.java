@@ -505,8 +505,8 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
 
             JPanelRandomC.setBounds(980,250,60,20);
             //将插件添加到TFInter中
-            TraFrame.add(ShowColorT);
-            TraFrame.add(JPanelRandomC);
+            TFInter.add(ShowColorT);
+            TFInter.add(JPanelRandomC);
             //重绘TFInter界面
             this.RepaintIFInter();
 

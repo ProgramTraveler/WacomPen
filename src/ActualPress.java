@@ -1,4 +1,5 @@
 import cello.tablet.JTablet;
+import cello.tablet.JTabletException;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;
@@ -14,6 +15,14 @@ import java.util.Date;
     purpose:压力实例化界面，用来实现通过压力的实例化来选择想要的颜色和想要的像素
  */
 public class ActualPress implements ActionListener, MouseInputListener, KeyListener {
+    private int time = 50; //更新时间为50毫秒
+    private Timer timer = new Timer(50,this); //以每50毫秒触发一次actionPerformed触发器
+    private PAExperimentPanel paExperimentPanel = new PAExperimentPanel(); //创建PAExperimentPanel类
+    private boolean ChooseColorFlag = false; //当颜色提示信息出现后，才可以来选择颜色
+    private boolean ChoosePixelFlag = false; //当像素提示信息出现后，才可以来选择像素
+    private int CurrentPress = -1; //获取当前的压力值
+    private int TriggerPress = 1024 -1024 / 6; //目标压力值
+
     //压力实列化界面的定义
     private JFrame ActualPFrame = new JFrame();
 
@@ -167,9 +176,47 @@ public class ActualPress implements ActionListener, MouseInputListener, KeyListe
         //将笔的像素变为1.0
         SetPixel = 1;
     }
+    //重绘APInter界面
+    public void RepaintAPInter() {
+        APInter.removeAll();
+        APInter.repaint();
+
+        //当前颜色和像素的展示
+        APInter.add(ShowColorL);
+        APInter.add(ShowColorBlock);
+        APInter.add(ShowPixelL);
+        APInter.add(ShowPixel);
+        //目标颜色和像素的展示
+        APInter.add(ShowColorT);
+        APInter.add(JPanelRandomC);
+        APInter.add(ShowPixelT);
+        APInter.add(JPanelRandomP);
+
+        APInter.revalidate();
+    }
+    //当压力到达时弹出的选择框
+    public void ProcessTriggerSwitch() {
+        paExperimentPanel.SetOpenMenu(true); //打开颜色和像素的选择菜单
+        paExperimentPanel.repaint(); //重绘
+    }
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        try {
+            tablet.poll();
+            if (tablet.hasCursor()) {
+                CurrentPress = penValue.Pressure();
+            }
+        } catch (JTabletException jTabletException) {
+            jTabletException.printStackTrace();
+        }
+        //如果当前的压力值超过了预设的压力值
+        if (TriggerPress <= CurrentPress) {
+            timer.stop(); //停止触发actionPerformed
+            this.ProcessTriggerSwitch(); //当压力到达规定值时，弹出选择框
+        }else {
+            paExperimentPanel.SetCurrentPress(CurrentPress);
+            paExperimentPanel.repaint();
+        }
     }
 
     @Override
@@ -284,7 +331,7 @@ public class ActualPress implements ActionListener, MouseInputListener, KeyListe
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        /*
+       /*
         应该每次拖动时都会产生一个点对象
          */
         //获得笔在拖动时的坐标
@@ -320,6 +367,16 @@ public class ActualPress implements ActionListener, MouseInputListener, KeyListe
             //如果没有提示且按下了空格，就记为空
             else penData.SetTargetColor(null);
 
+            //设置插件位置
+            ShowColorT.setBounds(880,250,100,20);
+            ShowColorT.setFont(new Font("楷体",Font.BOLD,20));
+
+            JPanelRandomC.setBounds(980,250,60,20);
+            //将插件添加到TFInter中
+            APInter.add(ShowColorT);
+            APInter.add(JPanelRandomC);
+            //重绘TFInter界面
+            this.RepaintAPInter();
 
             ColorFlag = false;
         } else if (x0 >= 350 && x0 <= 850 && y0 >= 50 && y0 <= 150 && ColorFlag == false){
@@ -351,6 +408,23 @@ public class ActualPress implements ActionListener, MouseInputListener, KeyListe
             }
             //如果没有提示就按下了空格，就记为空
             else penData.SetTargetLine(null);
+
+            //设置插件位置
+            ShowPixelT.setBounds(1080,250,100,20);
+            ShowPixelT.setFont(new Font("楷体",Font.BOLD,20));
+
+            //System.out.println(RandomPixel);
+            JPanelRandomP.setBounds(1180,250,100,20);
+            JPanelRandomP.setText(RandomPixel);
+            JPanelRandomP.setHorizontalAlignment(JPanelRandomP.LEFT);
+            JPanelRandomP.setFont(new Font("黑体",Font.BOLD,20));
+
+            //把插件添加到TFInter中
+            APInter.add(ShowPixelT);
+            APInter.add(JPanelRandomP);
+
+            //重绘TFInter界面
+            this.RepaintAPInter();
 
             PixelFlag = false;
         }else if (x0 >= 900 && x0 <= 1400 && y0 >= 50 && y0 <= 150 && PixelFlag == false) {
