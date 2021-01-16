@@ -238,9 +238,9 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
         //当一次实验完成，用户按下空格键
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             //清空集合中的点的信息
-            area.arrayListSpot.clear();
+            paExperimentPanel.arrayListSpot.clear();
             //重绘
-            area.repaint();
+            paExperimentPanel.repaint();
             //将提示语句移除
             this.RemoveRandom();
             //在一组中做完一次实验
@@ -348,7 +348,7 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
         x1 = e.getX();
         y1 = e.getY();
 
-        System.out.println(x0 + "+" + y0);
+        //System.out.println(x0 + "+" + y0);
         paExperimentPanel.SetShowPoint(new Point((int)x0,(int)y0));
 
         Dot dot = new Dot();
@@ -447,8 +447,8 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
         }
 
         //将点的信息记录在容器中
-        area.arrayListSpot.add(dot);
-        area.repaint();
+        paExperimentPanel.arrayListSpot.add(dot);
+        paExperimentPanel.repaint();
         //更新点的起始坐标（下一个点的开始为上一个点的结束）
         x0 = x1;
         y0 = y1;

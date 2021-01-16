@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Line2D;
+import java.util.ArrayList;
 
 /*
     date:2021-01-16
@@ -37,6 +39,16 @@ public class PAExperimentPanel extends JPanel {
     private Color SelectMenuTargetItem = Color.GREEN;
     private Color MenuTargetItemColor = Color.RED;
 
+    public static ArrayList<Dot> arrayListSpot; //记录点在绘画过程中的信息,为了方便可以直接调用，就写成了public的
+    private Graphics2D Line; //设置线条的相关信息
+    private Graphics2D offScreen; //显示测试区域
+    //抽象类Image是表示图形图像的所有类的超类，必须以平台特定的方式获取图像
+    private Image offScreenImg = null;
+    private int ColorSet = 0; //设置画笔的颜色
+    private int PixelSet = 1; //设置画笔的像素
+
+    public PAExperimentPanel() { arrayListSpot = new ArrayList<Dot>(); }
+
     //用来控制像素和颜色选择菜单是否展开
     public void SetOpenMenu(boolean b) { this.OpenMenu = b; }
     //传入的笔尖压力值
@@ -45,11 +57,12 @@ public class PAExperimentPanel extends JPanel {
     public void SetShowPoint(Point p) { this.FeedbackShowPoint = p; }
     //图像的重绘界面
     public void paintComponent(Graphics g) {
-        //System.out.println("repaint");
         super.paintComponent(g);
         Graphics2D graphics2D = (Graphics2D) g;
         //这一步是干嘛的？
         graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+
+        this.PaintTestArea(g); //绘画出测试区域
         this.PaintPressFeedback(graphics2D);
 
         //如果要打开颜色和像素的选择菜单
@@ -109,5 +122,53 @@ public class PAExperimentPanel extends JPanel {
         graphics2D.setColor(MenuLineColor);
         graphics2D.drawRect(MenuX - MenuWidth,MenuY + (MenuHeight * MenuTargetItem),MenuWidth,MenuHeight);
     }
+    public void PaintTestArea(Graphics g) {
+                /*
+        没有这两步的话可能会导致界面错位
+         */
+        //得到图片的一份Copy
+        offScreenImg = this.createImage(Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height+20);
+        //绘制与已经缩放以适应指定矩形内的指定图像的大小
+        g.drawImage(offScreenImg, 0, 0, Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height, this);
 
+        //转换
+        Line = (Graphics2D) g;
+
+        //设置写字板中的测试区域
+        offScreen = (Graphics2D) g;
+        offScreen.setColor(Color.GREEN);
+        offScreen.fillRect(200,50,1150,100);
+
+        //使用容器中点的信息来画线条
+        for (int i = 0; i < arrayListSpot.size() ; i++) {
+
+            double x0 = arrayListSpot.get(i).DotStarX();
+            double y0 = arrayListSpot.get(i).DotStarY();
+            double x1 = arrayListSpot.get(i).DotEndX();
+            double y1 = arrayListSpot.get(i).DotEndY();
+
+            //判断点的颜色
+            ColorSet = arrayListSpot.get(i).DotColor();
+            if (ColorSet == 0)
+                Line.setColor(Color.BLACK);
+            else if (ColorSet == 1)
+                Line.setColor(Color.BLUE);
+            else if (ColorSet == 2)
+                Line.setColor(Color.RED);
+            else if (ColorSet == 3)
+                Line.setColor(Color.ORANGE);
+
+            //判断点的像素
+            PixelSet = arrayListSpot.get(i).DotPixel();
+            if (PixelSet == 2)
+                Line.setStroke(new BasicStroke(2));
+            else if (PixelSet == 3)
+                Line.setStroke(new BasicStroke(3));
+            else if (PixelSet == 4)
+                Line.setStroke(new BasicStroke(4));
+            //画出线段
+            Line2D line = new Line2D.Double(x0,y0,x1,y1);
+            Line.draw(line);
+        }
+    }
 }
