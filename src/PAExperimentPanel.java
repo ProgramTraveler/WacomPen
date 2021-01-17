@@ -47,6 +47,8 @@ public class PAExperimentPanel extends JPanel {
     private int ColorSet = 0; //设置画笔的颜色
     private int PixelSet = 1; //设置画笔的像素
 
+    private boolean ShowBack = true; //用来控制是否显示压力的动态图像,默认为打开
+
     public PAExperimentPanel() { arrayListSpot = new ArrayList<Dot>(); }
 
     //用来控制像素和颜色选择菜单是否展开
@@ -55,15 +57,25 @@ public class PAExperimentPanel extends JPanel {
     public void SetCurrentPress(int c) { this.CurrentPress = c; }
     //传入当前点的坐标
     public void SetShowPoint(Point p) { this.FeedbackShowPoint = p; }
+    //设置MenuX和MenuY的值，就是管理颜色和选择菜单的弹出位置
+    public void SetMenuX_Y(int x, int y) {
+        this.MenuX = x;
+        this.MenuY = y;
+    }
+    //用来提供菜单中用户选择的是哪个框
+    public void SetSelectMenuItem(int n) { SelectMenuItem = n; }
+    //用来选择是否显示压力的动态图像
+    public void SetShowBack(boolean b) { ShowBack = b; }
     //图像的重绘界面
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D graphics2D = (Graphics2D) g;
         //这一步是干嘛的？
-        graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+        //graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 
         this.PaintTestArea(g); //绘画出测试区域
-        this.PaintPressFeedback(graphics2D);
+        if (ShowBack)
+            this.PaintPressFeedback(graphics2D);
 
         //如果要打开颜色和像素的选择菜单
         if (OpenMenu)
@@ -101,11 +113,11 @@ public class PAExperimentPanel extends JPanel {
         for (int i =0; i < NumberOfMenu; i ++) {
             graphics2D.setColor(MenuItemColor);
             graphics2D.fillRect(MenuX - MenuWidth,MenuY + (MenuHeight * i),MenuWidth,MenuHeight);
-
             graphics2D.setColor(MenuLineColor);
             graphics2D.drawRect(MenuX - MenuWidth,MenuY + (MenuHeight * i),MenuWidth,MenuHeight);
 
         }
+        //根据选择的菜单框中的位置来给出相应的反馈
         if (SelectMenuItem >= 0) {
             graphics2D.setColor(SelectMenuItemColor);
             graphics2D.fillRect(MenuX - MenuWidth,MenuY + (MenuHeight * SelectMenuItem),MenuWidth,MenuHeight);
@@ -118,13 +130,12 @@ public class PAExperimentPanel extends JPanel {
         else
             graphics2D.setColor(MenuTargetItemColor);
         graphics2D.fillRect(MenuX - MenuWidth,MenuY + (MenuHeight * MenuTargetItem),MenuWidth,MenuHeight);
-
         graphics2D.setColor(MenuLineColor);
         graphics2D.drawRect(MenuX - MenuWidth,MenuY + (MenuHeight * MenuTargetItem),MenuWidth,MenuHeight);
     }
     public void PaintTestArea(Graphics g) {
-                /*
-        没有这两步的话可能会导致界面错位
+        /*
+           没有这两步的话可能会导致界面错位
          */
         //得到图片的一份Copy
         offScreenImg = this.createImage(Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height+20);

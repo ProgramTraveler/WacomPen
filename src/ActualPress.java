@@ -22,6 +22,7 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
     private boolean ChoosePixelFlag = false; //当像素提示信息出现后，才可以来选择像素
     private int CurrentPress = -1; //获取当前的压力值
     private int TriggerPress = 1024 -1024 / 6; //目标压力值
+    private boolean MenuFlag = false; //是否展开选择菜单
 
     //压力实列化界面的定义
     private JFrame ActualPFrame = new JFrame("P-实列化界面");
@@ -107,13 +108,11 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
         } catch (JTabletException e) {
             e.printStackTrace();
         }
-
         timer.start();
     }
     public void CreateAPFrame() {
         this.CreateAPInter();
         this.CreateAPDraw();
-
         /*
         将界面分割为两部分
          */
@@ -204,8 +203,12 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
     }
     //当压力到达时弹出的选择框
     public void ProcessTriggerSwitch() {
-        paExperimentPanel.SetOpenMenu(true); //打开颜色和像素的选择菜单
+        paExperimentPanel.SetOpenMenu(MenuFlag); //打开颜色和像素的选择菜单
         paExperimentPanel.repaint(); //重绘
+    }
+    //根据用户的当前的鼠标位置来计算出用户选择的是菜单中的哪块区域
+    public int CheckSelectMenuItem(int x,int y) {
+        return 0;
     }
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -220,6 +223,8 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
         //如果当前的压力值超过了预设的压力值
         if (TriggerPress <= CurrentPress) {
             timer.stop(); //停止触发actionPerformed
+            paExperimentPanel.SetShowBack(false);
+            MenuFlag = true; //展开选择菜单栏
             this.ProcessTriggerSwitch(); //当压力到达规定值时，弹出选择框
         }else {
             //System.out.println("画面");
@@ -348,8 +353,16 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
         x1 = e.getX();
         y1 = e.getY();
 
-        //System.out.println(x0 + "+" + y0);
+        //点的位置，用来为压力的显示提供位置信息
         paExperimentPanel.SetShowPoint(new Point((int)x0,(int)y0));
+        //点的位置，是用来为选择菜单的显示提供位置信息
+        paExperimentPanel.SetMenuX_Y((int)x1,(int)y1);
+        //如果要求打开选择菜单
+        if (MenuFlag) {
+            //通过当前点的位置来计算用户选择的是惨淡栏中的哪个区域
+            paExperimentPanel.SetSelectMenuItem(this.CheckSelectMenuItem((int)x1,(int)y1));
+            paExperimentPanel.repaint();
+        }
 
         Dot dot = new Dot();
         dot.SetStarDot(x0,y0);
@@ -390,7 +403,6 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
             APInter.add(JPanelRandomC);
             //重绘TFInter界面
             this.RepaintAPInter();
-
             ColorFlag = false;
         } else if (x0 >= 350 && x0 <= 850 && y0 >= 50 && y0 <= 150 && ColorFlag == false){
 
