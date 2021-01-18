@@ -16,13 +16,20 @@ import java.util.Date;
  */
 public class ActualPress extends JFrame implements ActionListener, MouseInputListener, KeyListener {
     private int time = 50; //更新时间为50毫秒
-    private Timer timer = new Timer(50,this); //以每50毫秒触发一次actionPerformed触发器
+    private Timer timer = new Timer(time,this); //以每50毫秒触发一次actionPerformed触发器
     private PAExperimentPanel paExperimentPanel = new PAExperimentPanel(); //创建PAExperimentPanel类
     private boolean ChooseColorFlag = false; //当颜色提示信息出现后，才可以来选择颜色
     private boolean ChoosePixelFlag = false; //当像素提示信息出现后，才可以来选择像素
     private int CurrentPress = -1; //获取当前的压力值
     private int TriggerPress = 1024 -1024 / 6; //目标压力值
+
     private boolean MenuFlag = false; //是否展开选择菜单
+    private boolean MenuMove = true; //是否菜单的弹出位置随着鼠标位置改变
+    private int NumberOfMenuItem = 6; //一个有6个可以选择的菜单栏
+    private int MenuX = 0;
+    private int MenuY = 0;
+    private int MenuWith = 100;
+    private int MenuHeight = 20;
 
     //压力实列化界面的定义
     private JFrame ActualPFrame = new JFrame("P-实列化界面");
@@ -208,7 +215,20 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
     }
     //根据用户的当前的鼠标位置来计算出用户选择的是菜单中的哪块区域
     public int CheckSelectMenuItem(int x,int y) {
-        return 0;
+        int MenuItem = -1;
+        int tempY = MenuY;
+
+        for (int i = 0; i < NumberOfMenuItem; i ++) {
+            if ((MenuX - MenuWith) <= x && (MenuX >= x)) {
+                if ((MenuY <= y) && (tempY + MenuHeight) >= y) {
+                    MenuItem = i;
+                    break;
+                }
+            }
+            tempY += MenuHeight;
+        }
+        System.out.println("Select:" + MenuItem);
+        return MenuItem;
     }
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -225,6 +245,7 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
             timer.stop(); //停止触发actionPerformed
             paExperimentPanel.SetShowBack(false);
             MenuFlag = true; //展开选择菜单栏
+            MenuMove = false; //当压力到达到指定值后，菜单位置就固定了
             this.ProcessTriggerSwitch(); //当压力到达规定值时，弹出选择框
         }else {
             //System.out.println("画面");
@@ -232,6 +253,7 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
             paExperimentPanel.repaint();
         }
     }
+
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -321,17 +343,28 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
             //获得落笔的文字格式
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SS");
             penData.AddTimeString(dateFormat.format(new Date()));
+            //如果菜单位置可以随着鼠标位置改变，那么就实时跟新菜单的出现位置
+            if (MenuMove) {
+                MenuX = e.getX();
+                MenuY = e.getY();
+                //记录菜单出现的位置
+                paExperimentPanel.SetMenuX_Y(MenuX,MenuY);
+            }
         }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        //获取笔尖压力的值，应该是第一次笔尖的压力（也就是第一个点的压力值）
-        //获得落笔的时间戳
+        //获得抬笔的时间戳
         penData.AddTime(System.currentTimeMillis());
-        //获得落笔的文字格式
+        //获得抬笔的文字格式
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SS");
         penData.AddTimeString(dateFormat.format(new Date()));
+
+        //当抬笔后说明已经选择完成
+        MenuFlag = false; //此时关闭显示菜单
+        paExperimentPanel.SetShowBack(true); //打开显示压力的动态显示
+        MenuMove = true; //菜单位置跟随鼠标变化
     }
 
     @Override
@@ -356,14 +389,19 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
         //点的位置，用来为压力的显示提供位置信息
         paExperimentPanel.SetShowPoint(new Point((int)x0,(int)y0));
         //点的位置，是用来为选择菜单的显示提供位置信息
-        paExperimentPanel.SetMenuX_Y((int)x1,(int)y1);
+        if (MenuMove) {
+            MenuX = e.getX();
+            MenuY = e.getY();
+            //记录菜单出现的位置
+            paExperimentPanel.SetMenuX_Y(MenuX,MenuY);
+        }
         //如果要求打开选择菜单
         if (MenuFlag) {
             //通过当前点的位置来计算用户选择的是惨淡栏中的哪个区域
-            paExperimentPanel.SetSelectMenuItem(this.CheckSelectMenuItem((int)x1,(int)y1));
+            System.out.println(this.CheckSelectMenuItem(e.getX(),e.getY()));
+            paExperimentPanel.SetSelectMenuItem(this.CheckSelectMenuItem(e.getX(),e.getY()));
             paExperimentPanel.repaint();
         }
-
         Dot dot = new Dot();
         dot.SetStarDot(x0,y0);
         dot.SetEndDot(x1,y1);

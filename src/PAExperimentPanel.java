@@ -27,12 +27,12 @@ public class PAExperimentPanel extends JPanel {
     private int TriggerPressureSwitch = 700;
 
     private int NumberOfMenu = 6;
-    private int MenuX = 0;
-    private int MenuY = 0;
-    private int MenuWidth =100;
-    private int MenuHeight = 20;
-    private int SelectMenuItem = -1;
-    private int MenuTargetItem = 4;
+    private int MenuX = 0; //菜单的弹出位置 X值
+    private int MenuY = 0; //菜单的弹出位置 Y值
+    private int MenuWidth =100; //设置菜单的宽
+    private int MenuHeight = 20; //设置菜单的长
+    private int SelectMenuItem = -1; //选择的菜单栏
+    private int MenuTargetItem = 4; //目标菜单栏，这个应该是没什么用的
     private Color MenuItemColor = Color.WHITE;
     private Color MenuLineColor = Color.GRAY;
     private Color SelectMenuItemColor = Color.LIGHT_GRAY;
@@ -72,7 +72,6 @@ public class PAExperimentPanel extends JPanel {
         Graphics2D graphics2D = (Graphics2D) g;
         //这一步是干嘛的？
         //graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
-
         this.PaintTestArea(g); //绘画出测试区域
         if (ShowBack)
             this.PaintPressFeedback(graphics2D);

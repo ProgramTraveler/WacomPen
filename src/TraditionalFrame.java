@@ -437,15 +437,9 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
     //在组件上释放鼠标按钮时调用
     @Override
     public void mouseReleased(MouseEvent e) {
-
-        //获取笔尖压力的值，应该是第一次笔尖的压力（也就是第一个点的压力值）
-        //System.out.println("pressure:"+pData.GetPressure());
-        //System.out.println("azimuth:" + pData.GetAzimuth());
-        //System.out.println("tilt:" + pData.GetTilt());
-
-        //获得落笔的时间戳
+        //获得抬笔的时间戳
         pData.AddTime(System.currentTimeMillis());
-        //获得落笔的文字格式
+        //获得抬笔的文字格式
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SS");
         pData.AddTimeString(dateFormat.format(new Date()));
 
