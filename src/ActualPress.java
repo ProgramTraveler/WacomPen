@@ -116,6 +116,7 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
             e.printStackTrace();
         }
         timer.start();
+        timer.stop();
     }
     public void CreateAPFrame() {
         this.CreateAPInter();
@@ -210,6 +211,7 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
     }
     //当压力到达时弹出的选择框
     public void ProcessTriggerSwitch() {
+        MenuFlag = true; //展开选择菜单栏
         paExperimentPanel.SetOpenMenu(MenuFlag); //打开颜色和像素的选择菜单
         paExperimentPanel.repaint(); //重绘
     }
@@ -227,11 +229,12 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
             }
             tempY += MenuHeight;
         }
-        System.out.println("Select:" + MenuItem);
+        //System.out.println("Select:" + MenuItem);
         return MenuItem;
     }
     @Override
     public void actionPerformed(ActionEvent e) {
+        System.out.println(new Date().getTime());
         try {
             tablet.poll();
             if (tablet.hasCursor()) {
@@ -244,11 +247,9 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
         if (TriggerPress <= CurrentPress) {
             timer.stop(); //停止触发actionPerformed
             paExperimentPanel.SetShowBack(false);
-            MenuFlag = true; //展开选择菜单栏
             MenuMove = false; //当压力到达到指定值后，菜单位置就固定了
             this.ProcessTriggerSwitch(); //当压力到达规定值时，弹出选择框
         }else {
-            //System.out.println("画面");
             paExperimentPanel.SetCurrentPress(CurrentPress);
             paExperimentPanel.repaint();
         }
@@ -328,10 +329,10 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
     @Override
     public void mousePressed(MouseEvent e) {
         if (javax.swing.SwingUtilities.isLeftMouseButton(e)) {
+            timer.restart();
             //获得开始时鼠标的位置
             x0 = e.getX();
             y0 = e.getY();
-
             penData.SetPressure(penValue.Pressure());
             penData.SetTilt(penValue.Tilt());
             penData.SetAzimuth(penValue.Azimuth());
@@ -360,11 +361,13 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
         //获得抬笔的文字格式
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SS");
         penData.AddTimeString(dateFormat.format(new Date()));
-
+        paExperimentPanel.repaint();
         //当抬笔后说明已经选择完成
         MenuFlag = false; //此时关闭显示菜单
+        paExperimentPanel.SetOpenMenu(MenuFlag); //在显示界面关闭界面显示
         paExperimentPanel.SetShowBack(true); //打开显示压力的动态显示
         MenuMove = true; //菜单位置跟随鼠标变化
+        timer.stop(); //开始按频率获得实时压力
     }
 
     @Override
@@ -398,7 +401,7 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
         //如果要求打开选择菜单
         if (MenuFlag) {
             //通过当前点的位置来计算用户选择的是惨淡栏中的哪个区域
-            System.out.println(this.CheckSelectMenuItem(e.getX(),e.getY()));
+            //System.out.println(this.CheckSelectMenuItem(e.getX(),e.getY()));
             paExperimentPanel.SetSelectMenuItem(this.CheckSelectMenuItem(e.getX(),e.getY()));
             paExperimentPanel.repaint();
         }
