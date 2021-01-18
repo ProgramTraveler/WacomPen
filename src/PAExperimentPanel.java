@@ -47,7 +47,7 @@ public class PAExperimentPanel extends JPanel {
     private int ColorSet = 0; //设置画笔的颜色
     private int PixelSet = 1; //设置画笔的像素
 
-    private boolean ShowBack = true; //用来控制是否显示压力的动态图像,默认为打开
+    private boolean ShowBack = false; //用来控制是否显示压力的动态图像,默认为不打开
 
     public PAExperimentPanel() { arrayListSpot = new ArrayList<Dot>(); }
 

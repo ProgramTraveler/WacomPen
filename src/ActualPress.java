@@ -18,8 +18,7 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
     private int time = 50; //更新时间为50毫秒
     private Timer timer = new Timer(time,this); //以每50毫秒触发一次actionPerformed触发器
     private PAExperimentPanel paExperimentPanel = new PAExperimentPanel(); //创建PAExperimentPanel类
-    private boolean ChooseColorFlag = false; //当颜色提示信息出现后，才可以来选择颜色
-    private boolean ChoosePixelFlag = false; //当像素提示信息出现后，才可以来选择像素
+    private boolean ChooseFlag = false; //是否显示压力动态图像
     private int CurrentPress = -1; //获取当前的压力值
     private int TriggerPress = 1024 -1024 / 6; //目标压力值
 
@@ -234,7 +233,7 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
     }
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println(new Date().getTime());
+        //System.out.println(new Date().getTime());
         try {
             tablet.poll();
             if (tablet.hasCursor()) {
@@ -263,6 +262,9 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
 
     @Override
     public void keyPressed(KeyEvent e) {
+        //如果用户按下c键，说明要开始切换
+        if (e.getKeyCode() == KeyEvent.VK_C)
+            ChooseFlag = true;
         //当一次实验完成，用户按下空格键
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             //清空集合中的点的信息
@@ -329,7 +331,11 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
     @Override
     public void mousePressed(MouseEvent e) {
         if (javax.swing.SwingUtilities.isLeftMouseButton(e)) {
-            timer.restart();
+            //如果要显是动态压力图像
+            if (ChooseFlag) {
+                timer.restart();
+                paExperimentPanel.SetShowBack(true);
+            }
             //获得开始时鼠标的位置
             x0 = e.getX();
             y0 = e.getY();
@@ -364,8 +370,9 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
         paExperimentPanel.repaint();
         //当抬笔后说明已经选择完成
         MenuFlag = false; //此时关闭显示菜单
-        paExperimentPanel.SetOpenMenu(MenuFlag); //在显示界面关闭界面显示
-        paExperimentPanel.SetShowBack(true); //打开显示压力的动态显示
+        paExperimentPanel.SetOpenMenu(false); //在显示界面关闭界面显示
+        ChooseFlag = false; //不显示压力动态图像
+        paExperimentPanel.SetShowBack(false); //打开显示压力的动态显示
         MenuMove = true; //菜单位置跟随鼠标变化
         timer.stop(); //开始按频率获得实时压力
     }
