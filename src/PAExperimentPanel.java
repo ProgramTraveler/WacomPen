@@ -57,7 +57,16 @@ public class PAExperimentPanel extends JPanel {
     private boolean ShowBack = false; //用来控制是否显示压力的动态图像,默认为不打开
 
     private boolean ShowColorMenu = false; //是否显示颜色分支菜单
+    private int SelectColorItem = -1; //颜色分支菜单中的具体颜色
+    private JLabel ColorBlue = new JLabel("蓝色");
+    private JLabel ColorRed = new JLabel("红色");
+    private JLabel ColorYellow = new JLabel("黄色");
+
     private boolean ShowPixelMenu = false; //是否显示像素分支菜单
+    private int SelectPixelItem = -1; //像素分支菜单中的具体像素
+    private JLabel PixelTow = new JLabel("2.0");
+    private JLabel PixelThree = new JLabel("3.0");
+    private JLabel PixelFour = new JLabel("4.0");
 
     public PAExperimentPanel() { arrayListSpot = new ArrayList<Dot>(); }
 
@@ -74,12 +83,20 @@ public class PAExperimentPanel extends JPanel {
     }
     //用来提供菜单中用户选择的是哪个框
     public void SetSelectMenuItem(int n) { SelectMenuItem = n; }
+    //用来提供颜色菜单中用户选择的具体颜色
+    public void SetSelectColorItem(int n) { SelectColorItem = n; }
+    public int GetSelectColorItem() { return SelectColorItem; }
+    //用来提供像素菜单中用户选择的具体像素
+    public void SetSelectPixelItem(int n) { SelectPixelItem = n; }
+    public int GetSelectPixelItem() { return SelectPixelItem; }
     //用来选择是否显示压力的动态图像
     public void SetShowBack(boolean b) { ShowBack = b; }
     //设置是否显示颜色分支菜单
     public void SetShowColorMenu(boolean b) { ShowColorMenu = b; }
+     public boolean GetShowColorMenu() { return ShowColorMenu; }
     //设置是否显示像素分支菜单
     public void SetShowPixelMenu(boolean b) { ShowPixelMenu = b; }
+    public boolean GetShowPixelMenu() { return ShowPixelMenu; }
     //图像的重绘界面
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -198,20 +215,45 @@ public class PAExperimentPanel extends JPanel {
             Line.draw(line);
         }
     }
-    //当抬笔时，清除颜色和像素标签
+    //当抬笔时，清除所有颜色和像素标签
     public void RemoveAllJLabel() {
         this.removeAll();
         this.repaint();
     }
+    //当笔在移动过程中，对分支颜色和像素进行移除和重组
+    public void RemoveItemJLabel() {
+        this.remove(ColorBlue);
+        this.remove(ColorRed);
+        this.remove(ColorYellow);
+
+        this.remove(PixelTow);
+        this.remove(PixelThree);
+        this.remove(PixelFour);
+
+        this.repaint();
+    }
     //绘制出颜色的选择栏，分别为蓝色，红色和黄色
     public void PaintColorMenuItem(Graphics2D graphics2D) {
-        //actualPress.SetMenuWidth_Height(MenuWidth * 2, MenuHeight * 3); //当进入颜色菜单的范围时，修改颜色菜单的范围
         //绘制出三个颜色区域，分别存放蓝色，红色和黄色
         for (int i = 0; i < NumberColor_Pixel; i ++) {
             graphics2D.setColor(MenuItemColor);
             graphics2D.fillRect(MenuX - MenuWidth - MenuItemWidth,MenuY + (MenuItemHeight * i),MenuItemWidth,MenuItemHeight);
             graphics2D.setColor(MenuLineColor);
             graphics2D.drawRect(MenuX - MenuWidth - MenuItemWidth,MenuY + (MenuItemHeight * i),MenuItemWidth,MenuItemHeight);
+        }
+
+        ColorBlue.setBounds(MenuX - MenuWidth - MenuItemWidth + 5,MenuY ,MenuItemWidth,MenuItemHeight);
+        ColorRed.setBounds(MenuX - MenuWidth - MenuItemWidth  + 5,MenuY + MenuItemHeight,MenuItemWidth,MenuItemHeight);
+        ColorYellow.setBounds(MenuX - MenuWidth - MenuItemWidth  + 5,MenuY + MenuItemHeight * 2,MenuItemWidth,MenuItemHeight);
+        this.add(ColorBlue);
+        this.add(ColorRed);
+        this.add(ColorYellow);
+
+        if (SelectColorItem >= 0) {
+            graphics2D.setColor(SelectMenuItemColor);
+            graphics2D.fillRect(MenuX - MenuWidth - MenuItemWidth,MenuY + MenuItemHeight * SelectColorItem,MenuItemWidth,MenuItemHeight);
+            graphics2D.setColor(MenuLineColor);
+            graphics2D.drawRect(MenuX - MenuWidth - MenuItemWidth,MenuY + MenuItemHeight * SelectColorItem,MenuItemWidth,MenuItemHeight);
         }
     }
     //绘制出像素选择栏，分别为2.0，3.0和4.0
@@ -223,5 +265,19 @@ public class PAExperimentPanel extends JPanel {
             graphics2D.setColor(MenuLineColor);
             graphics2D.drawRect(MenuX - MenuWidth - MenuItemWidth,MenuY + (MenuItemHeight * i),MenuItemWidth,MenuItemHeight);
         }
+        PixelTow.setBounds(MenuX - MenuWidth - MenuItemWidth + 5,MenuY + MenuItemHeight,MenuItemWidth,MenuItemHeight);
+        PixelThree.setBounds(MenuX - MenuWidth - MenuItemWidth + 5,MenuY + MenuItemHeight * 2,MenuItemWidth,MenuItemHeight);
+        PixelFour.setBounds(MenuX - MenuWidth - MenuItemWidth + 5,MenuY + MenuItemHeight * 3,MenuItemWidth,MenuItemHeight);
+        this.add(PixelTow);
+        this.add(PixelThree);
+        this.add(PixelFour);
+
+        if (SelectPixelItem >= 0) {
+            graphics2D.setColor(SelectMenuItemColor);
+            graphics2D.fillRect(MenuX - MenuWidth - MenuItemWidth,MenuY + MenuItemHeight * (SelectPixelItem + 1),MenuItemWidth,MenuItemHeight);
+            graphics2D.setColor(MenuLineColor);
+            graphics2D.drawRect(MenuX - MenuWidth - MenuItemWidth,MenuY + MenuItemHeight * (SelectPixelItem + 1),MenuItemWidth,MenuItemHeight);
+        }
+
     }
 }

@@ -229,20 +229,50 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
             }
             tempY += MenuHeight;
         }
+        //如果选择的是颜色菜单，打开颜色的分支菜单显示，关闭像素分支菜单显示
         if (MenuItem == 0) {
             paExperimentPanel.SetShowColorMenu(true);
             paExperimentPanel.SetShowPixelMenu(false);
         }
+        //如果选择的像素菜单，打开像素分支菜单显示，关闭颜色分支菜单显示
         else if (MenuItem == 1) {
             paExperimentPanel.SetShowPixelMenu(true);
             paExperimentPanel.SetShowColorMenu(false);
+        }else {
+            //什么也不做
         }
         return MenuItem;
     }
-    //设置菜单的宽和高
-    public void SetMenuWidth_Height(int x, int y) {
-        MenuX = x;
-        MenuY = y;
+    //判断用户选择的是哪个颜色
+    public int CheckColorItem(int x, int y) {
+        int ColorItem = -1;
+        int tempY = MenuY;
+        for (int i = 0; i < 3; i ++) {
+            if ((MenuX - MenuWith * 2) <= x && (MenuX - MenuWith >= x)) {
+                if ((MenuY <= y) && (tempY + MenuHeight) >= y) {
+                    ColorItem = i;
+                    break;
+                }
+            }
+            tempY += MenuHeight;
+        }
+        return ColorItem;
+    }
+    //判断用户选择的是哪个像素
+    public int CheckPixelItem(int x, int y) {
+        int PixelItem = -1;
+        int tempY = MenuY;
+        for (int i = 0; i < 3; i ++) {
+            if ((MenuX - MenuWith * 2) <= x && (MenuX - MenuWith >= x)) {
+                if ((MenuY + MenuHeight<= y) && (tempY + MenuHeight * 2) >= y) {
+                    PixelItem = i;
+                    break;
+                }
+            }
+            tempY += MenuHeight;
+        }
+        return PixelItem;
+
     }
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -390,6 +420,8 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
         paExperimentPanel.RemoveAllJLabel(); //清除颜色和像素提示标签
         timer.stop();
 
+        //SetColor = paExperimentPanel.GetSelectColorItem() + 1;
+        //SetPixel = paExperimentPanel.GetSelectPixelItem() + 2;
 
     }
 
@@ -423,9 +455,20 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
         }
         //如果要求打开选择菜单，此时不记录笔的轨迹信息
         if (MenuFlag) {
+            //在每次移动的时候对颜色分支和像素分支进行移除和重组
+            paExperimentPanel.RemoveItemJLabel();
             //通过当前点的位置来计算用户选择的是惨淡栏中的哪个区域
             paExperimentPanel.SetSelectMenuItem(this.CheckSelectMenuItem(e.getX(),e.getY()));
+            if (paExperimentPanel.GetShowColorMenu()) {
+                paExperimentPanel.SetSelectColorItem(this.CheckColorItem(e.getX(), e.getY()));
+                SetColor = this.CheckColorItem(e.getX(),e.getY()) + 1;
+            }
+            if (paExperimentPanel.GetShowPixelMenu()) {
+                paExperimentPanel.SetSelectPixelItem(this.CheckPixelItem(e.getX(), e.getY()));
+                SetPixel = this.CheckPixelItem(e.getX(),e.getY()) + 2;
+            }
             paExperimentPanel.repaint();
+
         }else {
             Dot dot = new Dot();
             dot.SetStarDot(x0,y0);
