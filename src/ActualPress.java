@@ -229,6 +229,14 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
             }
             tempY += MenuHeight;
         }
+        if (MenuItem == 0) {
+            paExperimentPanel.SetShowColorMenu(true);
+            paExperimentPanel.SetShowPixelMenu(false);
+        }
+        else if (MenuItem == 1) {
+            paExperimentPanel.SetShowPixelMenu(true);
+            paExperimentPanel.SetShowColorMenu(false);
+        }
         return MenuItem;
     }
     //设置菜单的宽和高

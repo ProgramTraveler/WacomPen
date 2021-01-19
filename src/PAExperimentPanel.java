@@ -56,7 +56,8 @@ public class PAExperimentPanel extends JPanel {
 
     private boolean ShowBack = false; //用来控制是否显示压力的动态图像,默认为不打开
 
-    //private ActualPress actualPress = new ActualPress();
+    private boolean ShowColorMenu = false; //是否显示颜色分支菜单
+    private boolean ShowPixelMenu = false; //是否显示像素分支菜单
 
     public PAExperimentPanel() { arrayListSpot = new ArrayList<Dot>(); }
 
@@ -75,6 +76,10 @@ public class PAExperimentPanel extends JPanel {
     public void SetSelectMenuItem(int n) { SelectMenuItem = n; }
     //用来选择是否显示压力的动态图像
     public void SetShowBack(boolean b) { ShowBack = b; }
+    //设置是否显示颜色分支菜单
+    public void SetShowColorMenu(boolean b) { ShowColorMenu = b; }
+    //设置是否显示像素分支菜单
+    public void SetShowPixelMenu(boolean b) { ShowPixelMenu = b; }
     //图像的重绘界面
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -138,17 +143,10 @@ public class PAExperimentPanel extends JPanel {
             graphics2D.setColor(MenuLineColor);
             graphics2D.drawRect(MenuX - MenuWidth,MenuY + (MenuHeight * SelectMenuItem),MenuWidth,MenuHeight);
         }
-
-
-        if (SelectMenuItem == 0) {
-            //选择的区域是在颜色菜单区域
+        if (ShowColorMenu)
             this.PaintColorMenuItem(graphics2D);
-        }else if (SelectMenuItem == 1){
-            //选择区域是在像素菜单区域
+        if (ShowPixelMenu)
             this.PaintPixelMenuItem(graphics2D);
-        }else {
-            //否则就什么也不做
-        }
         graphics2D.setColor(MenuLineColor);
     }
     public void PaintTestArea(Graphics g) {
