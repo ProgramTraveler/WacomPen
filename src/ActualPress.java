@@ -93,6 +93,7 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
     //判断用户是否第一次进入像素测试区域，true表示未进入
     private boolean PixelFlag = true;
 
+    public ActualPress(){}
     public ActualPress(int BlockNumber) {
         paExperimentPanel.setLayout(new BorderLayout());
         paExperimentPanel.addMouseListener(this);
@@ -228,8 +229,12 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
             }
             tempY += MenuHeight;
         }
-        //System.out.println("Select:" + MenuItem);
         return MenuItem;
+    }
+    //设置菜单的宽和高
+    public void SetMenuWidth_Height(int x, int y) {
+        MenuX = x;
+        MenuY = y;
     }
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -411,7 +416,6 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
         //如果要求打开选择菜单，此时不记录笔的轨迹信息
         if (MenuFlag) {
             //通过当前点的位置来计算用户选择的是惨淡栏中的哪个区域
-            //System.out.println(this.CheckSelectMenuItem(e.getX(),e.getY()));
             paExperimentPanel.SetSelectMenuItem(this.CheckSelectMenuItem(e.getX(),e.getY()));
             paExperimentPanel.repaint();
         }else {

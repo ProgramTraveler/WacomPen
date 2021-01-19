@@ -54,9 +54,9 @@ public class PAExperimentPanel extends JPanel {
     private int MenuItemWidth = 50; //设置分支菜单的宽
     private int MenuItemHeight = 40; //设置分支菜单的高
 
-
-
     private boolean ShowBack = false; //用来控制是否显示压力的动态图像,默认为不打开
+
+    //private ActualPress actualPress = new ActualPress();
 
     public PAExperimentPanel() { arrayListSpot = new ArrayList<Dot>(); }
 
@@ -207,6 +207,8 @@ public class PAExperimentPanel extends JPanel {
     }
     //绘制出颜色的选择栏，分别为蓝色，红色和黄色
     public void PaintColorMenuItem(Graphics2D graphics2D) {
+        //actualPress.SetMenuWidth_Height(MenuWidth * 2, MenuHeight * 3); //当进入颜色菜单的范围时，修改颜色菜单的范围
+        //绘制出三个颜色区域，分别存放蓝色，红色和黄色
         for (int i = 0; i < NumberColor_Pixel; i ++) {
             graphics2D.setColor(MenuItemColor);
             graphics2D.fillRect(MenuX - MenuWidth - MenuItemWidth,MenuY + (MenuItemHeight * i),MenuItemWidth,MenuItemHeight);
@@ -216,6 +218,12 @@ public class PAExperimentPanel extends JPanel {
     }
     //绘制出像素选择栏，分别为2.0，3.0和4.0
     public void PaintPixelMenuItem(Graphics2D graphics2D) {
-
+        //绘制出三个像素区域，分别存放2.0，3.0和4.0
+        for (int i = 1; i < NumberColor_Pixel * 2 - 2; i ++) {
+            graphics2D.setColor(MenuItemColor);
+            graphics2D.fillRect(MenuX - MenuWidth - MenuItemWidth,MenuY + (MenuItemHeight * i),MenuItemWidth,MenuItemHeight);
+            graphics2D.setColor(MenuLineColor);
+            graphics2D.drawRect(MenuX - MenuWidth - MenuItemWidth,MenuY + (MenuItemHeight * i),MenuItemWidth,MenuItemHeight);
+        }
     }
 }
