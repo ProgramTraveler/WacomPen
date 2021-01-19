@@ -24,11 +24,11 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
 
     private boolean MenuFlag = false; //是否展开选择菜单
     private boolean MenuMove = true; //是否菜单的弹出位置随着鼠标位置改变
-    private int NumberOfMenuItem = 6; //一个有6个可以选择的菜单栏
+    private int NumberOfMenuItem = 2; //一个有2个可以选择的菜单栏,分别是颜色和像素
     private int MenuX = 0;
     private int MenuY = 0;
-    private int MenuWith = 100;
-    private int MenuHeight = 20;
+    private int MenuWith = 50; //菜单的宽
+    private int MenuHeight = 40; //菜单的高
 
     //压力实列化界面的定义
     private JFrame ActualPFrame = new JFrame("P-实列化界面");
@@ -262,8 +262,8 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
 
     @Override
     public void keyPressed(KeyEvent e) {
-        //如果用户按下c键，说明要开始切换
-        if (e.getKeyCode() == KeyEvent.VK_C)
+        //如果用户按下ALT键，说明要开始切换
+        if (e.getKeyCode() == KeyEvent.VK_ALT)
             ChooseFlag = true;
         //当一次实验完成，用户按下空格键
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
@@ -374,7 +374,10 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
         ChooseFlag = false; //不显示压力动态图像
         paExperimentPanel.SetShowBack(false); //打开显示压力的动态显示
         MenuMove = true; //菜单位置跟随鼠标变化
-        timer.stop(); //开始按频率获得实时压力
+        paExperimentPanel.RemoveAllJLabel(); //清除颜色和像素提示标签
+        timer.stop();
+
+
     }
 
     @Override
@@ -405,113 +408,115 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
             //记录菜单出现的位置
             paExperimentPanel.SetMenuX_Y(MenuX,MenuY);
         }
-        //如果要求打开选择菜单
+        //如果要求打开选择菜单，此时不记录笔的轨迹信息
         if (MenuFlag) {
             //通过当前点的位置来计算用户选择的是惨淡栏中的哪个区域
             //System.out.println(this.CheckSelectMenuItem(e.getX(),e.getY()));
             paExperimentPanel.SetSelectMenuItem(this.CheckSelectMenuItem(e.getX(),e.getY()));
             paExperimentPanel.repaint();
-        }
-        Dot dot = new Dot();
-        dot.SetStarDot(x0,y0);
-        dot.SetEndDot(x1,y1);
-        dot.SetColor(SetColor); //点的颜色
-        dot.SetPixel(SetPixel); //点的像素
-
-        double x = dot.DotStarX();
-        double y = dot.DotStarY();
-
-        if (x >= 350 && x <= 850 && y >= 50 && y <= 150 && ColorFlag == true) {
-            int indexC = completeExperiment.GetRandomNumberC();
-            String StringRandomC = completeExperiment.GetRandomC(indexC);
-            //System.out.println("进入颜色区域");
-            //按照系统的提示颜色存入相应的目标颜色
-            if (StringRandomC == "请切换颜色为蓝色") {
-                penData.SetTargetColor("蓝色");
-                JPanelRandomC.setBackground(Color.BLUE);
-            }
-            else if (StringRandomC == "请切换颜色为红色") {
-                penData.SetTargetColor("红色");
-                JPanelRandomC.setBackground(Color.RED);
-            }
-            else if (StringRandomC == "请切换颜色为黄色") {
-                penData.SetTargetColor("黄色");
-                JPanelRandomC.setBackground(Color.ORANGE);
-            }
-            //如果没有提示且按下了空格，就记为空
-            else penData.SetTargetColor(null);
-
-            //设置插件位置
-            ShowColorT.setBounds(880,250,100,20);
-            ShowColorT.setFont(new Font("楷体",Font.BOLD,20));
-
-            JPanelRandomC.setBounds(980,250,60,20);
-            //将插件添加到TFInter中
-            APInter.add(ShowColorT);
-            APInter.add(JPanelRandomC);
-            //重绘TFInter界面
-            this.RepaintAPInter();
-            ColorFlag = false;
-        } else if (x0 >= 350 && x0 <= 850 && y0 >= 50 && y0 <= 150 && ColorFlag == false){
-
         }else {
-            ColorFlag = true;
+            Dot dot = new Dot();
+            dot.SetStarDot(x0,y0);
+            dot.SetEndDot(x1,y1);
+            dot.SetColor(SetColor); //点的颜色
+            dot.SetPixel(SetPixel); //点的像素
+
+            double x = dot.DotStarX();
+            double y = dot.DotStarY();
+
+            if (x >= 350 && x <= 850 && y >= 50 && y <= 150 && ColorFlag == true) {
+                int indexC = completeExperiment.GetRandomNumberC();
+                String StringRandomC = completeExperiment.GetRandomC(indexC);
+                //System.out.println("进入颜色区域");
+                //按照系统的提示颜色存入相应的目标颜色
+                if (StringRandomC == "请切换颜色为蓝色") {
+                    penData.SetTargetColor("蓝色");
+                    JPanelRandomC.setBackground(Color.BLUE);
+                }
+                else if (StringRandomC == "请切换颜色为红色") {
+                    penData.SetTargetColor("红色");
+                    JPanelRandomC.setBackground(Color.RED);
+                }
+                else if (StringRandomC == "请切换颜色为黄色") {
+                    penData.SetTargetColor("黄色");
+                    JPanelRandomC.setBackground(Color.ORANGE);
+                }
+                //如果没有提示且按下了空格，就记为空
+                else penData.SetTargetColor(null);
+
+                //设置插件位置
+                ShowColorT.setBounds(880,250,100,20);
+                ShowColorT.setFont(new Font("楷体",Font.BOLD,20));
+
+                JPanelRandomC.setBounds(980,250,60,20);
+                //将插件添加到TFInter中
+                APInter.add(ShowColorT);
+                APInter.add(JPanelRandomC);
+                //重绘TFInter界面
+                this.RepaintAPInter();
+                ColorFlag = false;
+            } else if (x0 >= 350 && x0 <= 850 && y0 >= 50 && y0 <= 150 && ColorFlag == false){
+
+            }else {
+                ColorFlag = true;
+            }
+
+            if (x0 >= 900 && x0 <= 1400 && y0 >= 50 && y0 <= 150 && PixelFlag == true) {
+
+                int indexP = completeExperiment.GetRandomNumberP();
+                String StringRandomP = completeExperiment.GetRandomP(indexP);
+                //System.out.println(StringRandomP);
+                //按照系统提示的像素存入目标像素
+                if (StringRandomP == "请切换像素为2.0") {
+                    //System.out.println("-");
+                    RandomPixel = "2.0";
+                    penData.SetTargetLine("2.0");
+                }
+                else if (StringRandomP == "请切换像素为3.0") {
+                    //System.out.println("--");
+                    RandomPixel = "3.0";
+                    penData.SetTargetLine("3.0");
+                }
+                else if (StringRandomP == "请切换像素为4.0") {
+                    //System.out.println("---");
+                    RandomPixel = "4.0";
+                    penData.SetTargetLine("4.0");
+                }
+                //如果没有提示就按下了空格，就记为空
+                else penData.SetTargetLine(null);
+
+                //设置插件位置
+                ShowPixelT.setBounds(1080,250,100,20);
+                ShowPixelT.setFont(new Font("楷体",Font.BOLD,20));
+
+                //System.out.println(RandomPixel);
+                JPanelRandomP.setBounds(1180,250,100,20);
+                JPanelRandomP.setText(RandomPixel);
+                JPanelRandomP.setHorizontalAlignment(JPanelRandomP.LEFT);
+                JPanelRandomP.setFont(new Font("黑体",Font.BOLD,20));
+
+                //把插件添加到TFInter中
+                APInter.add(ShowPixelT);
+                APInter.add(JPanelRandomP);
+
+                //重绘APInter界面
+                this.RepaintAPInter();
+
+                PixelFlag = false;
+            }else if (x0 >= 900 && x0 <= 1400 && y0 >= 50 && y0 <= 150 && PixelFlag == false) {
+
+            }else {
+                PixelFlag = true;
+            }
+
+            //将点的信息记录在容器中
+            paExperimentPanel.arrayListSpot.add(dot);
+            paExperimentPanel.repaint();
+            //更新点的起始坐标（下一个点的开始为上一个点的结束）
+            x0 = x1;
+            y0 = y1;
         }
 
-        if (x0 >= 900 && x0 <= 1400 && y0 >= 50 && y0 <= 150 && PixelFlag == true) {
-
-            int indexP = completeExperiment.GetRandomNumberP();
-            String StringRandomP = completeExperiment.GetRandomP(indexP);
-            //System.out.println(StringRandomP);
-            //按照系统提示的像素存入目标像素
-            if (StringRandomP == "请切换像素为2.0") {
-                //System.out.println("-");
-                RandomPixel = "2.0";
-                penData.SetTargetLine("2.0");
-            }
-            else if (StringRandomP == "请切换像素为3.0") {
-                //System.out.println("--");
-                RandomPixel = "3.0";
-                penData.SetTargetLine("3.0");
-            }
-            else if (StringRandomP == "请切换像素为4.0") {
-                //System.out.println("---");
-                RandomPixel = "4.0";
-                penData.SetTargetLine("4.0");
-            }
-            //如果没有提示就按下了空格，就记为空
-            else penData.SetTargetLine(null);
-
-            //设置插件位置
-            ShowPixelT.setBounds(1080,250,100,20);
-            ShowPixelT.setFont(new Font("楷体",Font.BOLD,20));
-
-            //System.out.println(RandomPixel);
-            JPanelRandomP.setBounds(1180,250,100,20);
-            JPanelRandomP.setText(RandomPixel);
-            JPanelRandomP.setHorizontalAlignment(JPanelRandomP.LEFT);
-            JPanelRandomP.setFont(new Font("黑体",Font.BOLD,20));
-
-            //把插件添加到TFInter中
-            APInter.add(ShowPixelT);
-            APInter.add(JPanelRandomP);
-
-            //重绘APInter界面
-            this.RepaintAPInter();
-
-            PixelFlag = false;
-        }else if (x0 >= 900 && x0 <= 1400 && y0 >= 50 && y0 <= 150 && PixelFlag == false) {
-
-        }else {
-            PixelFlag = true;
-        }
-
-        //将点的信息记录在容器中
-        paExperimentPanel.arrayListSpot.add(dot);
-        paExperimentPanel.repaint();
-        //更新点的起始坐标（下一个点的开始为上一个点的结束）
-        x0 = x1;
-        y0 = y1;
 
     }
 
