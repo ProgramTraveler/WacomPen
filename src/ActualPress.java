@@ -292,6 +292,7 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
             MenuMove = false; //当压力到达到指定值后，菜单位置就固定了
             this.ProcessTriggerSwitch(); //当压力到达规定值时，弹出选择框
         }else {
+            //没超过的话就展示压力的动态图像
             paExperimentPanel.SetCurrentPress(CurrentPress);
             paExperimentPanel.repaint();
         }
@@ -419,10 +420,6 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
         MenuMove = true; //菜单位置跟随鼠标变化
         paExperimentPanel.RemoveAllJLabel(); //清除颜色和像素提示标签
         timer.stop();
-
-        //SetColor = paExperimentPanel.GetSelectColorItem() + 1;
-        //SetPixel = paExperimentPanel.GetSelectPixelItem() + 2;
-
     }
 
     @Override
@@ -443,9 +440,12 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
         //获得笔在拖动时的坐标
         x1 = e.getX();
         y1 = e.getY();
-
         //点的位置，用来为压力的显示提供位置信息
         paExperimentPanel.SetShowPoint(new Point((int)x0,(int)y0));
+        //获得颜色切换的颜色值
+        SetColor = paExperimentPanel.GetSetColor();
+        //获得像素切换的像素值
+        SetPixel = paExperimentPanel.GetSetPixel();
         //点的位置，是用来为选择菜单的显示提供位置信息
         if (MenuMove) {
             MenuX = e.getX();
@@ -457,15 +457,17 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
         if (MenuFlag) {
             //在每次移动的时候对颜色分支和像素分支进行移除和重组
             paExperimentPanel.RemoveItemJLabel();
-            //通过当前点的位置来计算用户选择的是惨淡栏中的哪个区域
+            //通过当前点的位置来计算用户选择的是菜单栏中的哪个区域
             paExperimentPanel.SetSelectMenuItem(this.CheckSelectMenuItem(e.getX(),e.getY()));
+            //如果颜色的分支菜单被打开
             if (paExperimentPanel.GetShowColorMenu()) {
+                //传入具体是哪个颜色被选择
                 paExperimentPanel.SetSelectColorItem(this.CheckColorItem(e.getX(), e.getY()));
-                SetColor = this.CheckColorItem(e.getX(),e.getY()) + 1;
             }
+            //如果像素的分支菜单被打开
             if (paExperimentPanel.GetShowPixelMenu()) {
+                //传入具体的哪个像素被选择
                 paExperimentPanel.SetSelectPixelItem(this.CheckPixelItem(e.getX(), e.getY()));
-                SetPixel = this.CheckPixelItem(e.getX(),e.getY()) + 2;
             }
             paExperimentPanel.repaint();
 
@@ -517,7 +519,6 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
             }
 
             if (x0 >= 900 && x0 <= 1400 && y0 >= 50 && y0 <= 150 && PixelFlag == true) {
-
                 int indexP = completeExperiment.GetRandomNumberP();
                 String StringRandomP = completeExperiment.GetRandomP(indexP);
                 //System.out.println(StringRandomP);
@@ -556,7 +557,6 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
 
                 //重绘APInter界面
                 this.RepaintAPInter();
-
                 PixelFlag = false;
             }else if (x0 >= 900 && x0 <= 1400 && y0 >= 50 && y0 <= 150 && PixelFlag == false) {
 

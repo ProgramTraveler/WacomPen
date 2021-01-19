@@ -7,7 +7,7 @@ public class Dot {
     private double StartX,StartY; //点开始的位置
     private double EndX,EndY; //点结束的位置
     private int Color = 0; //点的颜色
-    private int Pixel = 2; //点的像素
+    private int Pixel = 1; //点的像素
 
     public Dot(){}
     //设置点开始的位置
