@@ -24,7 +24,7 @@ public class PAExperimentPanel extends JPanel {
     private int PressureFeedbackHeight = 80;
     private int PressureCursorRadius = 3;
     private int MaxPressure =1024;
-    private int TriggerPressureSwitch = 700;
+    private int TriggerPressureSwitch = 1024 - 1024 / 6;
 
     private int NumberOfMenu = 2; //可以选择的菜单栏，分别是颜色选择和像素选择
     private int MenuX = 0; //菜单的弹出位置 X值
@@ -88,8 +88,10 @@ public class PAExperimentPanel extends JPanel {
     public void SetSelectMenuItem(int n) { SelectMenuItem = n; }
     //用来提供颜色菜单中用户选择的具体颜色
     public void SetSelectColorItem(int n) { SelectColorItem = n; }
+    public int GetSelectColorItem() { return SelectColorItem; }
     //用来提供像素菜单中用户选择的具体像素
     public void SetSelectPixelItem(int n) { SelectPixelItem = n; }
+    public int GetSelectPixelItem() { return SelectPixelItem; }
     //用来选择是否显示压力的动态图像
     public void SetShowBack(boolean b) { ShowBack = b; }
     //设置是否显示颜色分支菜单
@@ -150,7 +152,6 @@ public class PAExperimentPanel extends JPanel {
             graphics2D.fillRect(MenuX - MenuWidth,MenuY + (MenuHeight * i),MenuWidth,MenuHeight);
             graphics2D.setColor(MenuLineColor);
             graphics2D.drawRect(MenuX - MenuWidth,MenuY + (MenuHeight * i),MenuWidth,MenuHeight);
-
         }
         //设置颜色提示标签位置
         ColorJLabel.setBounds(MenuX - MenuWidth + 5,MenuY,MenuWidth,MenuHeight);

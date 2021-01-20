@@ -1,4 +1,5 @@
 import cello.tablet.JTablet;
+import cello.tablet.JTabletCursor;
 import cello.tablet.JTabletException;
 
 import javax.swing.*;
@@ -20,7 +21,11 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
     private PAExperimentPanel paExperimentPanel = new PAExperimentPanel(); //创建PAExperimentPanel类
     private boolean ChooseFlag = false; //是否显示压力动态图像
     private int CurrentPress = -1; //获取当前的压力值
-    private int TriggerPress = 1024 -1024 / 6; //目标压力值
+    private int TriggerPress = 1024 - 1024 / 6; //目标压力值(403-1023)
+
+    //下面这个两个boolean的值是用来检测颜色和像素切换是否合法
+    private boolean ColorChange = false; //在进入到颜色的测试区域后，变为true
+    private boolean PixelChange = false; //在进入到像素的测试区域后，变为true
 
     private boolean MenuFlag = false; //是否展开选择菜单
     private boolean MenuMove = true; //是否菜单的弹出位置随着鼠标位置改变
@@ -276,12 +281,9 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
     }
     @Override
     public void actionPerformed(ActionEvent e) {
-        //System.out.println(new Date().getTime());
         try {
             tablet.poll();
-            if (tablet.hasCursor()) {
-                CurrentPress = penValue.Pressure();
-            }
+            CurrentPress = tablet.getPressure();
         } catch (JTabletException jTabletException) {
             jTabletException.printStackTrace();
         }
@@ -291,24 +293,26 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
             paExperimentPanel.SetShowBack(false);
             MenuMove = false; //当压力到达到指定值后，菜单位置就固定了
             this.ProcessTriggerSwitch(); //当压力到达规定值时，弹出选择框
+            //System.out.println("CurrentPress:" + CurrentPress);
+            penData.SetPressure(penValue.Pressure());
+            penData.SetTilt(penValue.Tilt());
+            penData.SetAzimuth(penValue.Azimuth());
         }else {
             //没超过的话就展示压力的动态图像
             paExperimentPanel.SetCurrentPress(CurrentPress);
             paExperimentPanel.repaint();
         }
     }
-
-
     @Override
     public void keyTyped(KeyEvent e) {
 
     }
-
     @Override
     public void keyPressed(KeyEvent e) {
         //如果用户按下ALT键，说明要开始切换
-        if (e.getKeyCode() == KeyEvent.VK_ALT)
+        if (e.getKeyCode() == KeyEvent.VK_ALT) {
             ChooseFlag = true;
+        }
         //当一次实验完成，用户按下空格键
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             //清空集合中的点的信息
@@ -383,9 +387,6 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
             //获得开始时鼠标的位置
             x0 = e.getX();
             y0 = e.getY();
-            penData.SetPressure(penValue.Pressure());
-            penData.SetTilt(penValue.Tilt());
-            penData.SetAzimuth(penValue.Azimuth());
             /*
             获得落笔的时间
              */
@@ -419,6 +420,15 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
         paExperimentPanel.SetShowBack(false); //打开显示压力的动态显示
         MenuMove = true; //菜单位置跟随鼠标变化
         paExperimentPanel.RemoveAllJLabel(); //清除颜色和像素提示标签
+        paExperimentPanel.SetSelectPixelItem(-1); //初始化像素分支选择
+        paExperimentPanel.SetSelectColorItem(-1); //初始化颜色分支选择
+        //对压力值重新获取
+        try {
+            tablet.poll();
+        } catch (JTabletException e1) {
+            e1.printStackTrace();
+        }
+
         timer.stop();
     }
 
@@ -463,15 +473,46 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
             if (paExperimentPanel.GetShowColorMenu()) {
                 //传入具体是哪个颜色被选择
                 paExperimentPanel.SetSelectColorItem(this.CheckColorItem(e.getX(), e.getY()));
+                //如果颜色提示还没有出现就调用，颜色误触发加一
+                if (ColorChange == false && paExperimentPanel.GetSelectColorItem() != -1) {
+                    penData.AddColorTouchE(); //颜色误触发加一
+                    penData.AddTouchE(); //误触发总数加一
+                }else {
+                    int tempC = paExperimentPanel.GetSelectColorItem();
+                    if (tempC == 0)
+                        penData.SetResultC("蓝色");
+                    if (tempC == 1)
+                        penData.SetResultC("虹色");
+                    if (tempC == 2)
+                        penData.SetResultC("黄色");
+                    else
+                        penData.SetResultC(null);
+                }
             }
             //如果像素的分支菜单被打开
             if (paExperimentPanel.GetShowPixelMenu()) {
                 //传入具体的哪个像素被选择
                 paExperimentPanel.SetSelectPixelItem(this.CheckPixelItem(e.getX(), e.getY()));
+                //如果像素提示还未出现就切换，像素误触发加一
+                if (PixelChange == false && paExperimentPanel.GetSelectPixelItem() != -1) {
+                    penData.AddPixelTouchE(); //像素误触发加一
+                    penData.AddTouchE(); //误触发总数加一
+                }else {
+                    int tempP = paExperimentPanel.GetSelectPixelItem();
+                    if (tempP == 0)
+                        penData.SetResultP("2.0");
+                    if (tempP == 1)
+                        penData.SetResultP("3.0");
+                    if (tempP == 2)
+                        penData.SetResultP("4.0");
+                    else
+                        penData.SetResultP(null);
+                }
             }
             paExperimentPanel.repaint();
 
-        }else {
+        }else if (ChooseFlag == false && MenuFlag == false){
+            //当不进行功能切换和菜单选择时，才会进行画线操作
             Dot dot = new Dot();
             dot.SetStarDot(x0,y0);
             dot.SetEndDot(x1,y1);
