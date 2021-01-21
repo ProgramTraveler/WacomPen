@@ -24,7 +24,8 @@ public class PAExperimentPanel extends JPanel {
     private int PressureFeedbackHeight = 80;
     private int PressureCursorRadius = 3;
     private int MaxPressure =1024;
-    private int TriggerPressureSwitch = 1024 - 1024 / 6;
+    //private int TriggerPressureSwitch = 1024 - 1024 / 6;
+    private int TriggerPressureSwitch = 403;
 
     private int NumberOfMenu = 2; //可以选择的菜单栏，分别是颜色选择和像素选择
     private int MenuX = 0; //菜单的弹出位置 X值

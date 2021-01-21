@@ -21,7 +21,8 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
     private PAExperimentPanel paExperimentPanel = new PAExperimentPanel(); //创建PAExperimentPanel类
     private boolean ChooseFlag = false; //是否显示压力动态图像
     private int CurrentPress = -1; //获取当前的压力值
-    private int TriggerPress = 1024 - 1024 / 6; //目标压力值(403-1023)
+    //private int TriggerPress = 1024 - 1024 / 6; //目标压力值(403-1023)
+    private int TriggerPress = 403;
 
     //下面这个两个boolean的值是用来检测颜色和像素切换是否合法
     private boolean ColorChange = false; //在进入到颜色的测试区域后，变为true
