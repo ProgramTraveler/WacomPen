@@ -13,7 +13,7 @@ import java.util.Date;
 /*
     date:2021-01-13
     author:王久铭
-    purpose:压力实例化界面，用来实现通过压力的实例化来选择想要的颜色和想要的像素
+    purpose:压力实例化界面，用来实现通过压力的实例化的值来选择想要的颜色和想要的像素
  */
 public class ActualPress extends JFrame implements ActionListener, MouseInputListener, KeyListener {
     private int time = 50; //更新时间为50毫秒
