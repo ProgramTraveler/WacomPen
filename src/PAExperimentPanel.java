@@ -14,10 +14,9 @@ public class PAExperimentPanel extends JPanel {
 
     private int  permeationRate = 180;
     private Color ClearWhite = new Color( Color.white.getRed(), Color.white.getGreen(), Color.white.getBlue(), permeationRate);
-    private Color ClearGray = new Color( Color.gray.getRed(), Color.gray.getGreen(), Color.gray.getBlue(), permeationRate);
     private Color ClearLightGray = new Color( Color.lightGray.getRed(), Color.lightGray.getGreen(), Color.lightGray.getBlue(), permeationRate);
     private Color ClearBlack = new Color( Color.black.getRed(), Color.black.getGreen(), Color.black.getBlue(), permeationRate);
-    private Color ClearGreen = new Color( Color.green.getRed(), Color.green.getGreen(), Color.green.getBlue(), permeationRate);
+    private Color ClearRed = new Color( Color.red.getRed(), Color.red.getGreen(), Color.red.getBlue(), permeationRate);
 
     private Point FeedbackShowPoint = new Point(); //记录点的位置，为后面的压力提示，颜色和像素菜单切换提供位置基础
     private int PressureFeedbackWidth = 50;
@@ -37,8 +36,6 @@ public class PAExperimentPanel extends JPanel {
     private Color MenuItemColor = Color.WHITE;
     private Color MenuLineColor = Color.GRAY;
     private Color SelectMenuItemColor = Color.LIGHT_GRAY;
-    private Color SelectMenuTargetItem = Color.GREEN;
-    private Color MenuTargetItemColor = Color.RED;
 
     public static ArrayList<Dot> arrayListSpot; //记录点在绘画过程中的信息,为了方便可以直接调用，就写成了public的
     private Graphics2D Line; //设置线条的相关信息
@@ -125,9 +122,9 @@ public class PAExperimentPanel extends JPanel {
         graphics2D.setColor(ClearLightGray);
         graphics2D.drawRect( (int)FeedbackShowPoint.getX() - PressureFeedbackWidth / 2, (int)FeedbackShowPoint.getY() - PressureFeedbackHeight,
                 PressureFeedbackWidth, PressureFeedbackHeight);
-        //显示压力值将要到达的那个绿色区域
+        //显示压力值将要到达的那个红色区域
         double TargetHeight = PressureFeedbackHeight * ( ( (double)MaxPressure - (double)TriggerPressureSwitch) / (double)MaxPressure);
-        graphics2D.setColor(ClearGreen);
+        graphics2D.setColor(ClearRed);
         graphics2D.fillRect( (int)FeedbackShowPoint.getX() - PressureFeedbackWidth / 2, (int)FeedbackShowPoint.getY() - PressureFeedbackHeight,
                 PressureFeedbackWidth, (int)TargetHeight );
 
@@ -141,8 +138,7 @@ public class PAExperimentPanel extends JPanel {
         if ( CurrentPress >= 0 ) {
             graphics2D.setColor( ClearBlack);
             double RatioY = FeedbackShowPoint.getY() - PressureFeedbackHeight * ( (double)CurrentPress / (double)MaxPressure);
-            graphics2D.fillArc( (int)FeedbackShowPoint.getX() - PressureCursorRadius, (int)RatioY - PressureCursorRadius,
-                    PressureCursorRadius * 2, PressureCursorRadius * 2, 0, 360 );
+            graphics2D.fillArc( (int)FeedbackShowPoint.getX() - PressureCursorRadius, (int)RatioY - PressureCursorRadius, PressureCursorRadius * 2, PressureCursorRadius * 2, 0, 360 );
         }
     }
     //绘制出菜单界面
