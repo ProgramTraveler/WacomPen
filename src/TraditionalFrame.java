@@ -138,7 +138,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
                     pData.AddColorTouchE();
                 }
                 ShowColorBlock.setBackground(Color.RED);
-
+                pData.SetEndColorMode(System.currentTimeMillis());
             }
         });
         //选择蓝色
@@ -154,6 +154,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
                     pData.AddColorTouchE();
                 }
                 ShowColorBlock.setBackground(Color.BLUE);
+                pData.SetEndColorMode(System.currentTimeMillis());
             }
         });
         //选择黄色
@@ -169,6 +170,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
                     pData.AddColorTouchE();
                 }
                 ShowColorBlock.setBackground(Color.ORANGE);
+                pData.SetEndColorMode(System.currentTimeMillis());
             }
         });
         //选完颜色后重绘IFInter界面
@@ -190,6 +192,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
                     pData.AddPixelTouchE();
                 }
                 ShowPixel.setText(StringPixel);
+                pData.SetEndPixelMode(System.currentTimeMillis());
             }
         });
         //选择中等
@@ -206,6 +209,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
                     pData.AddPixelTouchE();
                 }
                 ShowPixel.setText(StringPixel);
+                pData.SetEndPixelMode(System.currentTimeMillis());
             }
         });
         //选择粗
@@ -222,6 +226,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
                     pData.AddPixelTouchE();
                 }
                 ShowPixel.setText(StringPixel);
+                pData.SetEndPixelMode(System.currentTimeMillis());
             }
         });
         //选择完像素后重绘IFInter界面
@@ -473,9 +478,9 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         double y = dot.DotStarY();
 
         if (x >= 350 && x <= 850 && y >= 50 && y <= 150 && ColorFlag == true) {
+            pData.SetStartColorMode(System.currentTimeMillis());
             int indexC = completeExperiment.GetRandomNumberC();
             String StringRandomC = completeExperiment.GetRandomC(indexC);
-            //System.out.println("进入颜色区域");
             //按照系统的提示颜色存入相应的目标颜色
             if (StringRandomC == "请切换颜色为蓝色") {
                 pData.SetTargetColor("蓝色");
@@ -511,7 +516,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         }
 
         if (x0 >= 900 && x0 <= 1400 && y0 >= 50 && y0 <= 150 && PixelFlag == true) {
-
+            pData.SetStartPixelMode(System.currentTimeMillis());
             int indexP = completeExperiment.GetRandomNumberP();
             String StringRandomP = completeExperiment.GetRandomP(indexP);
             //System.out.println(StringRandomP);

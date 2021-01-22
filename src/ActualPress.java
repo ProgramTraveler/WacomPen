@@ -480,12 +480,18 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
                     penData.AddTouchE(); //误触发总数加一
                 }else {
                     int tempC = paExperimentPanel.GetSelectColorItem();
-                    if (tempC == 0)
+                    if (tempC == 0) {
                         penData.SetResultC("蓝色");
-                    if (tempC == 1)
+                        penData.SetEndColorMode(System.currentTimeMillis());
+                    }
+                    if (tempC == 1) {
                         penData.SetResultC("虹色");
-                    if (tempC == 2)
+                        penData.SetEndColorMode(System.currentTimeMillis());
+                    }
+                    if (tempC == 2) {
                         penData.SetResultC("黄色");
+                        penData.SetEndColorMode(System.currentTimeMillis());
+                    }
                     else
                         penData.SetResultC(null);
                 }
@@ -500,12 +506,18 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
                     penData.AddTouchE(); //误触发总数加一
                 }else {
                     int tempP = paExperimentPanel.GetSelectPixelItem();
-                    if (tempP == 0)
+                    if (tempP == 0) {
                         penData.SetResultP("2.0");
-                    if (tempP == 1)
+                        penData.SetEndPixelMode(System.currentTimeMillis());
+                    }
+                    if (tempP == 1) {
                         penData.SetResultP("3.0");
-                    if (tempP == 2)
+                        penData.SetEndPixelMode(System.currentTimeMillis());
+                    }
+                    if (tempP == 2) {
                         penData.SetResultP("4.0");
+                        penData.SetEndPixelMode(System.currentTimeMillis());
+                    }
                     else
                         penData.SetResultP(null);
                 }
@@ -524,6 +536,7 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
             double y = dot.DotStarY();
 
             if (x >= 350 && x <= 850 && y >= 50 && y <= 150 && ColorFlag == true) {
+                penData.SetStartColorMode(System.currentTimeMillis());
                 int indexC = completeExperiment.GetRandomNumberC();
                 String StringRandomC = completeExperiment.GetRandomC(indexC);
                 //System.out.println("进入颜色区域");
@@ -561,6 +574,7 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
             }
 
             if (x0 >= 900 && x0 <= 1400 && y0 >= 50 && y0 <= 150 && PixelFlag == true) {
+                penData.SetStartPixelMode(System.currentTimeMillis());
                 int indexP = completeExperiment.GetRandomNumberP();
                 String StringRandomP = completeExperiment.GetRandomP(indexP);
                 //System.out.println(StringRandomP);

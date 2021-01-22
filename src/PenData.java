@@ -1,3 +1,6 @@
+import com.sun.org.apache.bcel.internal.classfile.PMGClass;
+
+import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -51,12 +54,62 @@ public class PenData {
     private static String ResultColor; //用户实际切换的颜色
     private static String ResultPixel; //用户实际切换的像素
 
-  //记录在测试过程中的每个时间戳
-    private ArrayList<Long> TimeList = new ArrayList<Long>();
+    //记录在测试过程中的每个时间戳
+    private ArrayList<Long> TimeList;
     //记录在测试过程中的每个时间
-    private ArrayList<String> TimeListString = new ArrayList<String>();
+    private ArrayList<String> TimeListString;
+
+    private long StartColorMode; //记录颜色模式切换的开始时间
+    private long EndColorMode; //记录颜色模式切换的结束时间
+    private long StartPixelMode; //记录像素模式切换的开始时间
+    private long EndPixelMode; //记录像素模式切换的结束时间
 
     private RandomAccessFile csv; // 存实验数据的文件
+
+    public PenData() {
+        pressure = 0;
+        tilt = 0;
+        azimuth = 0;
+
+        Name = "";
+        BlockNumber = 0;
+        TrialNumber = 0;
+        ModeTechnique = "";
+
+        TargetColor = "";
+        TargetLine = "";
+
+        StartTimeDate = "";
+        EndTimeDate = "";
+
+        ModeSwitchTime = 0;
+        ColorModeSwitchT = 0;
+        PixelModeSwitchT = 0;
+
+        CompleteTime = 0;
+        PaintTime1 = 0;
+        PaintTime2 = 2;
+        PaintTime3 = 3;
+
+        TouchError = 0;
+        ColorTouchE = 0;
+        PixelTouchE = 0;
+
+        ModelError = 0;
+        ColorModeE = 0;
+        PixelModeE = 0;
+
+        ResultColor = "";
+        ResultPixel = "";
+
+        TimeList = new ArrayList<Long>();
+        TimeListString = new ArrayList<String>();
+
+        StartColorMode = 0;
+        EndColorMode = 0;
+        StartPixelMode = 0;
+        EndPixelMode = 0;
+    }
 
     /*
     获取笔在使用过程中的数据
@@ -147,13 +200,19 @@ public class PenData {
     //像素模式切换错误
     public void SetPixelModeE(int i) { PixelModeE = i; }
 
-    //将测试进行的时间戳存入集合中
+    //将测试进行的线条绘制时间戳存入集合中
     public void AddTime(long l) { TimeList.add(l); }
+    //将测试时颜色模式切换时间记录在集合中
+    public void SetStartColorMode(long l) { StartColorMode = l; }
+    public void SetEndColorMode(long l) { EndColorMode = l; }
+    //将测试时像素模式切换时间记录在集合中
+    public void SetStartPixelMode(long l) { StartPixelMode = l; }
+    public void SetEndPixelMode(long l) { EndPixelMode = l; }
     //将时间戳容器的值分配给各个测试变量
     public void AllocateTime() {
         //获取容器最末尾的下标
         int temp = TimeList.size() - 1;
-        System.out.println("集合数量：" + TimeList.size());
+        //System.out.println("集合数量：" + TimeList.size());
         /*
         使用DecimalFormat来进行输的格式控制->格式为保留两位小数，同时强转为float
          */
@@ -165,12 +224,12 @@ public class PenData {
         PaintTime2 = TimeList.get(temp - 2) - TimeList.get(temp - 3);
         //第一段绘制的时间
         PaintTime1 = TimeList.get(temp - 4) - TimeList.get(temp - 5);
-        //模式切换的时间（两次切换的时间和）
-        ModeSwitchTime = TimeList.get(temp - 1) - TimeList.get(temp - 2)  + TimeList.get(temp -3) - TimeList.get(temp - 4);
         //颜色模式切换时间
-        ColorModeSwitchT = TimeList.get(temp -3) - TimeList.get(temp - 4);
+        ColorModeSwitchT = EndColorMode - StartColorMode;
         //像素模式切换时间
-        PixelModeSwitchT = TimeList.get(temp - 1) -TimeList.get(temp - 2);
+        PixelModeSwitchT = EndPixelMode - StartPixelMode;
+        //模式切换的时间（两次切换的时间和）
+        ModeSwitchTime = ColorModeSwitchT + PixelModeSwitchT;
         //绘制的完整时间（三次绘制的时间和）
         CompleteTime = TimeList.get(temp) - TimeList.get(temp - 5);
         //System.out.println(PaintTime3 +"--"+PaintTime2 +"--"+PaintTime1+"--"+ModeSwitchTime+"--"+CompleteTime);
