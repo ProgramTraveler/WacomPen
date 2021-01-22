@@ -44,8 +44,6 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
     //设置画笔的初始像素
     private int SetPixel = 0;
 
-
-    private Area area = new Area(); //画线显示区域
     private CompleteExperiment completeExperiment = new CompleteExperiment();
     private JTablet tablet = null;
 
@@ -54,8 +52,6 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
     //获取笔的实时数据
     private PenValue penValue = new PenValue();
 
-
-    //获取笔的相关信息
     private double x0,y0; //每一次笔尖开始的位置
     private double x1,y1; //每一次笔尖结束的位置
 
@@ -66,8 +62,8 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
     private JPanel APDraw = new JPanel(); //画线区域
 
     /*
-   提示标签和提示语句
-       当前的颜色和像素
+        提示标签和提示语句
+            当前的颜色和像素
     */
     //做为当前颜色的提示标签
     private JLabel ShowColorL = new JLabel("当前颜色:");
@@ -99,7 +95,6 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
     //判断用户是否第一次进入像素测试区域，true表示未进入
     private boolean PixelFlag = true;
 
-    public ActualPress(){}
     public ActualPress(int BlockNumber) {
         paExperimentPanel.setLayout(new BorderLayout());
         paExperimentPanel.addMouseListener(this);
@@ -171,7 +166,7 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
         APDraw.setBackground(Color.WHITE);
         APDraw.add(paExperimentPanel,BorderLayout.CENTER);
     }
-    //重绘IFInter界面(将提示的移除掉)
+    //重绘APInter界面(将提示的移除掉)
     public void RemoveRandom() {
         APInter.removeAll();
         APInter.repaint();
@@ -478,23 +473,27 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
                 if (ColorChange == false && paExperimentPanel.GetSelectColorItem() != -1) {
                     penData.AddColorTouchE(); //颜色误触发加一
                     penData.AddTouchE(); //误触发总数加一
-                }else {
-                    int tempC = paExperimentPanel.GetSelectColorItem();
-                    if (tempC == 0) {
-                        penData.SetResultC("蓝色");
-                        penData.SetEndColorMode(System.currentTimeMillis());
-                    }
-                    if (tempC == 1) {
-                        penData.SetResultC("虹色");
-                        penData.SetEndColorMode(System.currentTimeMillis());
-                    }
-                    if (tempC == 2) {
-                        penData.SetResultC("黄色");
-                        penData.SetEndColorMode(System.currentTimeMillis());
-                    }
-                    else
-                        penData.SetResultC(null);
                 }
+                int tempC = paExperimentPanel.GetSelectColorItem();
+                if (tempC == 0) {
+                    penData.SetResultC("蓝色");
+                    ShowColorBlock.setBackground(Color.BLUE);
+                    penData.SetEndColorMode(System.currentTimeMillis());
+                }
+                if (tempC == 1) {
+                    penData.SetResultC("虹色");
+                    ShowColorBlock.setBackground(Color.RED);
+                    penData.SetEndColorMode(System.currentTimeMillis());
+                }
+                if (tempC == 2) {
+                    penData.SetResultC("黄色");
+                    ShowColorBlock.setBackground(Color.ORANGE);
+                    penData.SetEndColorMode(System.currentTimeMillis());
+                }
+                else
+                    penData.SetResultC(null);
+                this.RepaintAPInter();
+
             }
             //如果像素的分支菜单被打开
             if (paExperimentPanel.GetShowPixelMenu()) {
@@ -504,23 +503,26 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
                 if (PixelChange == false && paExperimentPanel.GetSelectPixelItem() != -1) {
                     penData.AddPixelTouchE(); //像素误触发加一
                     penData.AddTouchE(); //误触发总数加一
-                }else {
-                    int tempP = paExperimentPanel.GetSelectPixelItem();
-                    if (tempP == 0) {
-                        penData.SetResultP("2.0");
-                        penData.SetEndPixelMode(System.currentTimeMillis());
-                    }
-                    if (tempP == 1) {
-                        penData.SetResultP("3.0");
-                        penData.SetEndPixelMode(System.currentTimeMillis());
-                    }
-                    if (tempP == 2) {
-                        penData.SetResultP("4.0");
-                        penData.SetEndPixelMode(System.currentTimeMillis());
-                    }
-                    else
-                        penData.SetResultP(null);
                 }
+                int tempP = paExperimentPanel.GetSelectPixelItem();
+                if (tempP == 0) {
+                    penData.SetResultP("2.0");
+                    ShowPixel.setText("2.0");
+                    penData.SetEndPixelMode(System.currentTimeMillis());
+                }
+                if (tempP == 1) {
+                    penData.SetResultP("3.0");
+                    ShowPixel.setText("3.0");
+                    penData.SetEndPixelMode(System.currentTimeMillis());
+                }
+                if (tempP == 2) {
+                    ShowPixel.setText("4.0");
+                    penData.SetResultP("4.0");
+                    penData.SetEndPixelMode(System.currentTimeMillis());
+                   }
+                else
+                    penData.SetResultP(null);
+                this.RepaintAPInter();
             }
             paExperimentPanel.repaint();
 
