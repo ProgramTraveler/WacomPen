@@ -277,19 +277,13 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
     }
     @Override
     public void actionPerformed(ActionEvent e) {
-        try {
-            tablet.poll();
-            CurrentPress = tablet.getPressure();
-        } catch (JTabletException jTabletException) {
-            jTabletException.printStackTrace();
-        }
+        CurrentPress = penValue.Pressure();
         //如果当前的压力值超过了预设的压力值
         if (TriggerPress <= CurrentPress) {
             timer.stop(); //停止触发actionPerformed
             paExperimentPanel.SetShowBack(false);
             MenuMove = false; //当压力到达到指定值后，菜单位置就固定了
             this.ProcessTriggerSwitch(); //当压力到达规定值时，弹出选择框
-            //System.out.println("CurrentPress:" + CurrentPress);
             penData.SetPressure(penValue.Pressure());
             penData.SetTilt(penValue.Tilt());
             penData.SetAzimuth(penValue.Azimuth());

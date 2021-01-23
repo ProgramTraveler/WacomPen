@@ -47,7 +47,7 @@ public class TAExperimentPanel extends JPanel {
     private Color MenuLineColor = Color.GRAY;
     private Color SelectMenuItemColor = Color.LIGHT_GRAY;
 
-    private static ArrayList<Dot> arrayListSpot; //记录点在会绘画过程中的信息
+    public static ArrayList<Dot> arrayListSpot; //记录点在会绘画过程中的信息
     private Graphics2D Line; //设置线条的相关信息
     private Graphics2D offScreen; //显示测试区域
 
