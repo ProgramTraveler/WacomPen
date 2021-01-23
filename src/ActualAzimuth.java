@@ -10,16 +10,16 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /*
-    date:2021-01-21
+    date:2021-01-23
     author:王久铭
-    purpose:倾斜角实例化界面，用来实现通过倾斜角的实例化的值来实现对颜色和像素的选择
+    purpose:方位角的实例化界面，用来实现对通过方位角来进行颜色和像素的改变
  */
-public class ActualTilt extends JFrame implements ActionListener, MouseInputListener, KeyListener {
-    private int time = 50;
+public class ActualAzimuth extends JFrame implements ActionListener, MouseInputListener, KeyListener {
+    private int time  = 50;
     private Timer timer = new Timer(time,this);
-    private TAExperimentPanel taExperimentPanel = new TAExperimentPanel();
+    private AAExperimentPanel aaExperimentPanel = new AAExperimentPanel();
 
-    private int CurrentTilt = -1; //记录当前的倾斜角的角度值，和预设的扇形区域做比较
+    private int CurrentAzimuth = -1; //当前的方位角信息
 
     private boolean MenuFlag = false; //对菜单打开和关闭的控制
     private boolean MenuMove = true; //菜单位置是否随着鼠标移动
@@ -34,8 +34,8 @@ public class ActualTilt extends JFrame implements ActionListener, MouseInputList
     private int MenuHeight = 40; //选择颜色和像素菜单的高度
     private int NumberOfMenuItem = 2; //选择菜单的内容，分别为颜色和像素
 
-    //倾斜角实例化界面的定义
-    private JFrame ActualTFrame = new JFrame("T-实例化");
+    //方位角实例化界面的定义
+    private JFrame ActualAFrame = new JFrame("A-实例化");
 
     //设置画笔的初始颜色和像素
     int SetColor = 0;
@@ -48,13 +48,13 @@ public class ActualTilt extends JFrame implements ActionListener, MouseInputList
     private PenValue penValue = new PenValue(); //获取笔的实时数据
 
     private double x0,y0; //笔尖开始的位置
-    private double x1,y1; //笔尖结束的位置
+    private double x1,y1; //笔尖结束的位置'
 
     /*
-        将ActualTilt分为两个区域
+        将ActualAzimuth分为两个区域
      */
-    private JPanel ATInter = new JPanel(); //提示信息区域
-    private JPanel  ATDraw = new JPanel(); //画线区域
+    private JPanel AAInter = new JPanel(); //提示信息区域
+    private JPanel AADraw = new JPanel(); //画线区域
 
     /*
        提示标签和提示语句
@@ -90,21 +90,20 @@ public class ActualTilt extends JFrame implements ActionListener, MouseInputList
     //判断用户是否第一次进入像素测试区域，true表示未进入
     private boolean PixelFlag = true;
 
-    public ActualTilt(int BlockNumber) {
-        taExperimentPanel.setLayout(new BorderLayout());
-        taExperimentPanel.addMouseListener(this);
-        taExperimentPanel.addMouseMotionListener(this);
-        taExperimentPanel.addKeyListener(this);
+    public ActualAzimuth(int BlockNumber) {
+        aaExperimentPanel.setLayout(new BorderLayout());
+        aaExperimentPanel.addMouseListener(this);
+        aaExperimentPanel.addMouseMotionListener(this);
+        aaExperimentPanel.addKeyListener(this);
 
         completeExperiment.SetRandomNUmber(); //生成测试的随机数
         completeExperiment.SetRandomC(); //生成颜色提示语句
         completeExperiment.SetRandomP(); //生成像素提示语句
-        completeExperiment.SetExperimentB(BlockNumber);
+        completeExperiment.SetExperimentB(BlockNumber); //设置进行的实验组数
 
-        this.CreateATFrame(); //生成倾斜角实例化界面
+        this.CreateAAFrame(); //生成方位角实例化界面
 
-        taExperimentPanel.requestFocusInWindow(); //获得焦点
-
+        aaExperimentPanel.requestFocusInWindow(); //获得焦点
 
         try {
             tablet = new JTablet();
@@ -113,60 +112,58 @@ public class ActualTilt extends JFrame implements ActionListener, MouseInputList
         }
         timer.start();
         timer.stop();
-
     }
-    public void CreateATFrame() {
-        this.CreateATInter();
-        this.CreateATFDraw();
+    public void CreateAAFrame() {
+        this.CreateAAInter();
+        this.CreateAADraw();
         /*
         将界面分割为两部分
          */
-        JSplitPane jSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,false,ATInter,ATDraw); //这里第一个参数是控制分割线竖直，第二个参数是当你拖曳切割面版的分隔线时，窗口内的组件是否会随着分隔线的拖曳而动态改变大小，最后两个参数就是我分割完成后分割线两边各添加哪个容器。
+        JSplitPane jSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,false,AAInter,AADraw); //这里第一个参数是控制分割线竖直，第二个参数是当你拖曳切割面版的分隔线时，窗口内的组件是否会随着分隔线的拖曳而动态改变大小，最后两个参数就是我分割完成后分割线两边各添加哪个容器。
         jSplitPane.setDividerLocation(300); //分割线的位置  也就是初始位置
         jSplitPane.setOneTouchExpandable(false); //是否可展开或收起，在这里没用
         jSplitPane.setDividerSize(0);//设置分割线的宽度 像素为单位(这里设为0，择时不显示分割线)
         jSplitPane.setEnabled(false); //设置分割线不可拖动！！
-        ActualTFrame.add(jSplitPane);  //加入到面板中就好了
+        ActualAFrame.add(jSplitPane);  //加入到面板中就好了
 
         //界面全屏设置
-        ActualTFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        ActualTFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        ActualTFrame.setVisible(true);
-
+        ActualAFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        ActualAFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        ActualAFrame.setVisible(true);
     }
-    //上半部分，主要用于信息的显示
-    public void CreateATInter() {
-        ATInter.setLayout(null);
+    //上半部分，主要是用来进行信息提示
+    public void CreateAAInter() {
+        AAInter.setLayout(null);
         //当前颜色提示标签
         ShowColorL.setBounds(500,250,100,20);
         ShowColorL.setFont(new Font("楷体",Font.BOLD,20));
-        ATInter.add(ShowColorL);
+        AAInter.add(ShowColorL);
         //当前颜色（颜色块）
         ShowColorBlock.setBounds(600,250,60,20);
         ShowColorBlock.setBackground(Color.BLACK);
-        ATInter.add(ShowColorBlock);
+        AAInter.add(ShowColorBlock);
 
         //当前像素提示标签
         ShowPixelL.setBounds(700,250,100,20);
         ShowPixelL.setFont(new Font("楷体",Font.BOLD,20));
-        ATInter.add(ShowPixelL);
+        AAInter.add(ShowPixelL);
         //当前像素
         ShowPixel.setBounds(800,250,100,20);
         ShowPixel.setText(StringPixel);
         ShowPixel.setHorizontalAlignment(ShowPixel.LEFT);
         ShowPixel.setFont(new Font("黑体",Font.BOLD,20));
-        ATInter.add(ShowPixel);
+        AAInter.add(ShowPixel);
     }
-    //下半部分，主要是用于线条绘制区域的显示
-    public void CreateATFDraw() {
-        ATDraw.setLayout(new BorderLayout());
-        ATDraw.setBackground(Color.WHITE);
-        ATDraw.add(taExperimentPanel,BorderLayout.CENTER);
+    //下半部分，主要是用来进行绘制区域的展示
+    public void CreateAADraw() {
+        AADraw.setLayout(new BorderLayout());
+        AADraw.setBackground(Color.WHITE);
+        AADraw.add(aaExperimentPanel,BorderLayout.CENTER);
     }
     //对ATInter界面进行重绘，目的是移除提示的目标信息
     public void RemoveRandom() {
-        ATInter.removeAll();
-        ATInter.repaint();
+        AAInter.removeAll();
+        AAInter.repaint();
         //将颜色提示语句和颜色块隐藏
         ShowColorT.setBounds(0,0,0,0);
         JPanelRandomC.setBounds(0,0,0,0);
@@ -179,11 +176,11 @@ public class ActualTilt extends JFrame implements ActionListener, MouseInputList
         StringPixel = "1.0";
         ShowPixel.setText(StringPixel);
         //当前颜色和像素的展示
-        ATInter.add(ShowColorL);
-        ATInter.add(ShowColorBlock);
-        ATInter.add(ShowPixelL);
-        ATInter.add(ShowPixel);
-        ATInter.revalidate();
+        AAInter.add(ShowColorL);
+        AAInter.add(ShowColorBlock);
+        AAInter.add(ShowPixelL);
+        AAInter.add(ShowPixel);
+        AAInter.revalidate();
         //将笔的颜色变为黑色
         SetColor = 0;
         //将笔的像素变为1.0
@@ -191,27 +188,27 @@ public class ActualTilt extends JFrame implements ActionListener, MouseInputList
     }
     //重绘ATInter界面
     public void RepaintATInter() {
-        ATInter.removeAll();
-        ATInter.repaint();
+        AAInter.removeAll();
+        AAInter.repaint();
 
         //当前颜色和像素的展示
-        ATInter.add(ShowColorL);
-        ATInter.add(ShowColorBlock);
-        ATInter.add(ShowPixelL);
-        ATInter.add(ShowPixel);
+        AAInter.add(ShowColorL);
+        AAInter.add(ShowColorBlock);
+        AAInter.add(ShowPixelL);
+        AAInter.add(ShowPixel);
         //目标颜色和像素的展示
-        ATInter.add(ShowColorT);
-        ATInter.add(JPanelRandomC);
-        ATInter.add(ShowPixelT);
-        ATInter.add(JPanelRandomP);
+        AAInter.add(ShowColorT);
+        AAInter.add(JPanelRandomC);
+        AAInter.add(ShowPixelT);
+        AAInter.add(JPanelRandomP);
 
-        ATInter.revalidate();
+        AAInter.revalidate();
     }
     //当满足倾斜角时弹出菜单
     public void ProcessTriggerSwitch() {
         MenuFlag = true; //选择打开菜单
-        taExperimentPanel.SetOpenMenu(MenuFlag); //打开颜色和像素选择菜单
-        taExperimentPanel.repaint();
+        aaExperimentPanel.SetOpenMenu(MenuFlag); //打开颜色和像素选择菜单
+        aaExperimentPanel.repaint();
     }
     //根据用户的当前的鼠标位置来计算出用户选择的是菜单中的哪块区域
     public int CheckSelectMenuItem(int x,int y) {
@@ -229,13 +226,13 @@ public class ActualTilt extends JFrame implements ActionListener, MouseInputList
         }
         //如果选择的是颜色菜单，打开颜色的分支菜单显示，关闭像素分支菜单显示
         if (MenuItem == 0) {
-            taExperimentPanel.SetShowColorMenu(true);
-            taExperimentPanel.SetShowPixelMenu(false);
+            aaExperimentPanel.SetShowColorMenu(true);
+            aaExperimentPanel.SetShowPixelMenu(false);
         }
         //如果选择的像素菜单，打开像素分支菜单显示，关闭颜色分支菜单显示
         else if (MenuItem == 1) {
-            taExperimentPanel.SetShowPixelMenu(true);
-            taExperimentPanel.SetShowColorMenu(false);
+            aaExperimentPanel.SetShowPixelMenu(true);
+            aaExperimentPanel.SetShowColorMenu(false);
         }else {
             //什么也不做
         }
@@ -274,19 +271,6 @@ public class ActualTilt extends JFrame implements ActionListener, MouseInputList
     }
     @Override
     public void actionPerformed(ActionEvent e) {
-        CurrentTilt = penValue.Tilt(); //获得当前角度
-        //如果角度进入到预设的扇形区域
-        if ((CurrentTilt >= 22 && CurrentTilt <= 46) || (CurrentTilt >= 78 && CurrentTilt <= 90)) {
-            timer.stop(); //停止触发actionPerFormed
-            taExperimentPanel.SetShowBack(false); //将倾斜角动态显示界面关闭
-            MenuMove = false; //此时菜单位置就固定了，不会随着鼠标的移动而移动
-            this.ProcessTriggerSwitch(); //当在指定的扇形区域时，弹出菜单选择
-            penData.SetTilt(CurrentTilt);
-        }else {
-            //没到达指定的扇形区域就继续显示动态图
-            taExperimentPanel.SetCurrentTilt(CurrentTilt);
-            taExperimentPanel.repaint();
-        }
 
     }
 
@@ -304,9 +288,9 @@ public class ActualTilt extends JFrame implements ActionListener, MouseInputList
         //当一次实验完成，用户按下空格键
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             //清空集合中的点的信息
-            taExperimentPanel.arrayListSpot.clear();
+            aaExperimentPanel.arrayListSpot.clear();
             //重绘
-            taExperimentPanel.repaint();
+            aaExperimentPanel.repaint();
             //将提示语句移除
             this.RemoveRandom();
             //在一组中做完一次实验
@@ -348,7 +332,7 @@ public class ActualTilt extends JFrame implements ActionListener, MouseInputList
                     penData.SetPixelModeE(0); //初始化像素切换错误数
 
                     //关闭当前的界面
-                    ActualTFrame.dispose();
+                    ActualAFrame.dispose();
                 }
             }
         }
@@ -370,7 +354,7 @@ public class ActualTilt extends JFrame implements ActionListener, MouseInputList
             //如果要显是动态压力图像
             if (ChooseFlag) {
                 timer.restart();
-                taExperimentPanel.SetShowBack(true);
+                aaExperimentPanel.SetShowBack(true);
             }
             //获得开始时鼠标的位置
             x0 = e.getX();
@@ -388,7 +372,7 @@ public class ActualTilt extends JFrame implements ActionListener, MouseInputList
                 MenuX = e.getX();
                 MenuY = e.getY();
                 //记录菜单出现的位置
-                taExperimentPanel.SetMenuX_Y(MenuX,MenuY);
+                aaExperimentPanel.SetMenuX_Y(MenuX,MenuY);
             }
         }
     }
@@ -400,16 +384,16 @@ public class ActualTilt extends JFrame implements ActionListener, MouseInputList
         //获得抬笔的文字格式
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SS");
         penData.AddTimeString(dateFormat.format(new Date()));
-        taExperimentPanel.repaint();
+        aaExperimentPanel.repaint();
         //当抬笔后说明已经选择完成
         MenuFlag = false; //此时关闭显示菜单
-        taExperimentPanel.SetOpenMenu(false); //在显示界面关闭界面显示
+        aaExperimentPanel.SetOpenMenu(false); //在显示界面关闭界面显示
         ChooseFlag = false; //不显示压力动态图像
-        taExperimentPanel.SetShowBack(false); //打开显示压力的动态显示
+        aaExperimentPanel.SetShowBack(false); //打开显示压力的动态显示
         MenuMove = true; //菜单位置跟随鼠标变化
-        taExperimentPanel.RemoveAllJLabel(); //清除颜色和像素提示标签
-        taExperimentPanel.SetSelectPixelItem(-1); //初始化像素分支选择
-        taExperimentPanel.SetSelectColorItem(-1); //初始化颜色分支选择
+        aaExperimentPanel.RemoveAllJLabel(); //清除颜色和像素提示标签
+        aaExperimentPanel.SetSelectPixelItem(-1); //初始化像素分支选择
+        aaExperimentPanel.SetSelectColorItem(-1); //初始化颜色分支选择
         //对压力值重新获取
         try {
             tablet.poll();
@@ -439,34 +423,34 @@ public class ActualTilt extends JFrame implements ActionListener, MouseInputList
         x1 = e.getX();
         y1 = e.getY();
         //点的位置，用来为压力的显示提供位置信息
-        taExperimentPanel.SetShowPoint(new Point((int)x0,(int)y0));
+        aaExperimentPanel.SetShowPoint(new Point((int)x0,(int)y0));
         //获得颜色切换的颜色值
-        SetColor = taExperimentPanel.GetSetColor();
+        SetColor = aaExperimentPanel.GetSetColor();
         //获得像素切换的像素值
-        SetPixel = taExperimentPanel.GetSetPixel();
+        SetPixel = aaExperimentPanel.GetSetPixel();
         //点的位置，是用来为选择菜单的显示提供位置信息
         if (MenuMove) {
             MenuX = e.getX();
             MenuY = e.getY();
             //记录菜单出现的位置
-            taExperimentPanel.SetMenuX_Y(MenuX,MenuY);
+            aaExperimentPanel.SetMenuX_Y(MenuX,MenuY);
         }
         //如果要求打开选择菜单，此时不记录笔的轨迹信息
         if (MenuFlag) {
             //在每次移动的时候对颜色分支和像素分支进行移除和重组
-            taExperimentPanel.RemoveItemJLabel();
+            aaExperimentPanel.RemoveItemJLabel();
             //通过当前点的位置来计算用户选择的是菜单栏中的哪个区域
-            taExperimentPanel.SetSelectMenuItem(this.CheckSelectMenuItem(e.getX(),e.getY()));
+            aaExperimentPanel.SetSelectMenuItem(this.CheckSelectMenuItem(e.getX(),e.getY()));
             //如果颜色的分支菜单被打开
-            if (taExperimentPanel.GetShowColorMenu()) {
+            if (aaExperimentPanel.GetShowColorMenu()) {
                 //传入具体是哪个颜色被选择
-                taExperimentPanel.SetSelectColorItem(this.CheckColorItem(e.getX(), e.getY()));
+                aaExperimentPanel.SetSelectColorItem(this.CheckColorItem(e.getX(), e.getY()));
                 //如果颜色提示还没有出现就调用，颜色误触发加一
-                if (ColorChange == false && taExperimentPanel.GetSelectColorItem() != -1) {
+                if (ColorChange == false && aaExperimentPanel.GetSelectColorItem() != -1) {
                     penData.AddColorTouchE(); //颜色误触发加一
                     penData.AddTouchE(); //误触发总数加一
                 }
-                int tempC = taExperimentPanel.GetSelectColorItem();
+                int tempC = aaExperimentPanel.GetSelectColorItem();
                 if (tempC == 0) {
                     penData.SetResultC("蓝色");
                     ShowColorBlock.setBackground(Color.BLUE);
@@ -488,15 +472,15 @@ public class ActualTilt extends JFrame implements ActionListener, MouseInputList
 
             }
             //如果像素的分支菜单被打开
-            if (taExperimentPanel.GetShowPixelMenu()) {
+            if (aaExperimentPanel.GetShowPixelMenu()) {
                 //传入具体的哪个像素被选择
-                taExperimentPanel.SetSelectPixelItem(this.CheckPixelItem(e.getX(), e.getY()));
+                aaExperimentPanel.SetSelectPixelItem(this.CheckPixelItem(e.getX(), e.getY()));
                 //如果像素提示还未出现就切换，像素误触发加一
-                if (PixelChange == false && taExperimentPanel.GetSelectPixelItem() != -1) {
+                if (PixelChange == false && aaExperimentPanel.GetSelectPixelItem() != -1) {
                     penData.AddPixelTouchE(); //像素误触发加一
                     penData.AddTouchE(); //误触发总数加一
                 }
-                int tempP = taExperimentPanel.GetSelectPixelItem();
+                int tempP = aaExperimentPanel.GetSelectPixelItem();
                 if (tempP == 0) {
                     penData.SetResultP("2.0");
                     ShowPixel.setText("2.0");
@@ -516,7 +500,7 @@ public class ActualTilt extends JFrame implements ActionListener, MouseInputList
                     penData.SetResultP(null);
                 this.RepaintATInter();
             }
-            taExperimentPanel.repaint();
+            aaExperimentPanel.repaint();
 
         }else if (ChooseFlag == false && MenuFlag == false){
             //当不进行功能切换和菜单选择时，才会进行画线操作
@@ -556,8 +540,8 @@ public class ActualTilt extends JFrame implements ActionListener, MouseInputList
 
                 JPanelRandomC.setBounds(980,250,60,20);
                 //将插件添加到TFInter中
-                ATInter.add(ShowColorT);
-                ATInter.add(JPanelRandomC);
+                AAInter.add(ShowColorT);
+                AAInter.add(JPanelRandomC);
                 //重绘TFInter界面
                 this.RepaintATInter();
                 ColorFlag = false;
@@ -602,8 +586,8 @@ public class ActualTilt extends JFrame implements ActionListener, MouseInputList
                 JPanelRandomP.setFont(new Font("黑体",Font.BOLD,20));
 
                 //把插件添加到TFInter中
-                ATInter.add(ShowPixelT);
-                ATInter.add(JPanelRandomP);
+                AAInter.add(ShowPixelT);
+                AAInter.add(JPanelRandomP);
 
                 //重绘APInter界面
                 this.RepaintATInter();
@@ -615,8 +599,8 @@ public class ActualTilt extends JFrame implements ActionListener, MouseInputList
             }
 
             //将点的信息记录在容器中
-            taExperimentPanel.arrayListSpot.add(dot);
-            taExperimentPanel.repaint();
+            aaExperimentPanel.arrayListSpot.add(dot);
+            aaExperimentPanel.repaint();
             //更新点的起始坐标（下一个点的开始为上一个点的结束）
             x0 = x1;
             y0 = y1;

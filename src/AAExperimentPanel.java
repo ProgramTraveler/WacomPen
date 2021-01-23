@@ -1,26 +1,16 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
 
 /*
-    date:2021-01-21
+    date:2021-01-23
     author:王久铭
-    purpose:该类的作用是将倾斜角的动态信息进行图像展示，专门是为倾斜角实例化提供
+    purpose:该类是对方位角的动态信息进行动态图像展示，专门是为A-实例化使用
  */
-public class TAExperimentPanel extends JPanel {
-    private boolean OpenMenu = false; //表示是否打开菜单
-    private int CurrentTilt = -1; //记录当前的倾斜角的值
-
-    private int PenHeight = 40;
-    private int PenWidth = 2;
-    private int PenLineWidth = 2;
-    private int PenTip = 3;
-    private int AngleFeedBackRadius = PenHeight + 5;
-    private int MinAngle = 22;
-    private int MaxAngle = 90;
+public class AAExperimentPanel extends JPanel {
+    private boolean OpenMenu = false;
+    private int CurrentAzimuth = -1;
 
     private int  permeationRate = 180;
     private Color ClearWhite = new Color( Color.white.getRed(), Color.white.getGreen(), Color.white.getBlue(), permeationRate);
@@ -30,11 +20,7 @@ public class TAExperimentPanel extends JPanel {
     private Color ClearPink = new Color( Color.pink.getRed(), Color.pink.getGreen(), Color.pink.getBlue(), permeationRate);
     private Color ClearGray = new Color( Color.gray.getRed(), Color.gray.getGreen(), Color.gray.getBlue(), permeationRate);
 
-    private int TriggerAngleSwitch_1 = 46;
-    private int TriggerAngleSwitch_2 = 78;
-
     private Point FeedbackShowPoint = new Point(); //记录点的位置，为后面的压力提示，颜色和像素菜单切换提供位置基础
-
 
     private int NumberOfMenu = 2; //可以选择的菜单栏，分别是颜色选择和像素选择
     private int MenuX = 0; //菜单的弹出位置 X值
@@ -64,7 +50,7 @@ public class TAExperimentPanel extends JPanel {
     private int MenuItemWidth = 50; //设置分支菜单的宽
     private int MenuItemHeight = 40; //设置分支菜单的高
 
-    private boolean ShowBack = false; //用来控制是否显示倾斜角的动态图像,默认为不打开
+    private boolean ShowBack = false; //用来控制是否显示方位角的动态图像,默认为不打开
 
     private boolean ShowColorMenu = false; //是否显示颜色分支菜单
     private int SelectColorItem = -1; //颜色分支菜单中的具体颜色
@@ -81,13 +67,12 @@ public class TAExperimentPanel extends JPanel {
     private int SetColor = 0; //记录被选择的颜色
     private int SetPixel = 1; //记录被选择的像素
 
-
-    public TAExperimentPanel() { arrayListSpot = new ArrayList<Dot>(); }
+    public AAExperimentPanel() { arrayListSpot = new ArrayList<Dot>(); }
 
     //用来控制像素和颜色选择菜单是否展开
     public void SetOpenMenu(boolean b) { this.OpenMenu = b; }
     //传入的笔尖倾斜角值
-    public void SetCurrentTilt(int c) { this.CurrentTilt = c; }
+    public void SetCurrentTilt(int c) { this.CurrentAzimuth = c; }
     //传入当前点的坐标
     public void SetShowPoint(Point p) { this.FeedbackShowPoint = p; }
     //设置MenuX和MenuY的值，就是管理颜色和选择菜单的弹出位置
@@ -115,51 +100,19 @@ public class TAExperimentPanel extends JPanel {
     public int GetSetColor() { return SetColor; }
     //放回用户选择的像素（是对应菜单中的像素）
     public int GetSetPixel() { return SetPixel; }
-    //图像的重绘界面
-    public void paintComponent(Graphics g) {
+    //图像的重绘函数
+    public void paintComponent(Graphics2D g) {
         Graphics2D graphics2D = (Graphics2D) g;
         this.PaintTestArea(g); //绘画出测试区域
-        //如果要显示倾斜角动态区域
+        //如果要显示压力动态区域
         if (ShowBack)
-            this.PaintTiltFeedback(graphics2D);
+            this.PaintAzimuthFeedback(graphics2D);
         //如果要打开颜色和像素的选择菜单
         if (OpenMenu)
             this.PaintOpenMenu(graphics2D);
     }
-    //绘制出倾斜角的动态显示界面
-    public void PaintTiltFeedback(Graphics2D graphics2D) {
-        graphics2D.setColor(ClearWhite);
-        graphics2D.fillArc((int)FeedbackShowPoint.getX() - AngleFeedBackRadius,(int)FeedbackShowPoint.getY() - AngleFeedBackRadius,AngleFeedBackRadius * 2,AngleFeedBackRadius * 2,MinAngle,MaxAngle - MinAngle);
-        /*
-            显示触发菜单的倾斜角的红色区域
-         */
-        graphics2D.setColor(ClearRed);
-        graphics2D.fillArc((int)FeedbackShowPoint.getX() - AngleFeedBackRadius,(int)FeedbackShowPoint.getY() - AngleFeedBackRadius,AngleFeedBackRadius * 2,AngleFeedBackRadius * 2,MinAngle,TriggerAngleSwitch_1 - MinAngle);
-        graphics2D.fillArc((int)FeedbackShowPoint.getX() - AngleFeedBackRadius,(int)FeedbackShowPoint.getY() - AngleFeedBackRadius,AngleFeedBackRadius * 2,AngleFeedBackRadius * 2,MaxAngle,TriggerAngleSwitch_2 - MaxAngle);
-
-        if (CurrentTilt >= MinAngle) {
-            AffineTransform affineTransform = new AffineTransform(); //构造一个新的 AffineTransform代表身份转换
-            affineTransform.setToRotation(Math.toRadians(360 - CurrentTilt),FeedbackShowPoint.getX(),FeedbackShowPoint.getY());
-            graphics2D.transform(affineTransform); //将此转换设置为转换的旋转变换
-
-            BasicStroke basicStroke = new BasicStroke(PenLineWidth); //构造一个固定的 BasicStroke具有指定的线宽，并使用上限和连接样式的默认值
-            graphics2D.setStroke(basicStroke);
-
-            GeneralPath generalPath = new GeneralPath(GeneralPath.WIND_EVEN_ODD);
-            generalPath.moveTo((int)FeedbackShowPoint.getX() + PenLineWidth,(int)FeedbackShowPoint.getY());
-            generalPath.moveTo( (int)FeedbackShowPoint.getX() + PenLineWidth, (int)FeedbackShowPoint.getY() );
-            generalPath.lineTo( (int)FeedbackShowPoint.getX() + PenTip + PenLineWidth, (int)FeedbackShowPoint.getY() - PenWidth);
-            generalPath.lineTo( (int)FeedbackShowPoint.getX() + PenHeight + PenLineWidth, (int)FeedbackShowPoint.getY() - PenWidth);
-            generalPath.lineTo( (int)FeedbackShowPoint.getX() + PenHeight + PenLineWidth, (int)FeedbackShowPoint.getY() + PenWidth);
-            generalPath.lineTo( (int)FeedbackShowPoint.getX() + PenTip + PenLineWidth, (int)FeedbackShowPoint.getY() + PenWidth);
-            generalPath.lineTo( (int)FeedbackShowPoint.getX() + PenLineWidth, (int)FeedbackShowPoint.getY());
-            generalPath.closePath();
-
-            graphics2D.setPaint(ClearPink);
-            graphics2D.fill(generalPath);
-            graphics2D.setPaint(ClearGray);
-            graphics2D.draw(generalPath);
-        }
+    //绘制出方位角的动态画面
+    public void PaintAzimuthFeedback(Graphics2D graphics2D) {
 
     }
     //绘制出菜单界面
@@ -309,4 +262,5 @@ public class TAExperimentPanel extends JPanel {
             SetPixel = SelectPixelItem + 2; //只有进行有效的切换时，才保留像素值
         }
     }
+
 }
