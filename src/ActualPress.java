@@ -309,6 +309,9 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
             paExperimentPanel.arrayListSpot.clear();
             //重绘
             paExperimentPanel.repaint();
+            //将检查是否进入颜色和像素测试区域的变量设为false
+            ColorChange = false;
+            PixelChange = false;
             //将提示语句移除
             this.RemoveRandom();
             //在一组中做完一次实验
@@ -418,8 +421,9 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
         } catch (JTabletException e1) {
             e1.printStackTrace();
         }
-
         timer.stop();
+
+
     }
 
     @Override
@@ -532,6 +536,7 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
             double y = dot.DotStarY();
 
             if (x >= 350 && x <= 850 && y >= 50 && y <= 150 && ColorFlag == true) {
+                ColorChange = true; //当进入到颜色测试区域时，颜色测换才合法
                 penData.SetStartColorMode(System.currentTimeMillis());
                 int indexC = completeExperiment.GetRandomNumberC();
                 String StringRandomC = completeExperiment.GetRandomC(indexC);
@@ -570,6 +575,7 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
             }
 
             if (x0 >= 900 && x0 <= 1400 && y0 >= 50 && y0 <= 150 && PixelFlag == true) {
+                PixelChange = true; //当进入到像素测试区域时，此时的像素测换才合法
                 penData.SetStartPixelMode(System.currentTimeMillis());
                 int indexP = completeExperiment.GetRandomNumberP();
                 String StringRandomP = completeExperiment.GetRandomP(indexP);
