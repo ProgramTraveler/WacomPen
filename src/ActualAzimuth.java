@@ -271,7 +271,19 @@ public class ActualAzimuth extends JFrame implements ActionListener, MouseInputL
     }
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        CurrentAzimuth = penValue.Azimuth(); //获得当前的方位角
+        //如果到达了预设的方位角范围，就打开颜色和像素选择菜单
+        if ((CurrentAzimuth >= 0 && CurrentAzimuth <= 88) || (CurrentAzimuth >= 176 && CurrentAzimuth <= 359)) {
+            timer.stop(); //停止触发actionPerFormed
+            aaExperimentPanel.SetShowBack(false); //将方位角动态显示界面关闭
+            MenuMove = false; //固定菜单出现的位置
+            this.ProcessTriggerSwitch(); //弹出颜色和像素选择菜单
+            penData.SetAzimuth(CurrentAzimuth);
+        }else {
+            //没达到指定的方位角区域就继续显示方位角的动态信息
+            aaExperimentPanel.SetCurrentAzimuth(CurrentAzimuth);
+            aaExperimentPanel.repaint();
+        }
     }
 
     @Override

@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
 
@@ -11,6 +12,8 @@ import java.util.ArrayList;
 public class AAExperimentPanel extends JPanel {
     private boolean OpenMenu = false;
     private int CurrentAzimuth = -1;
+
+    private int PartitionLineLength = 40; //设置圆形的覆盖区域
 
     private int  permeationRate = 180;
     private Color ClearWhite = new Color( Color.white.getRed(), Color.white.getGreen(), Color.white.getBlue(), permeationRate);
@@ -72,7 +75,7 @@ public class AAExperimentPanel extends JPanel {
     //用来控制像素和颜色选择菜单是否展开
     public void SetOpenMenu(boolean b) { this.OpenMenu = b; }
     //传入的笔尖倾斜角值
-    public void SetCurrentTilt(int c) { this.CurrentAzimuth = c; }
+    public void SetCurrentAzimuth(int c) { this.CurrentAzimuth = c; }
     //传入当前点的坐标
     public void SetShowPoint(Point p) { this.FeedbackShowPoint = p; }
     //设置MenuX和MenuY的值，就是管理颜色和选择菜单的弹出位置
@@ -113,6 +116,25 @@ public class AAExperimentPanel extends JPanel {
     }
     //绘制出方位角的动态画面
     public void PaintAzimuthFeedback(Graphics2D graphics2D) {
+        graphics2D.setColor(ClearRed);
+        graphics2D.fillArc((int)FeedbackShowPoint.getX() - PartitionLineLength,(int)FeedbackShowPoint.getY() - PartitionLineLength,PartitionLineLength * 2,PartitionLineLength * 2,0,360);
+
+        AffineTransform affineTransform = new AffineTransform();
+
+        affineTransform.setToRotation(Math.toRadians(15),FeedbackShowPoint.x,FeedbackShowPoint.y);
+        graphics2D.transform(affineTransform);
+        graphics2D.setPaint(ClearWhite);
+        graphics2D.fillArc(FeedbackShowPoint.x - PartitionLineLength,FeedbackShowPoint.y - PartitionLineLength,PartitionLineLength * 2,PartitionLineLength * 2,88,176); //88-176为常用的区域，所以用白色表示
+
+        affineTransform.setToRotation(-15,FeedbackShowPoint.x,FeedbackShowPoint.y);
+        graphics2D.transform(affineTransform);
+
+        if (CurrentAzimuth >= 0) {
+            affineTransform = new AffineTransform();
+
+
+        }
+
 
     }
     //绘制出菜单界面
