@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
 
@@ -13,7 +14,13 @@ public class AAExperimentPanel extends JPanel {
     private boolean OpenMenu = false;
     private int CurrentAzimuth = -1;
 
-    private int PartitionLineLength = 40; //设置圆形的覆盖区域
+    private int PartitionLineLength = 40; //设置圆形的覆盖区域（分隔线长度）
+
+    private int ArrowLineWidth = 3; //箭头线宽
+    private int ArrowWidth = 2; //箭头宽度
+    private int ArrowLength = 30; //箭头的长度
+    private int ArrowTipWidth = 5; //箭头提示宽度
+    private int ArrowTipLength = 6; //箭头提示长度
 
     private int  permeationRate = 180;
     private Color ClearWhite = new Color( Color.white.getRed(), Color.white.getGreen(), Color.white.getBlue(), permeationRate);
@@ -104,7 +111,7 @@ public class AAExperimentPanel extends JPanel {
     //放回用户选择的像素（是对应菜单中的像素）
     public int GetSetPixel() { return SetPixel; }
     //图像的重绘函数
-    public void paintComponent(Graphics2D g) {
+    public void paintComponent(Graphics g) {
         Graphics2D graphics2D = (Graphics2D) g;
         this.PaintTestArea(g); //绘画出测试区域
         //如果要显示压力动态区域
@@ -132,9 +139,38 @@ public class AAExperimentPanel extends JPanel {
         if (CurrentAzimuth >= 0) {
             affineTransform = new AffineTransform();
 
+            affineTransform.setToRotation(Math.toRadians(CurrentAzimuth
+                    + 15), FeedbackShowPoint.x, FeedbackShowPoint.y);
+            graphics2D.transform(affineTransform);
+            BasicStroke _arrowStroke = new BasicStroke(ArrowLineWidth);
+            graphics2D.setStroke(_arrowStroke);
+            GeneralPath _arrowPolygon = new GeneralPath(
+                    GeneralPath.WIND_EVEN_ODD); // 栴報偺懡妏宍
+            _arrowPolygon.moveTo(FeedbackShowPoint.x, FeedbackShowPoint.y
+                    + ArrowWidth / 2);
+            _arrowPolygon.lineTo(FeedbackShowPoint.x + ArrowLength,
+                    FeedbackShowPoint.y + ArrowWidth / 2);
+            _arrowPolygon.lineTo(FeedbackShowPoint.x + ArrowLength,
+                    FeedbackShowPoint.y + ArrowWidth / 2 + ArrowTipWidth / 2);
+            _arrowPolygon.lineTo(FeedbackShowPoint.x + ArrowLength
+                    + ArrowTipLength, FeedbackShowPoint.y);
+            _arrowPolygon.lineTo(FeedbackShowPoint.x + ArrowLength,
+                    FeedbackShowPoint.y - ArrowWidth / 2 - ArrowTipWidth / 2);
+            _arrowPolygon.lineTo(FeedbackShowPoint.x + ArrowLength,
+                    FeedbackShowPoint.y - ArrowWidth / 2);
+            _arrowPolygon.lineTo(FeedbackShowPoint.x, FeedbackShowPoint.y
+                    - ArrowWidth / 2);
+            _arrowPolygon.closePath();
+            graphics2D.setPaint(ClearPink);
+            graphics2D.fill(_arrowPolygon);
+            graphics2D.setPaint(ClearGray);
+            graphics2D.draw(_arrowPolygon);
 
+            affineTransform.setToRotation(Math
+                            .toRadians(360 - (CurrentAzimuth + 15)),
+                    FeedbackShowPoint.x, FeedbackShowPoint.y);
+            graphics2D.transform(affineTransform);
         }
-
 
     }
     //绘制出菜单界面

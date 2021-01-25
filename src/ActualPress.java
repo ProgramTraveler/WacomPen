@@ -22,7 +22,7 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
     private boolean ChooseFlag = false; //是否显示压力动态图像
     private int CurrentPress = -1; //获取当前的压力值
     //private int TriggerPress = 1024 - 1024 / 6; //目标压力值(403-1023)
-    private int TriggerPress = 403;
+    private int TriggerPress = 876; //预设的压力值，当比这个值大的时候就会触发选择菜单
 
     //下面这个两个boolean的值是用来检测颜色和像素切换是否合法
     private boolean ColorChange = false; //在进入到颜色的测试区域后，变为true

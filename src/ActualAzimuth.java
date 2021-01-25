@@ -214,7 +214,6 @@ public class ActualAzimuth extends JFrame implements ActionListener, MouseInputL
     public int CheckSelectMenuItem(int x,int y) {
         int MenuItem = -1;
         int tempY = MenuY;
-
         for (int i = 0; i < NumberOfMenuItem; i ++) {
             if ((MenuX - MenuWith) <= x && (MenuX >= x)) {
                 if ((MenuY <= y) && (tempY + MenuHeight) >= y) {
@@ -272,6 +271,7 @@ public class ActualAzimuth extends JFrame implements ActionListener, MouseInputL
     @Override
     public void actionPerformed(ActionEvent e) {
         CurrentAzimuth = penValue.Azimuth(); //获得当前的方位角
+        System.out.println(CurrentAzimuth);
         //如果到达了预设的方位角范围，就打开颜色和像素选择菜单
         if ((CurrentAzimuth >= 0 && CurrentAzimuth <= 88) || (CurrentAzimuth >= 176 && CurrentAzimuth <= 359)) {
             timer.stop(); //停止触发actionPerFormed
@@ -415,7 +415,6 @@ public class ActualAzimuth extends JFrame implements ActionListener, MouseInputL
         } catch (JTabletException e1) {
             e1.printStackTrace();
         }
-
         timer.stop();
     }
 

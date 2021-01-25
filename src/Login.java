@@ -201,7 +201,7 @@ public class Login extends JFrame implements ActionListener{
         }else if (getSelection(ButtonFrame).getActionCommand() == "T-实际值") {
             ActualTilt actualTilt = new ActualTilt(SelectedBlock);
         }else if (getSelection(ButtonFrame).getActionCommand() == "A-实际值") {
-            //AreaFrame frame=new AreaFrame();
+            ActualAzimuth actualAzimuth = new ActualAzimuth(SelectedBlock);
         }else if (getSelection(ButtonFrame).getActionCommand() == "P-离散值") {
 
         }else if (getSelection(ButtonFrame).getActionCommand() == "T-离散值") {
