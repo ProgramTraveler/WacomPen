@@ -274,6 +274,8 @@ public class ActualAzimuth extends JFrame implements ActionListener, MouseInputL
         System.out.println(CurrentAzimuth);
         //如果到达了预设的方位角范围，就打开颜色和像素选择菜单
         if ((CurrentAzimuth >= 0 && CurrentAzimuth <= 88) || (CurrentAzimuth >= 176 && CurrentAzimuth <= 359)) {
+            //System.out.println(CurrentAzimuth >= 0 && CurrentAzimuth <= 88);
+            //System.out.println(CurrentAzimuth >= 176 && CurrentAzimuth <= 359);
             timer.stop(); //停止触发actionPerFormed
             aaExperimentPanel.SetShowBack(false); //将方位角动态显示界面关闭
             MenuMove = false; //固定菜单出现的位置

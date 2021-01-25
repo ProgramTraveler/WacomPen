@@ -123,29 +123,32 @@ public class AAExperimentPanel extends JPanel {
     }
     //绘制出方位角的动态画面
     public void PaintAzimuthFeedback(Graphics2D graphics2D) {
-        graphics2D.setColor(ClearRed);
+
+        graphics2D.setColor(Color.RED);
         graphics2D.fillArc((int)FeedbackShowPoint.getX() - PartitionLineLength,(int)FeedbackShowPoint.getY() - PartitionLineLength,PartitionLineLength * 2,PartitionLineLength * 2,0,360);
 
         AffineTransform affineTransform = new AffineTransform();
 
-        affineTransform.setToRotation(Math.toRadians(15),FeedbackShowPoint.x,FeedbackShowPoint.y);
-        graphics2D.transform(affineTransform);
-        graphics2D.setPaint(ClearWhite);
-        graphics2D.fillArc(FeedbackShowPoint.x - PartitionLineLength,FeedbackShowPoint.y - PartitionLineLength,PartitionLineLength * 2,PartitionLineLength * 2,88,176); //88-176为常用的区域，所以用白色表示
+        int orientationSwitch2angleOfRotation = 88;
 
-        affineTransform.setToRotation(-15,FeedbackShowPoint.x,FeedbackShowPoint.y);
+        affineTransform.setToRotation(Math.toRadians(orientationSwitch2angleOfRotation),FeedbackShowPoint.x,FeedbackShowPoint.y);
+        graphics2D.transform(affineTransform);
+        graphics2D.setPaint(Color.WHITE);
+        graphics2D.fillArc(FeedbackShowPoint.x - PartitionLineLength,FeedbackShowPoint.y - PartitionLineLength,PartitionLineLength * 2,PartitionLineLength * 2,88,88); //88-176为常用的区域，所以用白色表示
+
+        affineTransform.setToRotation(-orientationSwitch2angleOfRotation,FeedbackShowPoint.x,FeedbackShowPoint.y);
         graphics2D.transform(affineTransform);
 
         if (CurrentAzimuth >= 0) {
             affineTransform = new AffineTransform();
 
             affineTransform.setToRotation(Math.toRadians(CurrentAzimuth
-                    + 15), FeedbackShowPoint.x, FeedbackShowPoint.y);
+                    + orientationSwitch2angleOfRotation), FeedbackShowPoint.x, FeedbackShowPoint.y);
             graphics2D.transform(affineTransform);
             BasicStroke _arrowStroke = new BasicStroke(ArrowLineWidth);
             graphics2D.setStroke(_arrowStroke);
             GeneralPath _arrowPolygon = new GeneralPath(
-                    GeneralPath.WIND_EVEN_ODD); // 栴報偺懡妏宍
+                    GeneralPath.WIND_EVEN_ODD);
             _arrowPolygon.moveTo(FeedbackShowPoint.x, FeedbackShowPoint.y
                     + ArrowWidth / 2);
             _arrowPolygon.lineTo(FeedbackShowPoint.x + ArrowLength,
@@ -166,9 +169,7 @@ public class AAExperimentPanel extends JPanel {
             graphics2D.setPaint(ClearGray);
             graphics2D.draw(_arrowPolygon);
 
-            affineTransform.setToRotation(Math
-                            .toRadians(360 - (CurrentAzimuth + 15)),
-                    FeedbackShowPoint.x, FeedbackShowPoint.y);
+            affineTransform.setToRotation(Math.toRadians(360 - (CurrentAzimuth + orientationSwitch2angleOfRotation)), FeedbackShowPoint.x, FeedbackShowPoint.y);
             graphics2D.transform(affineTransform);
         }
 
