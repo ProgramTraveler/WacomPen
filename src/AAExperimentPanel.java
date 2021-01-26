@@ -123,54 +123,38 @@ public class AAExperimentPanel extends JPanel {
     }
     //绘制出方位角的动态画面
     public void PaintAzimuthFeedback(Graphics2D graphics2D) {
-
-        graphics2D.setColor(Color.RED);
+        graphics2D.setColor(Color.RED); //设置测试背景为红色
+        //设置圆形方位角展示区域出现的位置，红色覆盖的角度为0-360
         graphics2D.fillArc((int)FeedbackShowPoint.getX() - PartitionLineLength,(int)FeedbackShowPoint.getY() - PartitionLineLength,PartitionLineLength * 2,PartitionLineLength * 2,0,360);
 
-        AffineTransform affineTransform = new AffineTransform();
+        AffineTransform affineTransform = new AffineTransform(); //构造一个新的 AffineTransform代表身份转换
 
-        int orientationSwitch2angleOfRotation = 88;
+        graphics2D.setPaint(Color.WHITE); //设置用户常用区域显示为白色
+        //设置圆形方位角展示区域出现的位置，白色覆盖区域为88-176
+        graphics2D.fillArc(FeedbackShowPoint.x - PartitionLineLength,FeedbackShowPoint.y - PartitionLineLength,PartitionLineLength * 2,PartitionLineLength * 2,360 - 88,- 88); //88-176为常用的区域，所以用白色表示
 
-        affineTransform.setToRotation(Math.toRadians(orientationSwitch2angleOfRotation),FeedbackShowPoint.x,FeedbackShowPoint.y);
-        graphics2D.transform(affineTransform);
-        graphics2D.setPaint(Color.WHITE);
-        graphics2D.fillArc(FeedbackShowPoint.x - PartitionLineLength,FeedbackShowPoint.y - PartitionLineLength,PartitionLineLength * 2,PartitionLineLength * 2,88,88); //88-176为常用的区域，所以用白色表示
-
-        affineTransform.setToRotation(-orientationSwitch2angleOfRotation,FeedbackShowPoint.x,FeedbackShowPoint.y);
-        graphics2D.transform(affineTransform);
 
         if (CurrentAzimuth >= 0) {
             affineTransform = new AffineTransform();
-
-            affineTransform.setToRotation(Math.toRadians(CurrentAzimuth
-                    + orientationSwitch2angleOfRotation), FeedbackShowPoint.x, FeedbackShowPoint.y);
+            //控制箭头的角度
+            affineTransform.setToRotation(Math.toRadians(CurrentAzimuth), FeedbackShowPoint.x, FeedbackShowPoint.y);
             graphics2D.transform(affineTransform);
             BasicStroke _arrowStroke = new BasicStroke(ArrowLineWidth);
             graphics2D.setStroke(_arrowStroke);
-            GeneralPath _arrowPolygon = new GeneralPath(
-                    GeneralPath.WIND_EVEN_ODD);
-            _arrowPolygon.moveTo(FeedbackShowPoint.x, FeedbackShowPoint.y
-                    + ArrowWidth / 2);
-            _arrowPolygon.lineTo(FeedbackShowPoint.x + ArrowLength,
-                    FeedbackShowPoint.y + ArrowWidth / 2);
-            _arrowPolygon.lineTo(FeedbackShowPoint.x + ArrowLength,
-                    FeedbackShowPoint.y + ArrowWidth / 2 + ArrowTipWidth / 2);
-            _arrowPolygon.lineTo(FeedbackShowPoint.x + ArrowLength
-                    + ArrowTipLength, FeedbackShowPoint.y);
-            _arrowPolygon.lineTo(FeedbackShowPoint.x + ArrowLength,
-                    FeedbackShowPoint.y - ArrowWidth / 2 - ArrowTipWidth / 2);
-            _arrowPolygon.lineTo(FeedbackShowPoint.x + ArrowLength,
-                    FeedbackShowPoint.y - ArrowWidth / 2);
-            _arrowPolygon.lineTo(FeedbackShowPoint.x, FeedbackShowPoint.y
-                    - ArrowWidth / 2);
+            GeneralPath _arrowPolygon = new GeneralPath(GeneralPath.WIND_EVEN_ODD);
+            _arrowPolygon.moveTo(FeedbackShowPoint.x, FeedbackShowPoint.y + ArrowWidth / 2);
+            _arrowPolygon.lineTo(FeedbackShowPoint.x + ArrowLength, FeedbackShowPoint.y + ArrowWidth / 2);
+            _arrowPolygon.lineTo(FeedbackShowPoint.x + ArrowLength, FeedbackShowPoint.y + ArrowWidth / 2 + ArrowTipWidth / 2);
+            _arrowPolygon.lineTo(FeedbackShowPoint.x + ArrowLength + ArrowTipLength, FeedbackShowPoint.y);
+            _arrowPolygon.lineTo(FeedbackShowPoint.x + ArrowLength, FeedbackShowPoint.y - ArrowWidth / 2 - ArrowTipWidth / 2);
+            _arrowPolygon.lineTo(FeedbackShowPoint.x + ArrowLength, FeedbackShowPoint.y - ArrowWidth / 2);
+            _arrowPolygon.lineTo(FeedbackShowPoint.x, FeedbackShowPoint.y - ArrowWidth / 2);
             _arrowPolygon.closePath();
             graphics2D.setPaint(ClearPink);
             graphics2D.fill(_arrowPolygon);
             graphics2D.setPaint(ClearGray);
             graphics2D.draw(_arrowPolygon);
 
-            affineTransform.setToRotation(Math.toRadians(360 - (CurrentAzimuth + orientationSwitch2angleOfRotation)), FeedbackShowPoint.x, FeedbackShowPoint.y);
-            graphics2D.transform(affineTransform);
         }
 
     }

@@ -127,7 +127,8 @@ public class ActualAzimuth extends JFrame implements ActionListener, MouseInputL
         ActualAFrame.add(jSplitPane);  //加入到面板中就好了
 
         //界面全屏设置
-        ActualAFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        //ActualAFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        ActualAFrame.setBounds(500,300,500,500);
         ActualAFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         ActualAFrame.setVisible(true);
     }
@@ -271,16 +272,16 @@ public class ActualAzimuth extends JFrame implements ActionListener, MouseInputL
     @Override
     public void actionPerformed(ActionEvent e) {
         CurrentAzimuth = penValue.Azimuth(); //获得当前的方位角
-        System.out.println(CurrentAzimuth);
+
         //如果到达了预设的方位角范围，就打开颜色和像素选择菜单
         if ((CurrentAzimuth >= 0 && CurrentAzimuth <= 88) || (CurrentAzimuth >= 176 && CurrentAzimuth <= 359)) {
-            //System.out.println(CurrentAzimuth >= 0 && CurrentAzimuth <= 88);
-            //System.out.println(CurrentAzimuth >= 176 && CurrentAzimuth <= 359);
+            System.out.println(CurrentAzimuth);
             timer.stop(); //停止触发actionPerFormed
             aaExperimentPanel.SetShowBack(false); //将方位角动态显示界面关闭
             MenuMove = false; //固定菜单出现的位置
             this.ProcessTriggerSwitch(); //弹出颜色和像素选择菜单
             penData.SetAzimuth(CurrentAzimuth);
+
         }else {
             //没达到指定的方位角区域就继续显示方位角的动态信息
             aaExperimentPanel.SetCurrentAzimuth(CurrentAzimuth);
