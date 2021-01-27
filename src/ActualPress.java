@@ -1,5 +1,4 @@
 import cello.tablet.JTablet;
-import cello.tablet.JTabletCursor;
 import cello.tablet.JTabletException;
 
 import javax.swing.*;
@@ -21,7 +20,6 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
     private PAExperimentPanel paExperimentPanel = new PAExperimentPanel(); //创建PAExperimentPanel类
     private boolean ChooseFlag = false; //是否显示压力动态图像
     private int CurrentPress = -1; //获取当前的压力值
-    //private int TriggerPress = 1024 - 1024 / 6; //目标压力值(403-1023)
     private int TriggerPress = 876; //预设的压力值，当比这个值大的时候就会触发选择菜单
 
     //下面这个两个boolean的值是用来检测颜色和像素切换是否合法

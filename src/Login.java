@@ -193,7 +193,7 @@ public class Login extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent e) {
 
         SelectedBlock = BlockCB.getSelectedIndex() + 1; //返回列表中与给定项匹配的第一个选项
-
+        //根据选择的按钮，进入到不同的模式中
         if(getSelection(ButtonFrame).getActionCommand() == "传统画线模式") {
             TraditionalFrame traditionalFrame = new TraditionalFrame(SelectedBlock);
         }else if (getSelection(ButtonFrame).getActionCommand() == "P-实际值") {
@@ -203,7 +203,7 @@ public class Login extends JFrame implements ActionListener{
         }else if (getSelection(ButtonFrame).getActionCommand() == "A-实际值") {
             ActualAzimuth actualAzimuth = new ActualAzimuth(SelectedBlock);
         }else if (getSelection(ButtonFrame).getActionCommand() == "P-离散值") {
-
+            ScatteredPress scatteredPress = new ScatteredPress(SelectedBlock);
         }else if (getSelection(ButtonFrame).getActionCommand() == "T-离散值") {
 
         }else if (getSelection(ButtonFrame).getActionCommand() == "A-离散值") {

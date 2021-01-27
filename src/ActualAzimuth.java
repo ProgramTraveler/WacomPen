@@ -161,7 +161,7 @@ public class ActualAzimuth extends JFrame implements ActionListener, MouseInputL
         AADraw.setBackground(Color.WHITE);
         AADraw.add(aaExperimentPanel,BorderLayout.CENTER);
     }
-    //对ATInter界面进行重绘，目的是移除提示的目标信息
+    //对AAInter界面进行重绘，目的是移除提示的目标信息
     public void RemoveRandom() {
         AAInter.removeAll();
         AAInter.repaint();
@@ -187,8 +187,8 @@ public class ActualAzimuth extends JFrame implements ActionListener, MouseInputL
         //将笔的像素变为1.0
         SetPixel = 1;
     }
-    //重绘ATInter界面
-    public void RepaintATInter() {
+    //重绘AAInter界面
+    public void RepaintAAInter() {
         AAInter.removeAll();
         AAInter.repaint();
 
@@ -485,7 +485,7 @@ public class ActualAzimuth extends JFrame implements ActionListener, MouseInputL
                 }
                 else
                     penData.SetResultC(null);
-                this.RepaintATInter();
+                this.RepaintAAInter();
 
             }
             //如果像素的分支菜单被打开
@@ -515,7 +515,7 @@ public class ActualAzimuth extends JFrame implements ActionListener, MouseInputL
                 }
                 else
                     penData.SetResultP(null);
-                this.RepaintATInter();
+                this.RepaintAAInter();
             }
             aaExperimentPanel.repaint();
 
@@ -557,11 +557,10 @@ public class ActualAzimuth extends JFrame implements ActionListener, MouseInputL
                 ShowColorT.setFont(new Font("楷体",Font.BOLD,20));
 
                 JPanelRandomC.setBounds(980,250,60,20);
-                //将插件添加到TFInter中
+
                 AAInter.add(ShowColorT);
                 AAInter.add(JPanelRandomC);
-                //重绘TFInter界面
-                this.RepaintATInter();
+                this.RepaintAAInter();
                 ColorFlag = false;
             } else if (x0 >= 350 && x0 <= 850 && y0 >= 50 && y0 <= 150 && ColorFlag == false){
 
@@ -604,12 +603,10 @@ public class ActualAzimuth extends JFrame implements ActionListener, MouseInputL
                 JPanelRandomP.setHorizontalAlignment(JPanelRandomP.LEFT);
                 JPanelRandomP.setFont(new Font("黑体",Font.BOLD,20));
 
-                //把插件添加到TFInter中
                 AAInter.add(ShowPixelT);
                 AAInter.add(JPanelRandomP);
 
-                //重绘APInter界面
-                this.RepaintATInter();
+                this.RepaintAAInter();
                 PixelFlag = false;
             }else if (x0 >= 900 && x0 <= 1400 && y0 >= 50 && y0 <= 150 && PixelFlag == false) {
 
