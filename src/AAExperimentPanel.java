@@ -115,8 +115,8 @@ public class AAExperimentPanel extends JPanel {
         Graphics2D graphics2D = (Graphics2D) g;
         this.PaintTestArea(g); //绘画出测试区域
         //如果要显示压力动态区域
-        if (ShowBack)
-            this.PaintAzimuthFeedback(graphics2D);
+        /*if (ShowBack)
+            this.PaintAzimuthFeedback(graphics2D);*/
         //如果要打开颜色和像素的选择菜单
         if (OpenMenu)
             this.PaintOpenMenu(graphics2D);

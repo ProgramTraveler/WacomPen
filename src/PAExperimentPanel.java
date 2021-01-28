@@ -94,7 +94,7 @@ public class PAExperimentPanel extends JPanel {
     public void SetShowBack(boolean b) { ShowBack = b; }
     //设置是否显示颜色分支菜单
     public void SetShowColorMenu(boolean b) { ShowColorMenu = b; }
-     public boolean GetShowColorMenu() { return ShowColorMenu; }
+    public boolean GetShowColorMenu() { return ShowColorMenu; }
     //设置是否显示像素分支菜单
     public void SetShowPixelMenu(boolean b) { ShowPixelMenu = b; }
     public boolean GetShowPixelMenu() { return ShowPixelMenu; }
@@ -107,8 +107,9 @@ public class PAExperimentPanel extends JPanel {
         Graphics2D graphics2D = (Graphics2D) g;
         this.PaintTestArea(g); //绘画出测试区域
         //如果要显示压力动态区域
-        if (ShowBack)
+        /*if (ShowBack)
             this.PaintPressFeedback(graphics2D);
+         */
         //如果要打开颜色和像素的选择菜单
         if (OpenMenu)
             this.PaintOpenMenu(graphics2D);

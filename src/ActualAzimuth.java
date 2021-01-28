@@ -127,8 +127,8 @@ public class ActualAzimuth extends JFrame implements ActionListener, MouseInputL
         ActualAFrame.add(jSplitPane);  //加入到面板中就好了
 
         //界面全屏设置
-        //ActualAFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        ActualAFrame.setBounds(500,300,500,500);
+        ActualAFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        //ActualAFrame.setBounds(500,300,500,500);
         ActualAFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         ActualAFrame.setVisible(true);
     }
@@ -297,9 +297,9 @@ public class ActualAzimuth extends JFrame implements ActionListener, MouseInputL
     @Override
     public void keyPressed(KeyEvent e) {
         //如果用户按下ALT键，说明要开始切换
-        if (e.getKeyCode() == KeyEvent.VK_ALT) {
+        /*if (e.getKeyCode() == KeyEvent.VK_ALT) {
             ChooseFlag = true;
-        }
+        }*/
         //当一次实验完成，用户按下空格键
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             //清空集合中的点的信息
@@ -370,10 +370,14 @@ public class ActualAzimuth extends JFrame implements ActionListener, MouseInputL
     public void mousePressed(MouseEvent e) {
         if (javax.swing.SwingUtilities.isLeftMouseButton(e)) {
             //如果要显是动态压力图像
-            if (ChooseFlag) {
+            /*if (ChooseFlag) {
                 timer.restart();
                 aaExperimentPanel.SetShowBack(true);
-            }
+            }*/
+
+            timer.restart();
+            aaExperimentPanel.SetShowBack(true);
+
             //获得开始时鼠标的位置
             x0 = e.getX();
             y0 = e.getY();

@@ -298,9 +298,9 @@ public class ActualTilt extends JFrame implements ActionListener, MouseInputList
     @Override
     public void keyPressed(KeyEvent e) {
         //如果用户按下ALT键，说明要开始切换
-        if (e.getKeyCode() == KeyEvent.VK_ALT) {
+        /*if (e.getKeyCode() == KeyEvent.VK_ALT) {
             ChooseFlag = true;
-        }
+        }*/
         //当一次实验完成，用户按下空格键
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             //清空集合中的点的信息
@@ -371,10 +371,14 @@ public class ActualTilt extends JFrame implements ActionListener, MouseInputList
     public void mousePressed(MouseEvent e) {
         if (javax.swing.SwingUtilities.isLeftMouseButton(e)) {
             //如果要显是动态压力图像
-            if (ChooseFlag) {
+            /*if (ChooseFlag) {
                 timer.restart();
                 taExperimentPanel.SetShowBack(true);
-            }
+            }*/
+
+            timer.restart();
+            taExperimentPanel.SetShowBack(true);
+
             //获得开始时鼠标的位置
             x0 = e.getX();
             y0 = e.getY();
