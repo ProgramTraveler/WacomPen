@@ -451,7 +451,6 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         //获得抬笔的文字格式
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SS");
         pData.AddTimeString(dateFormat.format(new Date()));
-
     }
     @Override
     public void mouseEntered(MouseEvent e) {

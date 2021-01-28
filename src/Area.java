@@ -86,7 +86,6 @@ public class Area extends JPanel {
             //画出线段
             Line2D line = new Line2D.Double(x0,y0,x1,y1);
             Line.draw(line);
-
         }
     }
 }

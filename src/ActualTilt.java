@@ -185,9 +185,9 @@ public class ActualTilt extends JFrame implements ActionListener, MouseInputList
         ATInter.add(ShowPixel);
         ATInter.revalidate();
         //将笔的颜色变为黑色
-        SetColor = 0;
+        taExperimentPanel.DefineColor();
         //将笔的像素变为1.0
-        SetPixel = 1;
+        taExperimentPanel.DefinePixel();
     }
     //重绘ATInter界面
     public void RepaintATInter() {

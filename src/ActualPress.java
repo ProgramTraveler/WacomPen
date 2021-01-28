@@ -186,9 +186,9 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
         APInter.add(ShowPixel);
         APInter.revalidate();
         //将笔的颜色变为黑色
-        SetColor = 0;
+        paExperimentPanel.DefineColor();
         //将笔的像素变为1.0
-        SetPixel = 1;
+        paExperimentPanel.DefinePixel();
     }
     //重绘APInter界面
     public void RepaintAPInter() {
@@ -366,7 +366,6 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
     public void mouseClicked(MouseEvent e) {
 
     }
-
     @Override
     public void mousePressed(MouseEvent e) {
         if (javax.swing.SwingUtilities.isLeftMouseButton(e)) {
@@ -375,7 +374,6 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
                 timer.restart();
                 paExperimentPanel.SetShowBack(true);
             }*/
-
             timer.restart();
             paExperimentPanel.SetShowBack(true);
 

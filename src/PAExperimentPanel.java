@@ -99,8 +99,10 @@ public class PAExperimentPanel extends JPanel {
     public void SetShowPixelMenu(boolean b) { ShowPixelMenu = b; }
     public boolean GetShowPixelMenu() { return ShowPixelMenu; }
     //返回用户选择的颜色（是对应菜单中的颜色）
+    public void DefineColor() { SetColor = 0; } //初始化颜色
     public int GetSetColor() { return SetColor; }
     //放回用户选择的像素（是对应菜单中的像素）
+    public void DefinePixel() { SetPixel = 1; } //初始化像素
     public int GetSetPixel() { return SetPixel; }
     //图像的重绘界面
     public void paintComponent(Graphics g) {

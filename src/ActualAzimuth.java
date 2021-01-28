@@ -183,9 +183,9 @@ public class ActualAzimuth extends JFrame implements ActionListener, MouseInputL
         AAInter.add(ShowPixel);
         AAInter.revalidate();
         //将笔的颜色变为黑色
-        SetColor = 0;
+        aaExperimentPanel.DefineColor();
         //将笔的像素变为1.0
-        SetPixel = 1;
+        aaExperimentPanel.DefinePixel();
     }
     //重绘AAInter界面
     public void RepaintAAInter() {
