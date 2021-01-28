@@ -14,6 +14,7 @@ import java.util.Date;
     author:王久铭
     purpose:压力离散化界面，是通过压力的变化来实现在压力不同区域中选择颜色和像素，不需要弹出菜单
  */
+/*
 public class ScatteredPress extends JFrame implements MouseInputListener, KeyListener, ActionListener {
     private int time = 50; //更新时间为50毫秒一次
     private Timer timer = new Timer(time,this); //以每50毫秒一次触发actionPerformed触发器
@@ -44,16 +45,16 @@ public class ScatteredPress extends JFrame implements MouseInputListener, KeyLis
     private double x0,y0; //每一次笔尖开始的位置
     private double x1,y1; //每一次笔尖结束的位置
 
-    /*
+
         将ActualPress分为两个区域
-     */
+
     private JPanel SPInter = new JPanel(); //提示信息区域
     private JPanel SPDraw = new JPanel(); //画线区域
 
-    /*
+
         提示标签和提示语句
             当前的颜色和像素
-    */
+
     //做为当前颜色的提示标签
     private JLabel ShowColorL = new JLabel("当前颜色:");
     //设置当前的提示颜色块（默认的初始的颜色为黑色）
@@ -64,10 +65,10 @@ public class ScatteredPress extends JFrame implements MouseInputListener, KeyLis
     private JLabel ShowPixel = new JLabel();
     //像素语句，用于提示当前的像素值
     private String StringPixel = "1.0";
-    /*
+
     提示标签和语句
         应该切换的颜色和像素
-     */
+
     //切换颜色的提示
     private JLabel ShowColorT = new JLabel("目标颜色");
     //颜色提示块
@@ -115,9 +116,9 @@ public class ScatteredPress extends JFrame implements MouseInputListener, KeyLis
         this.CreateSPInter();
         this.CreateSPDraw();
 
-         /*
+
         将界面分割为两部分
-         */
+
         JSplitPane jSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,false,SPInter,SPDraw); //这里第一个参数是控制分割线竖直，第二个参数是当你拖曳切割面版的分隔线时，窗口内的组件是否会随着分隔线的拖曳而动态改变大小，最后两个参数就是我分割完成后分割线两边各添加哪个容器。
         jSplitPane.setDividerLocation(300); //分割线的位置  也就是初始位置
         jSplitPane.setOneTouchExpandable(false); //是否可展开或收起，在这里没用
@@ -299,9 +300,9 @@ public class ScatteredPress extends JFrame implements MouseInputListener, KeyLis
             //获得开始时鼠标的位置
             x0 = e.getX();
             y0 = e.getY();
-            /*
+
             获得落笔的时间
-             */
+
             //获得落笔的时间戳
             penData.AddTime(System.currentTimeMillis());
             //获得落笔的文字格式
@@ -347,9 +348,9 @@ public class ScatteredPress extends JFrame implements MouseInputListener, KeyLis
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        /*
+        
         应该每次拖动时都会产生一个点对象
-         */
+
         //获得笔在拖动时的坐标
         x1 = e.getX();
         y1 = e.getY();
@@ -468,3 +469,4 @@ public class ScatteredPress extends JFrame implements MouseInputListener, KeyLis
         }
     }
 }
+*/
