@@ -326,6 +326,8 @@ public class ScatteredPress extends JFrame implements MouseInputListener, KeyLis
         //当抬笔后说明已经选择完成
         ChooseFlag = false; //不显示压力动态图像
         psExperimentPanel.SetShowBack(false); //不打开显示压力的动态显示
+
+        psExperimentPanel.RemoveAllJLabel(); //清除颜色和像素标签
         //对压力值重新获取
         try {
             tablet.poll();
@@ -347,14 +349,12 @@ public class ScatteredPress extends JFrame implements MouseInputListener, KeyLis
 
     @Override
     public void mouseDragged(MouseEvent e) {
-                /*
-        应该每次拖动时都会产生一个点对象
-         */
         //获得笔在拖动时的坐标
         x1 = e.getX();
         y1 = e.getY();
         //点的位置，用来为压力的显示提供位置信息
         psExperimentPanel.SetShowPoint(new Point((int) x0, (int) y0));
+        psExperimentPanel.RemoveItemJLabel();
         //获得颜色切换的颜色值
         SetColor = psExperimentPanel.GetSetColor();
         //获得像素切换的像素值

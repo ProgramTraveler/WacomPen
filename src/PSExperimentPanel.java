@@ -17,10 +17,11 @@ public class PSExperimentPanel extends JPanel {
     private Color ClearRed = new Color( Color.red.getRed(), Color.red.getGreen(), Color.red.getBlue(), permeationRate);
 
     private Point FeedbackShowPoint = new Point(); //记录点的位置，为后面的压力提示，颜色和像素菜单切换提供位置基础
-    private int PressureFeedbackWidth = 90;
-    private int PressureFeedbackHeight = 120;
+    private int PressureFeedbackWidth = 90; //动态显示框的宽度
+    private int PressureFeedbackHeight = 200; //动态显示框的长度
     private int PressureCursorRadius = 3;
-    private int MaxPressure =1023;
+    private int MaxPressure =1023; //最大压力值
+
 
     public static ArrayList<Dot> arrayListSpot; //记录点在绘画过程中的信息,为了方便可以直接调用，就写成了public的
     private Graphics2D Line; //设置线条的相关信息
@@ -37,9 +38,9 @@ public class PSExperimentPanel extends JPanel {
 
     private boolean ShowColorMenu = true; //是否显示颜色分支菜单
     private int SelectColorItem = -1; //颜色分支菜单中的具体颜色
-    private JLabel ColorBlue = new JLabel("蓝色");
-    private JLabel ColorRed = new JLabel("红色");
-    private JLabel ColorYellow = new JLabel("黄色");
+    private JPanel ColorBlue = new JPanel(); //显示蓝色块
+    private JPanel ColorRed = new JPanel(); //显示红色块
+    private JPanel ColorYellow = new JPanel(); //显示黄色块
 
     private boolean ShowPixelMenu = true; //是否显示像素分支菜单
     private int SelectPixelItem = -1; //像素分支菜单中的具体像素
@@ -78,6 +79,27 @@ public class PSExperimentPanel extends JPanel {
         graphics2D.setColor(ClearLightGray);
         graphics2D.drawRect( (int)FeedbackShowPoint.getX() - PressureFeedbackWidth / 2, (int)FeedbackShowPoint.getY() - PressureFeedbackHeight,
                 PressureFeedbackWidth, PressureFeedbackHeight);
+        //黑点上升的那条直线
+        graphics2D.drawLine( (int)FeedbackShowPoint.getX(), (int)FeedbackShowPoint.getY() - PressureFeedbackHeight,
+                (int)FeedbackShowPoint.getX(), (int)FeedbackShowPoint.getY() );
+        //动态变化的黑点
+        if ( CurrentPress >= 0 ) {
+            graphics2D.setColor(Color.BLACK);
+            double RatioY = FeedbackShowPoint.getY() - PressureFeedbackHeight * ( (double)CurrentPress / (double)MaxPressure);
+            graphics2D.fillArc( (int)FeedbackShowPoint.getX() - PressureCursorRadius, (int)RatioY - PressureCursorRadius, PressureCursorRadius * 2, PressureCursorRadius * 2, 0, 360 );
+        }
+
+        //判断压力值是否到达颜色或者像素选择条件
+        if (CurrentPress >= 863)
+            ShowColorMenu = false;
+        else
+            ShowColorMenu = true;
+
+        if (CurrentPress >= 702 && CurrentPress <863)
+            ShowPixelMenu = false;
+        else
+            ShowPixelMenu = true;
+
         //颜色标签所占高度（按压力比例）
         double TargetColorHeight = PressureFeedbackHeight * (((double)1023 - (double) 863) / (double) 1023);
         //像素标签所占高度（按压力比例）
@@ -90,7 +112,30 @@ public class PSExperimentPanel extends JPanel {
             graphics2D.setColor(ClearLightGray);
             graphics2D.drawRect( (int)FeedbackShowPoint.getX() - PressureFeedbackWidth / 2, (int)FeedbackShowPoint.getY() - PressureFeedbackHeight, PressureFeedbackWidth, (int)TargetColorHeight);
         }else {
+            this.remove(ColorJLabel); //当压力到达颜色区域时，不再显示压力菜单，而是展示颜色的二级菜单
+            //设置颜色菜单二级目录下的颜色块
+            ColorBlue.setBackground(Color.BLUE);
+            ColorRed.setBackground(Color.RED);
+            ColorYellow.setBackground(Color.ORANGE);
+            //设置颜色块出现的位置
+            double YellowHeight = PressureFeedbackHeight *  (((double)1023 - (double)969) / (double)1023);
+            double RedHeight = PressureFeedbackHeight * (((double)969 - (double)916) / (double)1023);
+            double BlueHeight = PressureFeedbackHeight * (((double)916 - (double)863) / (double)1023);
 
+            ColorYellow.setBounds((int)FeedbackShowPoint.getX() - PressureFeedbackWidth / 2, (int)FeedbackShowPoint.getY() - PressureFeedbackHeight, PressureFeedbackWidth, (int)YellowHeight);
+            ColorRed.setBounds((int)FeedbackShowPoint.getX() - PressureFeedbackWidth / 2, (int)FeedbackShowPoint.getY() - PressureFeedbackHeight + (int)BlueHeight, PressureFeedbackWidth, (int)RedHeight);
+            ColorBlue.setBounds((int)FeedbackShowPoint.getX() - PressureFeedbackWidth / 2, (int)FeedbackShowPoint.getY() - PressureFeedbackHeight + (int)YellowHeight + (int)RedHeight, PressureFeedbackWidth, (int)BlueHeight);
+            //设置颜色之间的分割线
+            graphics2D.setColor(ClearLightGray);
+            graphics2D.drawRect((int)FeedbackShowPoint.getX() - PressureFeedbackWidth / 2, (int)FeedbackShowPoint.getY() - PressureFeedbackHeight, PressureFeedbackWidth, (int)YellowHeight);
+            graphics2D.drawRect((int)FeedbackShowPoint.getX() - PressureFeedbackWidth / 2, (int)FeedbackShowPoint.getY() - PressureFeedbackHeight + (int)BlueHeight, PressureFeedbackWidth, (int)RedHeight);
+            graphics2D.drawRect((int)FeedbackShowPoint.getX() - PressureFeedbackWidth / 2, (int)FeedbackShowPoint.getY() - PressureFeedbackHeight + (int)YellowHeight + (int)RedHeight, PressureFeedbackWidth, (int)BlueHeight);
+            //添加颜色块
+            this.add(ColorYellow);
+            this.add(ColorRed);
+            this.add(ColorBlue);
+
+            this.repaint();
         }
         //显示像素菜单标签
         if (ShowPixelMenu) {
@@ -99,15 +144,8 @@ public class PSExperimentPanel extends JPanel {
             //画出像素的分隔线
             graphics2D.setColor(ClearLightGray);
             graphics2D.drawRect( (int)FeedbackShowPoint.getX() - PressureFeedbackWidth / 2, (int)FeedbackShowPoint.getY() - PressureFeedbackHeight + (int)TargetColorHeight, PressureFeedbackWidth, (int)TargetColorHeight);
-        }
-        //黑点上升的那条直线
-        graphics2D.drawLine( (int)FeedbackShowPoint.getX(), (int)FeedbackShowPoint.getY() - PressureFeedbackHeight,
-                (int)FeedbackShowPoint.getX(), (int)FeedbackShowPoint.getY() );
-        //动态变化的黑点
-        if ( CurrentPress >= 0 ) {
-            graphics2D.setColor( ClearBlack);
-            double RatioY = FeedbackShowPoint.getY() - PressureFeedbackHeight * ( (double)CurrentPress / (double)MaxPressure);
-            graphics2D.fillArc( (int)FeedbackShowPoint.getX() - PressureCursorRadius, (int)RatioY - PressureCursorRadius, PressureCursorRadius * 2, PressureCursorRadius * 2, 0, 360 );
+        }else {
+            this.remove(PixelJLabel);
         }
     }
 
@@ -160,5 +198,23 @@ public class PSExperimentPanel extends JPanel {
             Line.draw(line);
             Line.setStroke(new BasicStroke(1));
         }
+    }
+    //当抬笔时，清除所有颜色和像素标签
+    public void RemoveAllJLabel() {
+        this.removeAll();
+        this.repaint();
+    }
+    //当笔在移动过程中，对分支颜色和像素进行移除和重组
+    public void RemoveItemJLabel() {
+        //移除所有的颜色组件
+        this.remove(ColorBlue);
+        this.remove(ColorRed);
+        this.remove(ColorYellow);
+        //移除所有的像素组件
+        this.remove(PixelTow);
+        this.remove(PixelThree);
+        this.remove(PixelFour);
+
+        this.repaint();
     }
 }
