@@ -203,7 +203,7 @@ public class Login extends JFrame implements ActionListener{
         }else if (getSelection(ButtonFrame).getActionCommand() == "A-实际值") {
             ActualAzimuth actualAzimuth = new ActualAzimuth(SelectedBlock);
         }else if (getSelection(ButtonFrame).getActionCommand() == "P-离散值") {
-            //ScatteredPress scatteredPress = new ScatteredPress(SelectedBlock);
+            ScatteredPress scatteredPress = new ScatteredPress(SelectedBlock);
         }else if (getSelection(ButtonFrame).getActionCommand() == "T-离散值") {
 
         }else if (getSelection(ButtonFrame).getActionCommand() == "A-离散值") {

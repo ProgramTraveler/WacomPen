@@ -16,7 +16,7 @@ import java.util.Date;
  */
 public class ScatteredPress extends JFrame implements MouseInputListener, KeyListener, ActionListener {
     private int time = 50; //更新时间为50毫秒一次
-    private Timer timer = new Timer(time,this); //以每50毫秒一次触发actionPerformed触发器
+    private Timer timer = new Timer(time, this); //以每50毫秒一次触发actionPerformed触发器
     private PSExperimentPanel psExperimentPanel = new PSExperimentPanel();
     private boolean ChooseFlag = false; //是否显示压力动态图像
     private int CurrentPress = -1; //获取当前压力值
@@ -41,8 +41,8 @@ public class ScatteredPress extends JFrame implements MouseInputListener, KeyLis
     //获取笔的实时数据
     private PenValue penValue = new PenValue();
 
-    private double x0,y0; //每一次笔尖开始的位置
-    private double x1,y1; //每一次笔尖结束的位置
+    private double x0, y0; //每一次笔尖开始的位置
+    private double x1, y1; //每一次笔尖结束的位置
 
     /*
         将ActualPress分为两个区域
@@ -85,7 +85,6 @@ public class ScatteredPress extends JFrame implements MouseInputListener, KeyLis
     private boolean PixelFlag = true;
 
 
-
     public ScatteredPress(int BlockNumber) {
         psExperimentPanel.setLayout(new BorderLayout());
         psExperimentPanel.addMouseListener(this);
@@ -111,6 +110,7 @@ public class ScatteredPress extends JFrame implements MouseInputListener, KeyLis
         timer.start();
         timer.stop();
     }
+
     public void CreateSPFrame() {
         this.CreateSPInter();
         this.CreateSPDraw();
@@ -118,7 +118,7 @@ public class ScatteredPress extends JFrame implements MouseInputListener, KeyLis
          /*
         将界面分割为两部分
          */
-        JSplitPane jSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,false,SPInter,SPDraw); //这里第一个参数是控制分割线竖直，第二个参数是当你拖曳切割面版的分隔线时，窗口内的组件是否会随着分隔线的拖曳而动态改变大小，最后两个参数就是我分割完成后分割线两边各添加哪个容器。
+        JSplitPane jSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, false, SPInter, SPDraw); //这里第一个参数是控制分割线竖直，第二个参数是当你拖曳切割面版的分隔线时，窗口内的组件是否会随着分隔线的拖曳而动态改变大小，最后两个参数就是我分割完成后分割线两边各添加哪个容器。
         jSplitPane.setDividerLocation(300); //分割线的位置  也就是初始位置
         jSplitPane.setOneTouchExpandable(false); //是否可展开或收起，在这里没用
         jSplitPane.setDividerSize(0);//设置分割线的宽度 像素为单位(这里设为0，择时不显示分割线)
@@ -127,48 +127,52 @@ public class ScatteredPress extends JFrame implements MouseInputListener, KeyLis
 
         //界面全屏设置
         ScatteredPFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        //ScatteredPFrame.setBounds(500,200,300,800);
         ScatteredPFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         ScatteredPFrame.setVisible(true);
     }
+
     public void CreateSPInter() {
         //上半部分的界面,背景颜色为默认颜色
         SPInter.setLayout(null); //不采用布局管理器,由坐标定位
 
         //当前颜色提示标签
-        ShowColorL.setBounds(500,250,100,20);
-        ShowColorL.setFont(new Font("楷体",Font.BOLD,20));
+        ShowColorL.setBounds(500, 250, 100, 20);
+        ShowColorL.setFont(new Font("楷体", Font.BOLD, 20));
         SPInter.add(ShowColorL);
         //当前颜色（颜色块）
-        ShowColorBlock.setBounds(600,250,60,20);
+        ShowColorBlock.setBounds(600, 250, 60, 20);
         ShowColorBlock.setBackground(Color.BLACK);
         SPInter.add(ShowColorBlock);
 
         //当前像素提示标签
-        ShowPixelL.setBounds(700,250,100,20);
-        ShowPixelL.setFont(new Font("楷体",Font.BOLD,20));
+        ShowPixelL.setBounds(700, 250, 100, 20);
+        ShowPixelL.setFont(new Font("楷体", Font.BOLD, 20));
         SPInter.add(ShowPixelL);
         //当前像素
-        ShowPixel.setBounds(800,250,100,20);
+        ShowPixel.setBounds(800, 250, 100, 20);
         ShowPixel.setText(StringPixel);
         ShowPixel.setHorizontalAlignment(ShowPixel.LEFT);
-        ShowPixel.setFont(new Font("黑体",Font.BOLD,20));
+        ShowPixel.setFont(new Font("黑体", Font.BOLD, 20));
         SPInter.add(ShowPixel);
     }
+
     public void CreateSPDraw() {
         SPDraw.setLayout(new BorderLayout());
         SPDraw.setBackground(Color.WHITE);
-        SPDraw.add(psExperimentPanel,BorderLayout.CENTER);
+        SPDraw.add(psExperimentPanel, BorderLayout.CENTER);
     }
+
     //重绘SPInter界面(将提示的移除掉)
     public void RemoveRandom() {
         SPInter.removeAll();
         SPInter.repaint();
         //将颜色提示语句和颜色块隐藏
-        ShowColorT.setBounds(0,0,0,0);
-        JPanelRandomC.setBounds(0,0,0,0);
+        ShowColorT.setBounds(0, 0, 0, 0);
+        JPanelRandomC.setBounds(0, 0, 0, 0);
         //将像素提示语句和像素值隐藏
-        ShowPixelT.setBounds(0,0,0,0);
-        JPanelRandomP.setBounds(0,0,0,0);
+        ShowPixelT.setBounds(0, 0, 0, 0);
+        JPanelRandomP.setBounds(0, 0, 0, 0);
         //将笔的当前的提示颜色变为黑色
         ShowColorBlock.setBackground(Color.BLACK);
         //将笔的当前提示像素变为1.0
@@ -185,6 +189,7 @@ public class ScatteredPress extends JFrame implements MouseInputListener, KeyLis
         //将笔的像素变为1.0
         SetPixel = 1;
     }
+
     //重绘SPInter界面
     public void RepaintSPInter() {
         SPInter.removeAll();
@@ -207,7 +212,10 @@ public class ScatteredPress extends JFrame implements MouseInputListener, KeyLis
     @Override
     public void actionPerformed(ActionEvent e) {
         CurrentPress = penValue.Pressure();
-        //如果选择进行ce
+        //System.out.println(CurrentPress);
+        //如果选择进行
+        psExperimentPanel.SetCurrentPress(CurrentPress);
+        psExperimentPanel.repaint();
 
     }
 
@@ -247,12 +255,12 @@ public class ScatteredPress extends JFrame implements MouseInputListener, KeyLis
             }
             //判断一组实验是否做完
             if (completeExperiment.GetList() == true) {
-                if (completeExperiment.GetExperimentB() -1 >= 1) {
+                if (completeExperiment.GetExperimentB() - 1 >= 1) {
                     int temp = completeExperiment.GetExperimentB() - 1;
                     completeExperiment.SetRandomC();
                     completeExperiment.SetRandomP();
                     completeExperiment.SetExperimentB(temp);
-                }else {
+                } else {
                     //打开一个新的登录界面
                     Login login = new Login();
                     login.SetInputId("");
@@ -291,11 +299,8 @@ public class ScatteredPress extends JFrame implements MouseInputListener, KeyLis
     @Override
     public void mousePressed(MouseEvent e) {
         if (javax.swing.SwingUtilities.isLeftMouseButton(e)) {
-            //如果要显是动态压力图像
-            if (ChooseFlag) {
-                timer.restart();
-                psExperimentPanel.SetShowBack(true);
-            }
+            timer.restart();
+            psExperimentPanel.SetShowBack(true);
             //获得开始时鼠标的位置
             x0 = e.getX();
             y0 = e.getY();
@@ -320,7 +325,7 @@ public class ScatteredPress extends JFrame implements MouseInputListener, KeyLis
         psExperimentPanel.repaint();
         //当抬笔后说明已经选择完成
         ChooseFlag = false; //不显示压力动态图像
-        psExperimentPanel.SetShowBack(false); //打开显示压力的动态显示
+        psExperimentPanel.SetShowBack(false); //不打开显示压力的动态显示
         //对压力值重新获取
         try {
             tablet.poll();
@@ -342,30 +347,23 @@ public class ScatteredPress extends JFrame implements MouseInputListener, KeyLis
 
     @Override
     public void mouseDragged(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseMoved(MouseEvent e) {
-        /*
+                /*
         应该每次拖动时都会产生一个点对象
          */
         //获得笔在拖动时的坐标
         x1 = e.getX();
         y1 = e.getY();
         //点的位置，用来为压力的显示提供位置信息
-        psExperimentPanel.SetShowPoint(new Point((int)x0,(int)y0));
+        psExperimentPanel.SetShowPoint(new Point((int) x0, (int) y0));
         //获得颜色切换的颜色值
         SetColor = psExperimentPanel.GetSetColor();
         //获得像素切换的像素值
         SetPixel = psExperimentPanel.GetSetPixel();
 
-
-
         //当不进行功能切换和菜单选择时，才会进行画线操作
         Dot dot = new Dot();
-        dot.SetStarDot(x0,y0);
-        dot.SetEndDot(x1,y1);
+        dot.SetStarDot(x0, y0);
+        dot.SetEndDot(x1, y1);
         dot.SetColor(SetColor); //点的颜色
         dot.SetPixel(SetPixel); //点的像素
 
@@ -382,12 +380,10 @@ public class ScatteredPress extends JFrame implements MouseInputListener, KeyLis
             if (StringRandomC == "请切换颜色为蓝色") {
                 penData.SetTargetColor("蓝色");
                 JPanelRandomC.setBackground(Color.BLUE);
-            }
-            else if (StringRandomC == "请切换颜色为红色") {
+            } else if (StringRandomC == "请切换颜色为红色") {
                 penData.SetTargetColor("红色");
                 JPanelRandomC.setBackground(Color.RED);
-            }
-            else if (StringRandomC == "请切换颜色为黄色") {
+            } else if (StringRandomC == "请切换颜色为黄色") {
                 penData.SetTargetColor("黄色");
                 JPanelRandomC.setBackground(Color.ORANGE);
             }
@@ -395,19 +391,19 @@ public class ScatteredPress extends JFrame implements MouseInputListener, KeyLis
             else penData.SetTargetColor(null);
 
             //设置插件位置
-            ShowColorT.setBounds(880,250,100,20);
-            ShowColorT.setFont(new Font("楷体",Font.BOLD,20));
+            ShowColorT.setBounds(880, 250, 100, 20);
+            ShowColorT.setFont(new Font("楷体", Font.BOLD, 20));
 
-            JPanelRandomC.setBounds(980,250,60,20);
+            JPanelRandomC.setBounds(980, 250, 60, 20);
             //将插件添加到TFInter中
             SPInter.add(ShowColorT);
             SPInter.add(JPanelRandomC);
             //重绘TFInter界面
             this.RepaintSPInter();
             ColorFlag = false;
-        } else if (x0 >= 350 && x0 <= 850 && y0 >= 50 && y0 <= 150 && ColorFlag == false){
+        } else if (x0 >= 350 && x0 <= 850 && y0 >= 50 && y0 <= 150 && ColorFlag == false) {
 
-        }else {
+        } else {
             ColorFlag = true;
         }
 
@@ -422,13 +418,11 @@ public class ScatteredPress extends JFrame implements MouseInputListener, KeyLis
                 //System.out.println("-");
                 RandomPixel = "2.0";
                 penData.SetTargetLine("2.0");
-            }
-            else if (StringRandomP == "请切换像素为3.0") {
+            } else if (StringRandomP == "请切换像素为3.0") {
                 //System.out.println("--");
                 RandomPixel = "3.0";
                 penData.SetTargetLine("3.0");
-            }
-            else if (StringRandomP == "请切换像素为4.0") {
+            } else if (StringRandomP == "请切换像素为4.0") {
                 //System.out.println("---");
                 RandomPixel = "4.0";
                 penData.SetTargetLine("4.0");
@@ -437,14 +431,14 @@ public class ScatteredPress extends JFrame implements MouseInputListener, KeyLis
             else penData.SetTargetLine(null);
 
             //设置插件位置
-            ShowPixelT.setBounds(1080,250,100,20);
-            ShowPixelT.setFont(new Font("楷体",Font.BOLD,20));
+            ShowPixelT.setBounds(1080, 250, 100, 20);
+            ShowPixelT.setFont(new Font("楷体", Font.BOLD, 20));
 
             //System.out.println(RandomPixel);
-            JPanelRandomP.setBounds(1180,250,100,20);
+            JPanelRandomP.setBounds(1180, 250, 100, 20);
             JPanelRandomP.setText(RandomPixel);
             JPanelRandomP.setHorizontalAlignment(JPanelRandomP.LEFT);
-            JPanelRandomP.setFont(new Font("黑体",Font.BOLD,20));
+            JPanelRandomP.setFont(new Font("黑体", Font.BOLD, 20));
 
             //把插件添加到TFInter中
             SPInter.add(ShowPixelT);
@@ -453,12 +447,11 @@ public class ScatteredPress extends JFrame implements MouseInputListener, KeyLis
             //重绘SPInter界面
             this.RepaintSPInter();
             PixelFlag = false;
-        }else if (x0 >= 900 && x0 <= 1400 && y0 >= 50 && y0 <= 150 && PixelFlag == false) {
+        } else if (x0 >= 900 && x0 <= 1400 && y0 >= 50 && y0 <= 150 && PixelFlag == false) {
 
-        }else {
+        } else {
             PixelFlag = true;
         }
-
         //将点的信息记录在容器中
         psExperimentPanel.arrayListSpot.add(dot);
         psExperimentPanel.repaint();
@@ -466,4 +459,6 @@ public class ScatteredPress extends JFrame implements MouseInputListener, KeyLis
         x0 = x1;
         y0 = y1;
     }
+    @Override
+    public void mouseMoved(MouseEvent e) {}
 }
