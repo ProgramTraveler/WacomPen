@@ -45,7 +45,7 @@ public class ScatteredPress extends JFrame implements MouseInputListener, KeyLis
     private double x1, y1; //每一次笔尖结束的位置
 
     /*
-        将ActualPress分为两个区域
+        将ScatteredPress分为两个区域
      */
     private JPanel SPInter = new JPanel(); //提示信息区域
     private JPanel SPDraw = new JPanel(); //画线区域
@@ -116,7 +116,7 @@ public class ScatteredPress extends JFrame implements MouseInputListener, KeyLis
         this.CreateSPDraw();
 
          /*
-        将界面分割为两部分
+            将界面分割为两部分
          */
         JSplitPane jSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, false, SPInter, SPDraw); //这里第一个参数是控制分割线竖直，第二个参数是当你拖曳切割面版的分隔线时，窗口内的组件是否会随着分隔线的拖曳而动态改变大小，最后两个参数就是我分割完成后分割线两边各添加哪个容器。
         jSplitPane.setDividerLocation(300); //分割线的位置  也就是初始位置
