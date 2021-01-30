@@ -17,8 +17,8 @@ public class PSExperimentPanel extends JPanel {
     private Color ClearRed = new Color( Color.red.getRed(), Color.red.getGreen(), Color.red.getBlue(), permeationRate);
 
     private Point FeedbackShowPoint = new Point(); //记录点的位置，为后面的压力提示，颜色和像素菜单切换提供位置基础
-    private int PressureFeedbackWidth = 90; //动态显示框的宽度
-    private int PressureFeedbackHeight = 200; //动态显示框的长度
+    private int PressureFeedbackWidth = 70; //动态显示框的宽度
+    private int PressureFeedbackHeight = 180; //动态显示框的长度
     private int PressureCursorRadius = 3;
     private int MaxPressure =1023; //最大压力值
 
@@ -83,7 +83,7 @@ public class PSExperimentPanel extends JPanel {
         graphics2D.drawLine( (int)FeedbackShowPoint.getX(), (int)FeedbackShowPoint.getY() - PressureFeedbackHeight,
                 (int)FeedbackShowPoint.getX(), (int)FeedbackShowPoint.getY() );
         //动态变化的黑点
-        if ( CurrentPress >= 0 ) {
+        if ( CurrentPress >= 0 && CurrentPress < 702) {
             graphics2D.setColor(Color.BLACK);
             double RatioY = FeedbackShowPoint.getY() - PressureFeedbackHeight * ( (double)CurrentPress / (double)MaxPressure);
             graphics2D.fillArc( (int)FeedbackShowPoint.getX() - PressureCursorRadius, (int)RatioY - PressureCursorRadius, PressureCursorRadius * 2, PressureCursorRadius * 2, 0, 360 );
@@ -102,8 +102,16 @@ public class PSExperimentPanel extends JPanel {
 
         //颜色标签所占高度（按压力比例）
         double TargetColorHeight = PressureFeedbackHeight * (((double)1023 - (double) 863) / (double) 1023);
+        //二级颜色像素菜单所占高度
+        double YellowHeight = PressureFeedbackHeight *  (((double)1023 - (double)969) / (double)1023);
+        double RedHeight = PressureFeedbackHeight * (((double)969 - (double)916) / (double)1023);
+        double BlueHeight = PressureFeedbackHeight * (((double)916 - (double)863) / (double)1023);
         //像素标签所占高度（按压力比例）
         double TargetPixelHeight = PressureFeedbackHeight * (((double)863 - (double)702) / (double)1023);
+        //二级像素菜单所占高度
+        double PixelTwoHeight = PressureFeedbackHeight * (((double)863 - (double)808) / (double)1023);
+        double PixelThreeHeight = PressureFeedbackHeight * (((double)808 - (double)755) / (double)1023);
+        double PixelFourHeight = PressureFeedbackHeight * (((double)755 - (double)702) / (double)1023);
         //显示颜色菜单标签
         if (ShowColorMenu) {
             ColorJLabel.setBounds((int)FeedbackShowPoint.getX() - PressureFeedbackWidth / 6, (int)FeedbackShowPoint.getY() - PressureFeedbackHeight, PressureFeedbackWidth, (int)TargetColorHeight);
@@ -113,29 +121,20 @@ public class PSExperimentPanel extends JPanel {
             graphics2D.drawRect( (int)FeedbackShowPoint.getX() - PressureFeedbackWidth / 2, (int)FeedbackShowPoint.getY() - PressureFeedbackHeight, PressureFeedbackWidth, (int)TargetColorHeight);
         }else {
             this.remove(ColorJLabel); //当压力到达颜色区域时，不再显示压力菜单，而是展示颜色的二级菜单
-            //设置颜色菜单二级目录下的颜色块
-            ColorBlue.setBackground(Color.BLUE);
-            ColorRed.setBackground(Color.RED);
-            ColorYellow.setBackground(Color.ORANGE);
-            //设置颜色块出现的位置
-            double YellowHeight = PressureFeedbackHeight *  (((double)1023 - (double)969) / (double)1023);
-            double RedHeight = PressureFeedbackHeight * (((double)969 - (double)916) / (double)1023);
-            double BlueHeight = PressureFeedbackHeight * (((double)916 - (double)863) / (double)1023);
 
-            ColorYellow.setBounds((int)FeedbackShowPoint.getX() - PressureFeedbackWidth / 2, (int)FeedbackShowPoint.getY() - PressureFeedbackHeight, PressureFeedbackWidth, (int)YellowHeight);
-            ColorRed.setBounds((int)FeedbackShowPoint.getX() - PressureFeedbackWidth / 2, (int)FeedbackShowPoint.getY() - PressureFeedbackHeight + (int)BlueHeight, PressureFeedbackWidth, (int)RedHeight);
-            ColorBlue.setBounds((int)FeedbackShowPoint.getX() - PressureFeedbackWidth / 2, (int)FeedbackShowPoint.getY() - PressureFeedbackHeight + (int)YellowHeight + (int)RedHeight, PressureFeedbackWidth, (int)BlueHeight);
-            //设置颜色之间的分割线
+            graphics2D.setColor(Color.ORANGE);
+            graphics2D.fillRect((int)FeedbackShowPoint.getX() - PressureFeedbackWidth / 2, (int)FeedbackShowPoint.getY() - PressureFeedbackHeight, PressureFeedbackWidth, (int)YellowHeight);
+
+            graphics2D.setColor(Color.RED);
+            graphics2D.fillRect((int)FeedbackShowPoint.getX() - PressureFeedbackWidth / 2, (int)FeedbackShowPoint.getY() - PressureFeedbackHeight + (int)YellowHeight, PressureFeedbackWidth, (int)RedHeight);
+
+            graphics2D.setColor(Color.BLUE);
+            graphics2D.fillRect((int)FeedbackShowPoint.getX() - PressureFeedbackWidth / 2, (int)FeedbackShowPoint.getY() - PressureFeedbackHeight + (int)YellowHeight + (int)RedHeight, PressureFeedbackWidth, (int)BlueHeight);
+
             graphics2D.setColor(ClearLightGray);
             graphics2D.drawRect((int)FeedbackShowPoint.getX() - PressureFeedbackWidth / 2, (int)FeedbackShowPoint.getY() - PressureFeedbackHeight, PressureFeedbackWidth, (int)YellowHeight);
             graphics2D.drawRect((int)FeedbackShowPoint.getX() - PressureFeedbackWidth / 2, (int)FeedbackShowPoint.getY() - PressureFeedbackHeight + (int)BlueHeight, PressureFeedbackWidth, (int)RedHeight);
             graphics2D.drawRect((int)FeedbackShowPoint.getX() - PressureFeedbackWidth / 2, (int)FeedbackShowPoint.getY() - PressureFeedbackHeight + (int)YellowHeight + (int)RedHeight, PressureFeedbackWidth, (int)BlueHeight);
-            //添加颜色块
-            this.add(ColorYellow);
-            this.add(ColorRed);
-            this.add(ColorBlue);
-
-            this.repaint();
         }
         //显示像素菜单标签
         if (ShowPixelMenu) {
@@ -145,7 +144,42 @@ public class PSExperimentPanel extends JPanel {
             graphics2D.setColor(ClearLightGray);
             graphics2D.drawRect( (int)FeedbackShowPoint.getX() - PressureFeedbackWidth / 2, (int)FeedbackShowPoint.getY() - PressureFeedbackHeight + (int)TargetColorHeight, PressureFeedbackWidth, (int)TargetColorHeight);
         }else {
-            this.remove(PixelJLabel);
+            this.remove(PixelJLabel); //当进入到像素区域时，将像素标签移除
+            //设置像素语句出现的位置
+            PixelTow.setBounds((int)FeedbackShowPoint.getX() - PressureFeedbackWidth / 6, (int)FeedbackShowPoint.getY() - PressureFeedbackHeight + (int)TargetColorHeight, PressureFeedbackWidth, (int)PixelTwoHeight);
+            PixelThree.setBounds((int)FeedbackShowPoint.getX() - PressureFeedbackWidth / 6, (int)FeedbackShowPoint.getY() - PressureFeedbackHeight + (int)TargetColorHeight + (int)PixelTwoHeight, PressureFeedbackWidth,(int)PixelThreeHeight);
+            PixelFour.setBounds((int)FeedbackShowPoint.getX() - PressureFeedbackWidth / 6, (int)FeedbackShowPoint.getY() - PressureFeedbackHeight + (int)TargetColorHeight + (int)PixelTwoHeight + (int)PixelThreeHeight, PressureFeedbackWidth, (int)PixelFourHeight);
+            //设置像素值之间的分割线
+            graphics2D.setColor(ClearLightGray);
+            graphics2D.drawRect((int)FeedbackShowPoint.getX() - PressureFeedbackWidth / 2, (int)FeedbackShowPoint.getY() - PressureFeedbackHeight + (int)TargetColorHeight, PressureFeedbackWidth, (int)PixelTwoHeight);
+            graphics2D.drawRect((int)FeedbackShowPoint.getX() - PressureFeedbackWidth / 2, (int)FeedbackShowPoint.getY() - PressureFeedbackHeight + (int)TargetColorHeight + (int)PixelTwoHeight, PressureFeedbackWidth,(int)PixelThreeHeight);
+            graphics2D.drawRect((int)FeedbackShowPoint.getX() - PressureFeedbackWidth / 2, (int)FeedbackShowPoint.getY() - PressureFeedbackHeight + (int)TargetColorHeight + (int)PixelTwoHeight + (int)PixelThreeHeight, PressureFeedbackWidth, (int)PixelFourHeight);
+            //添加像素标签
+            this.add(PixelTow);
+            this.add(PixelThree);
+            this.add(PixelFour);
+        }
+        //设置二级颜色菜单和二级像素菜单的选择框
+        Graphics2D LineRectangle = graphics2D;
+        LineRectangle.setStroke(new BasicStroke(2));
+        graphics2D.setColor(Color.BLACK);
+        if (CurrentPress >= 702 && CurrentPress < 755) {
+            graphics2D.drawRect((int)FeedbackShowPoint.getX() - PressureFeedbackWidth / 2, (int)FeedbackShowPoint.getY() - PressureFeedbackHeight + (int)TargetColorHeight + (int)PixelTwoHeight + (int)PixelThreeHeight, PressureFeedbackWidth, (int)PixelFourHeight);
+        }
+        if (CurrentPress >= 755 && CurrentPress < 808) {
+            graphics2D.drawRect((int)FeedbackShowPoint.getX() - PressureFeedbackWidth / 2, (int)FeedbackShowPoint.getY() - PressureFeedbackHeight + (int)TargetColorHeight + (int)PixelTwoHeight, PressureFeedbackWidth,(int)PixelThreeHeight);
+        }
+        if (CurrentPress >= 808 && CurrentPress < 863) {
+            graphics2D.drawRect((int)FeedbackShowPoint.getX() - PressureFeedbackWidth / 2, (int)FeedbackShowPoint.getY() - PressureFeedbackHeight + (int)TargetColorHeight, PressureFeedbackWidth, (int)PixelTwoHeight);
+        }
+        if (CurrentPress >= 863 && CurrentPress < 916) {
+            graphics2D.drawRect((int)FeedbackShowPoint.getX() - PressureFeedbackWidth / 2, (int)FeedbackShowPoint.getY() - PressureFeedbackHeight + (int)YellowHeight + (int)RedHeight, PressureFeedbackWidth, (int)BlueHeight);
+        }
+        if (CurrentPress >= 916 && CurrentPress < 969) {
+            graphics2D.drawRect((int)FeedbackShowPoint.getX() - PressureFeedbackWidth / 2, (int)FeedbackShowPoint.getY() - PressureFeedbackHeight + (int)BlueHeight, PressureFeedbackWidth, (int)RedHeight);
+        }
+        if (CurrentPress >= 969 && CurrentPress <= 1023) {
+            graphics2D.drawRect((int)FeedbackShowPoint.getX() - PressureFeedbackWidth / 2, (int)FeedbackShowPoint.getY() - PressureFeedbackHeight, PressureFeedbackWidth, (int)YellowHeight);
         }
     }
 

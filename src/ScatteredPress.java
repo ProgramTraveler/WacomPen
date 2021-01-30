@@ -216,7 +216,7 @@ public class ScatteredPress extends JFrame implements MouseInputListener, KeyLis
         //如果选择进行
         psExperimentPanel.SetCurrentPress(CurrentPress);
         psExperimentPanel.repaint();
-
+        psExperimentPanel.RemoveItemJLabel();
     }
 
     @Override
@@ -354,7 +354,6 @@ public class ScatteredPress extends JFrame implements MouseInputListener, KeyLis
         y1 = e.getY();
         //点的位置，用来为压力的显示提供位置信息
         psExperimentPanel.SetShowPoint(new Point((int) x0, (int) y0));
-        psExperimentPanel.RemoveItemJLabel();
         //获得颜色切换的颜色值
         SetColor = psExperimentPanel.GetSetColor();
         //获得像素切换的像素值
