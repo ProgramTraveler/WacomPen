@@ -185,9 +185,9 @@ public class ScatteredPress extends JFrame implements MouseInputListener, KeyLis
         SPInter.add(ShowPixel);
         SPInter.revalidate();
         //将笔的颜色变为黑色
-        SetColor = 0;
+        psExperimentPanel.DefineColor(0);
         //将笔的像素变为1.0
-        SetPixel = 1;
+        psExperimentPanel.DefinePixel(1);
     }
 
     //重绘SPInter界面
@@ -216,6 +216,7 @@ public class ScatteredPress extends JFrame implements MouseInputListener, KeyLis
         //如果选择进行
         psExperimentPanel.SetCurrentPress(CurrentPress);
         psExperimentPanel.repaint();
+        //对像素标签进行移除
         psExperimentPanel.RemoveItemJLabel();
     }
 
@@ -226,9 +227,26 @@ public class ScatteredPress extends JFrame implements MouseInputListener, KeyLis
 
     @Override
     public void keyPressed(KeyEvent e) {
-        //如果用户按下ALT键，说明要开始切换
+        //如果用户按下ALT键，说明选择该区域
         if (e.getKeyCode() == KeyEvent.VK_ALT) {
-            ChooseFlag = true;
+            if (CurrentPress >= 702 && CurrentPress < 755) {
+                psExperimentPanel.DefinePixel(4);
+            }
+            if (CurrentPress >= 755 && CurrentPress < 808) {
+                psExperimentPanel.DefinePixel(3);
+            }
+            if (CurrentPress >= 808 && CurrentPress < 863) {
+                psExperimentPanel.DefinePixel(2);
+            }
+            if (CurrentPress >= 863 && CurrentPress < 916) {
+                psExperimentPanel.DefineColor(1);
+            }
+            if (CurrentPress >= 916 && CurrentPress < 969) {
+                psExperimentPanel.DefineColor(2);
+            }
+            if (CurrentPress >= 969 && CurrentPress <= 1023) {
+               psExperimentPanel.DefineColor(3);
+            }
         }
         //当一次实验完成，用户按下空格键
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
