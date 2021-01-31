@@ -13,13 +13,16 @@ import java.util.ArrayList;
 public class TSExperimentPanel extends JPanel {
     private int CurrentTilt = -1; //记录当前的倾斜角的值
 
-    private int PenHeight = 40;
-    private int PenWidth = 2;
+    private int PenHeight = 85; //提示笔的长度
+    private int PenWidth = 1; //提示笔的宽度
     private int PenLineWidth = 2;
     private int PenTip = 3;
     private int AngleFeedBackRadius = PenHeight + 5;
-    private int MinAngle = 22;
-    private int MaxAngle = 90;
+    private int MinAngle = 22; //最小角度
+    private int MaxAngle = 90; //最大角度
+
+    private int TriggerAngleSwitch_1 = 54;
+    private int TriggerAngleSwitch_2 = 71;
 
     private int  permeationRate = 180;
     private Color ClearWhite = new Color( Color.white.getRed(), Color.white.getGreen(), Color.white.getBlue(), permeationRate);
@@ -29,8 +32,6 @@ public class TSExperimentPanel extends JPanel {
     private Color ClearPink = new Color( Color.pink.getRed(), Color.pink.getGreen(), Color.pink.getBlue(), permeationRate);
     private Color ClearGray = new Color( Color.gray.getRed(), Color.gray.getGreen(), Color.gray.getBlue(), permeationRate);
 
-    private int TriggerAngleSwitch_1 = 46;
-    private int TriggerAngleSwitch_2 = 78;
 
     private Point FeedbackShowPoint = new Point(); //记录点的位置，为后面的压力提示，颜色和像素菜单切换提供位置基础
 

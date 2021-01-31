@@ -231,21 +231,27 @@ public class ScatteredPress extends JFrame implements MouseInputListener, KeyLis
         if (e.getKeyCode() == KeyEvent.VK_ALT) {
             if (CurrentPress >= 702 && CurrentPress < 755) {
                 psExperimentPanel.DefinePixel(4);
+                ShowPixel.setText("4.0");
             }
             if (CurrentPress >= 755 && CurrentPress < 808) {
                 psExperimentPanel.DefinePixel(3);
+                ShowPixel.setText("3.0");
             }
             if (CurrentPress >= 808 && CurrentPress < 863) {
                 psExperimentPanel.DefinePixel(2);
+                ShowPixel.setText("2.0");
             }
             if (CurrentPress >= 863 && CurrentPress < 916) {
                 psExperimentPanel.DefineColor(1);
+                ShowColorBlock.setBackground(Color.BLUE);
             }
             if (CurrentPress >= 916 && CurrentPress < 969) {
                 psExperimentPanel.DefineColor(2);
+                ShowColorBlock.setBackground(Color.RED);
             }
             if (CurrentPress >= 969 && CurrentPress <= 1023) {
                psExperimentPanel.DefineColor(3);
+                ShowColorBlock.setBackground(Color.ORANGE);
             }
         }
         //当一次实验完成，用户按下空格键

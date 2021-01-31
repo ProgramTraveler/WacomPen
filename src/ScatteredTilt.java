@@ -6,6 +6,9 @@ import javax.swing.*;
 import javax.swing.event.MouseInputListener;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /*
     date:2021-01-30
@@ -201,7 +204,11 @@ public class ScatteredTilt extends JFrame implements MouseInputListener, KeyList
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        
+        CurrentTilt = penValue.Tilt();
+        tsExperimentPanel.SetCurrentTilt(CurrentTilt);
+        tsExperimentPanel.repaint();
+        //对像素标签进行移除
+        tsExperimentPanel.RemoveItemJLabel();
     }
 
     @Override
@@ -211,7 +218,64 @@ public class ScatteredTilt extends JFrame implements MouseInputListener, KeyList
 
     @Override
     public void keyPressed(KeyEvent e) {
+        //如果按下了ALT键，说明确认选择
+        if (e.getKeyCode() == KeyEvent.VK_ALT) {
 
+        }
+        //当一次实验完成，用户按下空格键
+        if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+            //清空集合中的点的信息
+            tsExperimentPanel.arrayListSpot.clear();
+            //重绘
+            tsExperimentPanel.repaint();
+            //将检查是否进入颜色和像素测试区域的变量设为false
+            ColorChange = false;
+            PixelChange = false;
+            //将提示语句移除
+            this.RemoveRandom();
+            //在一组中做完一次实验
+            penData.AddTrialN();
+            //模式切换出现的错误数
+            penData.AddModeE();
+            //将笔的压力保存在指定文件中
+            try {
+                penData.AllocateTime();
+                penData.AllocateTimeString();
+                penData.SaveInformation();
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+            //判断一组实验是否做完
+            if (completeExperiment.GetList() == true) {
+                if (completeExperiment.GetExperimentB() - 1 >= 1) {
+                    int temp = completeExperiment.GetExperimentB() - 1;
+                    completeExperiment.SetRandomC();
+                    completeExperiment.SetRandomP();
+                    completeExperiment.SetExperimentB(temp);
+                } else {
+                    //打开一个新的登录界面
+                    Login login = new Login();
+                    login.SetInputId("");
+                    login.SetSelectBlock(1);
+                    login.SetSelectTechnique("");
+
+                    login.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    login.pack();
+                    login.setLocationRelativeTo(login);
+                    login.setResizable(false);
+                    login.setVisible(true);
+
+                    penData.SetColorTouchE(0); //初始化颜色误触发数
+                    penData.SetPixelTouchE(0); //初始化像素误触发数
+
+                    penData.SetColorModeE(0); //初始化颜色切换错误数
+                    penData.SetPixelModeE(0); //初始化像素切换错误数
+
+                    //关闭当前的界面
+                    ScatteredTFrame.dispose();
+                }
+            }
+        }
     }
 
     @Override
@@ -226,12 +290,41 @@ public class ScatteredTilt extends JFrame implements MouseInputListener, KeyList
 
     @Override
     public void mousePressed(MouseEvent e) {
-
+        if (javax.swing.SwingUtilities.isLeftMouseButton(e)) {
+            timer.restart();
+            tsExperimentPanel.SetShowBack(true);
+            //获得开始时鼠标的位置
+            x0 = e.getX();
+            y0 = e.getY();
+            /*
+            获得落笔的时间
+             */
+            //获得落笔的时间戳
+            penData.AddTime(System.currentTimeMillis());
+            //获得落笔的文字格式
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SS");
+            penData.AddTimeString(dateFormat.format(new Date()));
+        }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-
+        //获得抬笔的时间戳
+        penData.AddTime(System.currentTimeMillis());
+        //获得抬笔的文字格式
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SS");
+        penData.AddTimeString(dateFormat.format(new Date()));
+        tsExperimentPanel.repaint();
+        //当抬笔后说明已经选择完成
+        tsExperimentPanel.SetShowBack(false); //不打开显示压力的动态显示
+        tsExperimentPanel.RemoveAllJLabel(); //清除颜色和像素标签
+        //对压力值重新获取
+        try {
+            tablet.poll();
+        } catch (JTabletException e1) {
+            e1.printStackTrace();
+        }
+        timer.stop();
     }
 
     @Override
@@ -246,7 +339,114 @@ public class ScatteredTilt extends JFrame implements MouseInputListener, KeyList
 
     @Override
     public void mouseDragged(MouseEvent e) {
+        //获得笔在拖动时的坐标
+        x1 = e.getX();
+        y1 = e.getY();
+        //点的位置，用来为压力的显示提供位置信息
+        tsExperimentPanel.SetShowPoint(new Point((int) x0, (int) y0));
+        //获得颜色切换的颜色值
+        SetColor = tsExperimentPanel.GetSetColor();
+        //获得像素切换的像素值
+        SetPixel = tsExperimentPanel.GetSetPixel();
 
+        //当不进行功能切换和菜单选择时，才会进行画线操作
+        Dot dot = new Dot();
+        dot.SetStarDot(x0, y0);
+        dot.SetEndDot(x1, y1);
+        dot.SetColor(SetColor); //点的颜色
+        dot.SetPixel(SetPixel); //点的像素
+
+        double x = dot.DotStarX();
+        double y = dot.DotStarY();
+
+        if (x >= 350 && x <= 850 && y >= 50 && y <= 150 && ColorFlag == true) {
+            ColorChange = true; //当进入到颜色测试区域时，颜色测换才合法
+            penData.SetStartColorMode(System.currentTimeMillis());
+            int indexC = completeExperiment.GetRandomNumberC();
+            String StringRandomC = completeExperiment.GetRandomC(indexC);
+            //System.out.println("进入颜色区域");
+            //按照系统的提示颜色存入相应的目标颜色
+            if (StringRandomC == "请切换颜色为蓝色") {
+                penData.SetTargetColor("蓝色");
+                JPanelRandomC.setBackground(Color.BLUE);
+            } else if (StringRandomC == "请切换颜色为红色") {
+                penData.SetTargetColor("红色");
+                JPanelRandomC.setBackground(Color.RED);
+            } else if (StringRandomC == "请切换颜色为黄色") {
+                penData.SetTargetColor("黄色");
+                JPanelRandomC.setBackground(Color.ORANGE);
+            }
+            //如果没有提示且按下了空格，就记为空
+            else penData.SetTargetColor(null);
+
+            //设置插件位置
+            ShowColorT.setBounds(880, 250, 100, 20);
+            ShowColorT.setFont(new Font("楷体", Font.BOLD, 20));
+
+            JPanelRandomC.setBounds(980, 250, 60, 20);
+            //将插件添加到TFInter中
+            STInter.add(ShowColorT);
+            STInter.add(JPanelRandomC);
+            //重绘TFInter界面
+            this.RepaintSTInter();
+            ColorFlag = false;
+        } else if (x0 >= 350 && x0 <= 850 && y0 >= 50 && y0 <= 150 && ColorFlag == false) {
+
+        } else {
+            ColorFlag = true;
+        }
+
+        if (x0 >= 900 && x0 <= 1400 && y0 >= 50 && y0 <= 150 && PixelFlag == true) {
+            PixelChange = true; //当进入到像素测试区域时，此时的像素测换才合法
+            penData.SetStartPixelMode(System.currentTimeMillis());
+            int indexP = completeExperiment.GetRandomNumberP();
+            String StringRandomP = completeExperiment.GetRandomP(indexP);
+            //System.out.println(StringRandomP);
+            //按照系统提示的像素存入目标像素
+            if (StringRandomP == "请切换像素为2.0") {
+                //System.out.println("-");
+                RandomPixel = "2.0";
+                penData.SetTargetLine("2.0");
+            } else if (StringRandomP == "请切换像素为3.0") {
+                //System.out.println("--");
+                RandomPixel = "3.0";
+                penData.SetTargetLine("3.0");
+            } else if (StringRandomP == "请切换像素为4.0") {
+                //System.out.println("---");
+                RandomPixel = "4.0";
+                penData.SetTargetLine("4.0");
+            }
+            //如果没有提示就按下了空格，就记为空
+            else penData.SetTargetLine(null);
+
+            //设置插件位置
+            ShowPixelT.setBounds(1080, 250, 100, 20);
+            ShowPixelT.setFont(new Font("楷体", Font.BOLD, 20));
+
+            //System.out.println(RandomPixel);
+            JPanelRandomP.setBounds(1180, 250, 100, 20);
+            JPanelRandomP.setText(RandomPixel);
+            JPanelRandomP.setHorizontalAlignment(JPanelRandomP.LEFT);
+            JPanelRandomP.setFont(new Font("黑体", Font.BOLD, 20));
+
+            //把插件添加到TFInter中
+            STInter.add(ShowPixelT);
+            STInter.add(JPanelRandomP);
+
+            //重绘STInter界面
+            this.RepaintSTInter();
+            PixelFlag = false;
+        } else if (x0 >= 900 && x0 <= 1400 && y0 >= 50 && y0 <= 150 && PixelFlag == false) {
+
+        } else {
+            PixelFlag = true;
+        }
+        //将点的信息记录在容器中
+        tsExperimentPanel.arrayListSpot.add(dot);
+        tsExperimentPanel.repaint();
+        //更新点的起始坐标（下一个点的开始为上一个点的结束）
+        x0 = x1;
+        y0 = y1;
     }
 
     @Override
