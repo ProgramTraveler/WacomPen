@@ -22,7 +22,6 @@ public class PSExperimentPanel extends JPanel {
     private int PressureCursorRadius = 3;
     private int MaxPressure =1023; //最大压力值
 
-
     public static ArrayList<Dot> arrayListSpot; //记录点在绘画过程中的信息,为了方便可以直接调用，就写成了public的
     private Graphics2D Line; //设置线条的相关信息
     private Graphics2D offScreen; //显示测试区域
@@ -37,10 +36,8 @@ public class PSExperimentPanel extends JPanel {
     private boolean ShowBack = false; //用来控制是否显示压力的动态图像,默认为不打开
 
     private boolean ShowColorMenu = true; //是否显示颜色分支菜单
-    private int SelectColorItem = -1; //颜色分支菜单中的具体颜色
 
     private boolean ShowPixelMenu = true; //是否显示像素分支菜单
-    private int SelectPixelItem = -1; //像素分支菜单中的具体像素
     private JLabel PixelTow = new JLabel("2.0");
     private JLabel PixelThree = new JLabel("3.0");
     private JLabel PixelFour = new JLabel("4.0");
@@ -55,7 +52,6 @@ public class PSExperimentPanel extends JPanel {
     public void SetShowBack(boolean b) { ShowBack = b; }
     //传入当前点的坐标
     public void SetShowPoint(Point p) { this.FeedbackShowPoint = p; }
-    //选择颜色
     //返回用户选择的颜色（是对应菜单中的颜色）
     public void DefineColor(int i) { SetColor = i; } //初始化颜色
     public int GetSetColor() { return SetColor; }
