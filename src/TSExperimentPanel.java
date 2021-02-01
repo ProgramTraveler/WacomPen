@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class TSExperimentPanel extends JPanel {
     private int CurrentTilt = -1; //记录当前的倾斜角的值
 
-    private int PenHeight = 85; //提示笔的长度
+    private int PenHeight = 65; //提示笔的长度
     private int PenWidth = 1; //提示笔的宽度
     private int PenLineWidth = 2;
     private int PenTip = 3;
@@ -90,7 +90,7 @@ public class TSExperimentPanel extends JPanel {
         graphics2D.setColor(ClearRed);
         graphics2D.fillArc((int)FeedbackShowPoint.getX() - AngleFeedBackRadius,(int)FeedbackShowPoint.getY() - AngleFeedBackRadius,AngleFeedBackRadius * 2,AngleFeedBackRadius * 2,MinAngle,TriggerAngleSwitch_1 - MinAngle);
         graphics2D.fillArc((int)FeedbackShowPoint.getX() - AngleFeedBackRadius,(int)FeedbackShowPoint.getY() - AngleFeedBackRadius,AngleFeedBackRadius * 2,AngleFeedBackRadius * 2,MaxAngle,TriggerAngleSwitch_2 - MaxAngle);
-
+        
         if (CurrentTilt >= MinAngle) {
             AffineTransform affineTransform = new AffineTransform(); //构造一个新的 AffineTransform代表身份转换
             affineTransform.setToRotation(Math.toRadians(360 - CurrentTilt),FeedbackShowPoint.getX(),FeedbackShowPoint.getY());

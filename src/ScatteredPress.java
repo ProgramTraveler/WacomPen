@@ -227,35 +227,54 @@ public class ScatteredPress extends JFrame implements MouseInputListener, KeyLis
 
     @Override
     public void keyPressed(KeyEvent e) {
-        //如果用户按下ALT键，说明选择该区域
-        if (e.getKeyCode() == KeyEvent.VK_ALT) {
-            if (CurrentPress >= 702 && CurrentPress < 755) {
-                psExperimentPanel.DefinePixel(4);
-                ShowPixel.setText("4.0");
-            }
-            if (CurrentPress >= 755 && CurrentPress < 808) {
-                psExperimentPanel.DefinePixel(3);
-                ShowPixel.setText("3.0");
-            }
-            if (CurrentPress >= 808 && CurrentPress < 863) {
-                psExperimentPanel.DefinePixel(2);
-                ShowPixel.setText("2.0");
-            }
-            if (CurrentPress >= 863 && CurrentPress < 916) {
-                psExperimentPanel.DefineColor(1);
-                ShowColorBlock.setBackground(Color.BLUE);
-            }
-            if (CurrentPress >= 916 && CurrentPress < 969) {
-                psExperimentPanel.DefineColor(2);
-                ShowColorBlock.setBackground(Color.RED);
-            }
-            if (CurrentPress >= 969 && CurrentPress <= 1023) {
-               psExperimentPanel.DefineColor(3);
-                ShowColorBlock.setBackground(Color.ORANGE);
-            }
-        }
-        //当一次实验完成，用户按下空格键
+        //如果用户按下空格键，说明选择该区域
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+            //如果此时是颜色一级菜单
+            if (psExperimentPanel.GetShowColorMenu() && CurrentPress>= 863 && CurrentPress <= 1023) {
+                //展开二级菜单
+                psExperimentPanel.SetShowColorMenu(false);
+            }else if (psExperimentPanel.GetShowColorMenu() == false){
+                //如果二级菜单已经展开，那么就对当前位置的压力值进行颜色判定
+                if (CurrentPress >= 0 && CurrentPress < 341) {
+                    psExperimentPanel.DefineColor(1);
+                    ShowColorBlock.setBackground(Color.BLUE);
+                }
+                if (CurrentPress >= 341 && CurrentPress < 682) {
+                    psExperimentPanel.DefineColor(2);
+                    ShowColorBlock.setBackground(Color.RED);
+                }
+                if (CurrentPress >= 682 && CurrentPress <= 1023) {
+                    psExperimentPanel.DefineColor(3);
+                    ShowColorBlock.setBackground(Color.ORANGE);
+                }
+                //再次打开颜色一级菜单
+                psExperimentPanel.SetShowColorMenu(true);
+            }
+            //如果此时是像素一级菜单
+            if (psExperimentPanel.GetShowPixelMenu() && CurrentPress < 863 && CurrentPress >= 702) {
+                //展开二级菜单
+                psExperimentPanel.SetShowPixelMenu(false);
+            }else if (psExperimentPanel.GetShowPixelMenu() == false){
+                //如果二级菜单已经展开，对当前压力位置进行像素判定
+                if (CurrentPress >= 0 && CurrentPress < 341) {
+                    psExperimentPanel.DefinePixel(4);
+                    ShowPixel.setText("4.0");
+                }
+                if (CurrentPress >= 341 && CurrentPress < 682) {
+                    psExperimentPanel.DefinePixel(3);
+                    ShowPixel.setText("3.0");
+                }
+                if (CurrentPress >= 682 && CurrentPress <= 1023) {
+                    psExperimentPanel.DefinePixel(2);
+                    ShowPixel.setText("2.0");
+                }
+                //再次打开像素一级菜单
+                psExperimentPanel.SetShowPixelMenu(true);
+            }
+
+        }
+        //当一次实验完成，用户按下
+        if (e.getKeyCode() == KeyEvent.VK_ALT) {
             //清空集合中的点的信息
             psExperimentPanel.arrayListSpot.clear();
             //重绘
@@ -350,8 +369,9 @@ public class ScatteredPress extends JFrame implements MouseInputListener, KeyLis
         //当抬笔后说明已经选择完成
         ChooseFlag = false; //不显示压力动态图像
         psExperimentPanel.SetShowBack(false); //不打开显示压力的动态显示
-
         psExperimentPanel.RemoveAllJLabel(); //清除颜色和像素标签
+        psExperimentPanel.SetShowPixelMenu(true); //抬笔后改为一级菜单
+        psExperimentPanel.SetShowColorMenu(true); //抬笔后改为一级菜单
         //对压力值重新获取
         try {
             tablet.poll();
@@ -359,6 +379,8 @@ public class ScatteredPress extends JFrame implements MouseInputListener, KeyLis
             e1.printStackTrace();
         }
         timer.stop();
+
+
     }
 
     @Override
