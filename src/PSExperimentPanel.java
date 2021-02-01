@@ -151,9 +151,9 @@ public class PSExperimentPanel extends JPanel {
             this.add(PixelThree);
             this.add(PixelFour);
         }
-        //设置二级颜色菜单和二级像素菜单的选择框
+        //设置颜色菜单和像素菜单的选择框
         Graphics2D LineRectangle = graphics2D;
-        LineRectangle.setStroke(new BasicStroke(2));
+        LineRectangle.setStroke(new BasicStroke(3));
         graphics2D.setColor(Color.BLACK);
 
         if (ShowPixelMenu == false) {

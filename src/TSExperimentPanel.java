@@ -1,8 +1,12 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /*
@@ -42,7 +46,12 @@ public class TSExperimentPanel extends JPanel {
     private Image offScreenImg = null;
     private int ColorSet = 0; //设置画笔的颜色
     private int PixelSet = 1; //设置画笔的像素
-    //颜色和像素标签，用来提示菜单内容
+    //颜色和像素标签，用来提示菜单内容，由于分为两部分，所以需要两个颜色和两个像素标签
+    /*private JLabel ColorJLabel1 = new JLabel("颜色"); //上角度颜色标签
+    private JLabel ColorJLabel2 = new JLabel("颜色"); //下角度颜色标签
+    private JLabel PixelJLabel1 = new JLabel("像素"); //上角度像素标签
+    private JLabel PixelJLabel2 = new JLabel("像素"); //下角度像素标签*/
+
     private JLabel ColorJLabel = new JLabel("颜色"); //颜色标签
     private JLabel PixelJLabel = new JLabel("像素"); //像素标签
 
@@ -82,16 +91,18 @@ public class TSExperimentPanel extends JPanel {
     }
     //绘制倾斜角动态显示界面
     public void PaintTiltFeedback(Graphics2D graphics2D) {
+
         graphics2D.setColor(ClearWhite);
         graphics2D.fillArc((int)FeedbackShowPoint.getX() - AngleFeedBackRadius,(int)FeedbackShowPoint.getY() - AngleFeedBackRadius,AngleFeedBackRadius * 2,AngleFeedBackRadius * 2,MinAngle,MaxAngle - MinAngle);
         /*
             显示触发菜单的倾斜角的红色区域
          */
-        graphics2D.setColor(ClearRed);
+        /*graphics2D.setColor(ClearRed);
         graphics2D.fillArc((int)FeedbackShowPoint.getX() - AngleFeedBackRadius,(int)FeedbackShowPoint.getY() - AngleFeedBackRadius,AngleFeedBackRadius * 2,AngleFeedBackRadius * 2,MinAngle,TriggerAngleSwitch_1 - MinAngle);
         graphics2D.fillArc((int)FeedbackShowPoint.getX() - AngleFeedBackRadius,(int)FeedbackShowPoint.getY() - AngleFeedBackRadius,AngleFeedBackRadius * 2,AngleFeedBackRadius * 2,MaxAngle,TriggerAngleSwitch_2 - MaxAngle);
-        
-        if (CurrentTilt >= MinAngle) {
+        */
+        //当在菜单范围外，而且时一级菜单展示，那么就显示箭头
+        if (CurrentTilt > 54 && CurrentTilt < 71 && ShowColorMenu && ShowPixelMenu) {
             AffineTransform affineTransform = new AffineTransform(); //构造一个新的 AffineTransform代表身份转换
             affineTransform.setToRotation(Math.toRadians(360 - CurrentTilt),FeedbackShowPoint.getX(),FeedbackShowPoint.getY());
             graphics2D.transform(affineTransform); //将此转换设置为转换的旋转变换
@@ -100,12 +111,9 @@ public class TSExperimentPanel extends JPanel {
             graphics2D.setStroke(basicStroke);
 
             GeneralPath generalPath = new GeneralPath(GeneralPath.WIND_EVEN_ODD);
-            generalPath.moveTo((int)FeedbackShowPoint.getX() + PenLineWidth,(int)FeedbackShowPoint.getY());
             generalPath.moveTo( (int)FeedbackShowPoint.getX() + PenLineWidth, (int)FeedbackShowPoint.getY() );
             generalPath.lineTo( (int)FeedbackShowPoint.getX() + PenTip + PenLineWidth, (int)FeedbackShowPoint.getY() - PenWidth);
             generalPath.lineTo( (int)FeedbackShowPoint.getX() + PenHeight + PenLineWidth, (int)FeedbackShowPoint.getY() - PenWidth);
-            generalPath.lineTo( (int)FeedbackShowPoint.getX() + PenHeight + PenLineWidth, (int)FeedbackShowPoint.getY() + PenWidth);
-            generalPath.lineTo( (int)FeedbackShowPoint.getX() + PenTip + PenLineWidth, (int)FeedbackShowPoint.getY() + PenWidth);
             generalPath.lineTo( (int)FeedbackShowPoint.getX() + PenLineWidth, (int)FeedbackShowPoint.getY());
             generalPath.closePath();
 
@@ -113,6 +121,55 @@ public class TSExperimentPanel extends JPanel {
             graphics2D.fill(generalPath);
             graphics2D.setPaint(ClearGray);
             graphics2D.draw(generalPath);
+        }
+        //显示颜色标签
+        if (ShowColorMenu && ShowPixelMenu) {
+            if (CurrentTilt >=80 && CurrentTilt <= 90) {
+                ColorJLabel.setBounds((int)FeedbackShowPoint.getX(),(int)FeedbackShowPoint.getY() - AngleFeedBackRadius - 50, AngleFeedBackRadius, AngleFeedBackRadius);
+                this.add(ColorJLabel);
+            }
+            if (CurrentTilt <= 54 && CurrentTilt >= 38){
+                ColorJLabel.setBounds((int)FeedbackShowPoint.getX() + AngleFeedBackRadius,(int)FeedbackShowPoint.getY() - AngleFeedBackRadius, AngleFeedBackRadius, AngleFeedBackRadius);
+                this.add(ColorJLabel);
+            }
+        }else if (ShowColorMenu == false) {
+            remove(ColorJLabel);
+            remove(PixelJLabel);
+        }
+        //显示像素标签
+        if (ShowPixelMenu && ShowColorMenu) {
+            if (CurrentTilt >= 71 && CurrentTilt < 80) {
+                PixelJLabel.setBounds((int)FeedbackShowPoint.getX(),(int)FeedbackShowPoint.getY() - AngleFeedBackRadius - 50, AngleFeedBackRadius, AngleFeedBackRadius);
+                this.add(PixelJLabel);
+            }
+            if (CurrentTilt >= 22 && CurrentTilt < 38) {
+                PixelJLabel.setBounds((int)FeedbackShowPoint.getX() + AngleFeedBackRadius,(int)FeedbackShowPoint.getY() - AngleFeedBackRadius, AngleFeedBackRadius, AngleFeedBackRadius);
+                this.add(PixelJLabel);
+            }
+
+        }else if (ShowPixelMenu == false) {
+            remove(ColorJLabel);
+            remove(PixelJLabel);
+        }
+        //显示颜色和像素菜单的选择框
+        Graphics2D LineRectangle = graphics2D;
+        LineRectangle.setStroke(new BasicStroke(3));
+        graphics2D.setColor(Color.BLACK);
+
+        if (ShowPixelMenu == false) {
+
+        }else if (CurrentTilt >= 71 && CurrentTilt < 80 && ShowPixelMenu && ShowColorMenu) {
+
+        }else if (CurrentTilt >=22 && CurrentTilt < 38 && ShowPixelMenu && ShowColorMenu) {
+
+        }
+
+        if (ShowColorMenu) {
+
+        }else if (CurrentTilt >= 80 && CurrentTilt <=90 && ShowColorMenu && ShowPixelMenu) {
+
+        }else if (CurrentTilt >=38 && CurrentTilt <=54 && ShowColorMenu && ShowPixelMenu) {
+
         }
     }
     public void PaintTestArea(Graphics g) {
