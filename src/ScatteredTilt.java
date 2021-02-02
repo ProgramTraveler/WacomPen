@@ -208,7 +208,7 @@ public class ScatteredTilt extends JFrame implements MouseInputListener, KeyList
         tsExperimentPanel.SetCurrentTilt(CurrentTilt);
         tsExperimentPanel.repaint();
         //对像素标签进行移除
-        tsExperimentPanel.RemoveItemJLabel();
+        tsExperimentPanel.RemoveAllJLabel();
     }
 
     @Override
