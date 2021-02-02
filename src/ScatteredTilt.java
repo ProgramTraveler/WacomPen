@@ -219,11 +219,28 @@ public class ScatteredTilt extends JFrame implements MouseInputListener, KeyList
     @Override
     public void keyPressed(KeyEvent e) {
         //如果按下了ALT键，说明确认选择
-        if (e.getKeyCode() == KeyEvent.VK_ALT) {
+        if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+            if (tsExperimentPanel.GetShowColorMenu() && ((CurrentTilt >=80 && CurrentTilt <=90) || (CurrentTilt >= 38 && CurrentTilt <= 54))) {
+                //展开二级菜单
+                tsExperimentPanel.SetShowColorMenu(false);
+            }else if (tsExperimentPanel.GetShowColorMenu() == false) {
+                //如果二级菜单已经展开，那么就按照角度来进行颜色判定
+                //再一次打开一级颜色菜单
+                tsExperimentPanel.SetShowColorMenu(true);
+            }
 
+            if (tsExperimentPanel.GetShowPixelMenu() && ((CurrentTilt >= 71 && CurrentTilt < 80) || (CurrentTilt >= 22 && CurrentTilt < 38))) {
+                //展开二级菜单
+                tsExperimentPanel.SetShowPixelMenu(false);
+            }else if (tsExperimentPanel.GetShowPixelMenu() == false) {
+                //如果二级菜单已经展开，那么就按照角度来进行像素判定
+                //再一次打开一级菜单
+                tsExperimentPanel.SetShowPixelMenu(true);
+
+            }
         }
         //当一次实验完成，用户按下空格键
-        if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+        if (e.getKeyCode() == KeyEvent.VK_ALT) {
             //清空集合中的点的信息
             tsExperimentPanel.arrayListSpot.clear();
             //重绘
