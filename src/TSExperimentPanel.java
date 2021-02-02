@@ -65,6 +65,8 @@ public class TSExperimentPanel extends JPanel {
     private JLabel PixelThree = new JLabel("3.0");
     private JLabel PixelFour = new JLabel("4.0");
 
+    private boolean ShowItemMenu = false; //是否有二级菜单展开
+
     private int SetColor = 0; //记录被选择的颜色
     private int SetPixel = 1; //记录被选择的像素
 
@@ -87,6 +89,9 @@ public class TSExperimentPanel extends JPanel {
     //控制是打开颜色一级菜单还是二级菜单,true表示是一级菜单，false表示是二级菜单、
     public void SetShowPixelMenu(boolean b) { ShowPixelMenu = b; }
     public boolean GetShowPixelMenu() { return ShowPixelMenu; } //返回像素菜单状态
+    //控制二级菜单
+    public void SetShowItemMenu(boolean b) { ShowItemMenu = b; }
+    public boolean GetShowItemMenu() { return ShowItemMenu; }
     //图像的重绘界面
     public void paintComponent(Graphics g) {
         Graphics2D graphics2D = (Graphics2D) g;
@@ -165,7 +170,7 @@ public class TSExperimentPanel extends JPanel {
             this.add(PixelFour);
         }
         //显示颜色和像素菜单的选择框
-        graphics2D.setColor(ClearGray);
+        graphics2D.setColor(ClearLightGray);
         if (ShowPixelMenu == false) {
             if (CurrentTilt >= 66 && CurrentTilt <= 90) {
                 graphics2D.fillArc((int)FeedbackShowPoint.getX() - AngleFeedBackRadius, (int)FeedbackShowPoint.getY() - AngleFeedBackRadius, AngleFeedBackRadius * 2, AngleFeedBackRadius *2, 66, 24);

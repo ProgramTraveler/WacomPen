@@ -220,23 +220,48 @@ public class ScatteredTilt extends JFrame implements MouseInputListener, KeyList
     public void keyPressed(KeyEvent e) {
         //如果按下了ALT键，说明确认选择
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-            if (tsExperimentPanel.GetShowColorMenu() && ((CurrentTilt >=80 && CurrentTilt <=90) || (CurrentTilt >= 38 && CurrentTilt <= 54))) {
-                //展开二级菜单
-                tsExperimentPanel.SetShowColorMenu(false);
+            if (tsExperimentPanel.GetShowColorMenu() && tsExperimentPanel.GetShowPixelMenu()) {
+                if (((CurrentTilt >=80 && CurrentTilt <=90) || (CurrentTilt >= 38 && CurrentTilt <= 54))) {
+                    //展开二级菜单
+                    tsExperimentPanel.SetShowColorMenu(false);
+                }else if ((CurrentTilt >= 71 && CurrentTilt < 80) || (CurrentTilt >= 22 && CurrentTilt < 38)) {
+                    //展开二级菜单
+                    tsExperimentPanel.SetShowPixelMenu(false);
+                }
             }else if (tsExperimentPanel.GetShowColorMenu() == false) {
                 //如果二级菜单已经展开，那么就按照角度来进行颜色判定
+                //对当前位置的角度进行颜色判定
+                if (CurrentTilt >= 22 && CurrentTilt < 44) {
+                    tsExperimentPanel.DefineColor(1);
+                    ShowColorBlock.setBackground(Color.BLUE);
+                }
+                if (CurrentTilt >= 44 && CurrentTilt < 66) {
+                    tsExperimentPanel.DefineColor(3);
+                    ShowColorBlock.setBackground(Color.ORANGE);
+                }
+                if (CurrentTilt >= 66 && CurrentTilt <= 90) {
+                    tsExperimentPanel.DefineColor(2);
+                    ShowColorBlock.setBackground(Color.RED);
+                }
                 //再一次打开一级颜色菜单
                 tsExperimentPanel.SetShowColorMenu(true);
-            }
-
-            if (tsExperimentPanel.GetShowPixelMenu() && ((CurrentTilt >= 71 && CurrentTilt < 80) || (CurrentTilt >= 22 && CurrentTilt < 38))) {
-                //展开二级菜单
-                tsExperimentPanel.SetShowPixelMenu(false);
-            }else if (tsExperimentPanel.GetShowPixelMenu() == false) {
+            } else if (tsExperimentPanel.GetShowPixelMenu() == false) {
                 //如果二级菜单已经展开，那么就按照角度来进行像素判定
-                //再一次打开一级菜单
+                //对当前位置角度进行像素判定
+                if (CurrentTilt >= 22 && CurrentTilt < 44) {
+                    tsExperimentPanel.DefinePixel(4);
+                    ShowPixel.setText("4.0");
+                }
+                if (CurrentTilt >= 44 && CurrentTilt < 66) {
+                    tsExperimentPanel.DefinePixel(3);
+                    ShowPixel.setText("3.0");
+                }
+                if (CurrentTilt >= 66 && CurrentTilt <= 90) {
+                    tsExperimentPanel.DefinePixel(2);
+                    ShowPixel.setText("2.0");
+                }
+                //再一次打开像素一级菜单
                 tsExperimentPanel.SetShowPixelMenu(true);
-
             }
         }
         //当一次实验完成，用户按下空格键

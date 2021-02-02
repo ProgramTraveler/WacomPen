@@ -230,9 +230,14 @@ public class ScatteredPress extends JFrame implements MouseInputListener, KeyLis
         //如果用户按下空格键，说明选择该区域
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             //如果此时是颜色一级菜单
-            if (psExperimentPanel.GetShowColorMenu() && CurrentPress>= 863 && CurrentPress <= 1023) {
-                //展开二级菜单
-                psExperimentPanel.SetShowColorMenu(false);
+            if (psExperimentPanel.GetShowColorMenu() && psExperimentPanel.GetShowPixelMenu()) {
+                if (CurrentPress>= 863 && CurrentPress <= 1023) {
+                    //展开二级菜单
+                    psExperimentPanel.SetShowColorMenu(false);
+                }else if (CurrentPress < 863 && CurrentPress >= 702) {
+                    //展开二级菜单
+                    psExperimentPanel.SetShowPixelMenu(false);
+                }
             }else if (psExperimentPanel.GetShowColorMenu() == false){
                 //如果二级菜单已经展开，那么就对当前位置的压力值进行颜色判定
                 if (CurrentPress >= 0 && CurrentPress < 341) {
@@ -249,12 +254,7 @@ public class ScatteredPress extends JFrame implements MouseInputListener, KeyLis
                 }
                 //再次打开颜色一级菜单
                 psExperimentPanel.SetShowColorMenu(true);
-            }
-            //如果此时是像素一级菜单
-            if (psExperimentPanel.GetShowPixelMenu() && CurrentPress < 863 && CurrentPress >= 702) {
-                //展开二级菜单
-                psExperimentPanel.SetShowPixelMenu(false);
-            }else if (psExperimentPanel.GetShowPixelMenu() == false){
+            } else if (psExperimentPanel.GetShowPixelMenu() == false){
                 //如果二级菜单已经展开，对当前压力位置进行像素判定
                 if (CurrentPress >= 0 && CurrentPress < 341) {
                     psExperimentPanel.DefinePixel(4);
@@ -271,7 +271,6 @@ public class ScatteredPress extends JFrame implements MouseInputListener, KeyLis
                 //再次打开像素一级菜单
                 psExperimentPanel.SetShowPixelMenu(true);
             }
-
         }
         //当一次实验完成，用户按下
         if (e.getKeyCode() == KeyEvent.VK_ALT) {

@@ -42,6 +42,7 @@ public class PSExperimentPanel extends JPanel {
     private JLabel PixelThree = new JLabel("3.0");
     private JLabel PixelFour = new JLabel("4.0");
 
+
     private int SetColor = 0; //记录被选择的颜色
     private int SetPixel = 1; //记录被选择的像素
 
