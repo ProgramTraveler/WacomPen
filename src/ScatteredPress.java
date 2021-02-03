@@ -98,7 +98,7 @@ public class ScatteredPress extends JFrame implements MouseInputListener, KeyLis
 
         this.CreateSPFrame(); //生成压力离散化测试界面
 
-        psExperimentPanel.requestFocusInWindow(); //获得焦点，是键盘可以正常监听
+        psExperimentPanel.requestFocusInWindow(); //获得焦点，使键盘可以正常监听
 
 
         try {
