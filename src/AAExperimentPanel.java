@@ -133,13 +133,11 @@ public class AAExperimentPanel extends JPanel {
 
         graphics2D.setPaint(Color.WHITE); //设置用户常用区域显示为白色
         //设置圆形方位角展示区域出现的位置，白色覆盖区域为88-176
-        graphics2D.fillArc(FeedbackShowPoint.x - PartitionLineLength,FeedbackShowPoint.y - PartitionLineLength,PartitionLineLength * 2,PartitionLineLength * 2,360 - 88,- 88); //88-176为常用的区域，所以用白色表示
-
-
+        graphics2D.fillArc(FeedbackShowPoint.x - PartitionLineLength,FeedbackShowPoint.y - PartitionLineLength,PartitionLineLength * 2,PartitionLineLength * 2,360 - 88 + 90,- 88); //88-176为常用的区域，所以用白色表示
         if (CurrentAzimuth >= 0) {
             affineTransform = new AffineTransform();
             //控制箭头的角度
-            affineTransform.setToRotation(Math.toRadians(CurrentAzimuth), FeedbackShowPoint.x, FeedbackShowPoint.y);
+            affineTransform.setToRotation(- Math.toRadians(360 - CurrentAzimuth + 90), FeedbackShowPoint.x, FeedbackShowPoint.y);
             graphics2D.transform(affineTransform);
             BasicStroke _arrowStroke = new BasicStroke(ArrowLineWidth);
             graphics2D.setStroke(_arrowStroke);

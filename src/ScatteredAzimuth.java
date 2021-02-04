@@ -119,8 +119,8 @@ public class ScatteredAzimuth extends JFrame implements MouseInputListener, KeyL
         ScatteredAFrame.add(jSplitPane);  //加入到面板中就好了
 
         //界面全屏设置
-        //ScatteredAFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        ScatteredAFrame.setBounds(500,200,300,800);
+        ScatteredAFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        //ScatteredAFrame.setBounds(500,200,300,800);
         ScatteredAFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         ScatteredAFrame.setVisible(true);
     }

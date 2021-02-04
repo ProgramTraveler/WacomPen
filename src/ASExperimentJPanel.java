@@ -83,21 +83,25 @@ public class ASExperimentJPanel extends JPanel {
     }
     //绘制压力动态显示界面
     public void PaintAzimuthFeedback(Graphics2D graphics2D) {
-        graphics2D.setColor(Color.RED); //设置测试背景为红色
+        graphics2D.setColor(Color.WHITE); //设置测试背景为红色
         //设置圆形方位角展示区域出现的位置，红色覆盖的角度为0-360
         graphics2D.fillArc((int)FeedbackShowPoint.getX() - PartitionLineLength,(int)FeedbackShowPoint.getY() - PartitionLineLength,PartitionLineLength * 2,PartitionLineLength * 2,0,360);
-
+        //设置弧线颜色
+        graphics2D.setColor(Color.BLACK);
+        //将弧线标黑(整个圆形区域的弧线)
+        graphics2D.drawArc((int)FeedbackShowPoint.getX() - PartitionLineLength,(int)FeedbackShowPoint.getY() - PartitionLineLength,PartitionLineLength * 2,PartitionLineLength * 2,0,360);
+        //设置颜色和像素一级菜单的分界线
+        graphics2D.fillArc((int)FeedbackShowPoint.getX() - PartitionLineLength,(int)FeedbackShowPoint.getY() - PartitionLineLength,PartitionLineLength * 2,PartitionLineLength * 2,360 - 154 + 90,4);
+        graphics2D.fillArc((int)FeedbackShowPoint.getX() - PartitionLineLength,(int)FeedbackShowPoint.getY() - PartitionLineLength,PartitionLineLength * 2,PartitionLineLength * 2,360 - 109 + 90,4);
+        graphics2D.fillArc((int)FeedbackShowPoint.getX() - PartitionLineLength,(int)FeedbackShowPoint.getY() - PartitionLineLength,PartitionLineLength * 2,PartitionLineLength * 2,360 - 311 + 90,4);
         AffineTransform affineTransform = new AffineTransform(); //构造一个新的 AffineTransform代表身份转换
-
-        graphics2D.setPaint(Color.WHITE); //设置用户常用区域显示为白色
-        //设置圆形方位角展示区域出现的位置，白色覆盖区域为88-176
-        graphics2D.fillArc(FeedbackShowPoint.x - PartitionLineLength,FeedbackShowPoint.y - PartitionLineLength,PartitionLineLength * 2,PartitionLineLength * 2,360 - 88,- 88); //88-176为常用的区域，所以用白色表示
-
-
-        if (CurrentAzimuth >= 0) {
+        graphics2D.setPaint(ClearWhite); //设置用户常用区域显示为白色
+        //设置圆形方位角展示区域出现的位置，白色覆盖区域为109-154
+        graphics2D.fillArc(FeedbackShowPoint.x - PartitionLineLength,FeedbackShowPoint.y - PartitionLineLength,PartitionLineLength * 2,PartitionLineLength * 2,360 - 109 + 90,- 45); //88-176为常用的区域，所以用白色表示
+        if (CurrentAzimuth > 109 && CurrentAzimuth < 154) {
             affineTransform = new AffineTransform();
             //控制箭头的角度
-            affineTransform.setToRotation(Math.toRadians(CurrentAzimuth), FeedbackShowPoint.x, FeedbackShowPoint.y);
+            affineTransform.setToRotation(- Math.toRadians(360 - CurrentAzimuth + 90), FeedbackShowPoint.x, FeedbackShowPoint.y);
             graphics2D.transform(affineTransform);
             BasicStroke _arrowStroke = new BasicStroke(ArrowLineWidth);
             graphics2D.setStroke(_arrowStroke);
@@ -115,6 +119,32 @@ public class ASExperimentJPanel extends JPanel {
             graphics2D.setPaint(ClearGray);
             graphics2D.draw(_arrowPolygon);
 
+        }
+        //ShowColorMenu = false;
+        //显示颜色一级菜单
+        if (ShowColorMenu && ShowPixelMenu) {
+            ColorJLabel.setBounds((int)FeedbackShowPoint.getX() - PartitionLineLength + 40,(int)FeedbackShowPoint.getY() - PartitionLineLength - 20,PartitionLineLength * 2,PartitionLineLength * 2);
+            this.add(ColorJLabel);
+        }else if (ShowColorMenu == false) {
+            //展开颜色二级菜单
+            this.remove(ColorJLabel);
+            this.remove(PixelJLabel);
+
+            graphics2D.setColor(Color.BLUE);
+            graphics2D.fillArc((int)FeedbackShowPoint.getX() - PartitionLineLength,(int)FeedbackShowPoint.getY() - PartitionLineLength,PartitionLineLength * 2,PartitionLineLength * 2,360 - 109 + 90, 52);
+
+            graphics2D.setColor(Color.ORANGE);
+            graphics2D.fillArc((int)FeedbackShowPoint.getX() - PartitionLineLength,(int)FeedbackShowPoint.getY() - PartitionLineLength,PartitionLineLength * 2,PartitionLineLength * 2,360 - 57 + 90,52);
+
+            graphics2D.setColor(Color.RED);
+            graphics2D.fillArc((int)FeedbackShowPoint.getX() - PartitionLineLength,(int)FeedbackShowPoint.getY() - PartitionLineLength,PartitionLineLength * 2,PartitionLineLength * 2,360 - 5 + 90,54);
+        }
+        //显示像素一级菜单
+        if (ShowColorMenu && ShowPixelMenu) {
+            PixelJLabel.setBounds((int)FeedbackShowPoint.getX() - PartitionLineLength + 10,(int)FeedbackShowPoint.getY() - PartitionLineLength + 10,PartitionLineLength * 2,PartitionLineLength * 2);
+            this.add(PixelJLabel);
+        }else if (ShowPixelMenu == false) {
+            //展开像素二级菜单
         }
     }
     public void PaintTestArea(Graphics g) {
