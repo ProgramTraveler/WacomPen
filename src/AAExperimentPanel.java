@@ -154,7 +154,6 @@ public class AAExperimentPanel extends JPanel {
             graphics2D.fill(_arrowPolygon);
             graphics2D.setPaint(ClearGray);
             graphics2D.draw(_arrowPolygon);
-
         }
 
     }

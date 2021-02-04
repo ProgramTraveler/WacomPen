@@ -94,33 +94,9 @@ public class ASExperimentJPanel extends JPanel {
         graphics2D.fillArc((int)FeedbackShowPoint.getX() - PartitionLineLength,(int)FeedbackShowPoint.getY() - PartitionLineLength,PartitionLineLength * 2,PartitionLineLength * 2,360 - 154 + 90,4);
         graphics2D.fillArc((int)FeedbackShowPoint.getX() - PartitionLineLength,(int)FeedbackShowPoint.getY() - PartitionLineLength,PartitionLineLength * 2,PartitionLineLength * 2,360 - 109 + 90,4);
         graphics2D.fillArc((int)FeedbackShowPoint.getX() - PartitionLineLength,(int)FeedbackShowPoint.getY() - PartitionLineLength,PartitionLineLength * 2,PartitionLineLength * 2,360 - 311 + 90,4);
-        AffineTransform affineTransform = new AffineTransform(); //构造一个新的 AffineTransform代表身份转换
         graphics2D.setPaint(ClearWhite); //设置用户常用区域显示为白色
         //设置圆形方位角展示区域出现的位置，白色覆盖区域为109-154
         graphics2D.fillArc(FeedbackShowPoint.x - PartitionLineLength,FeedbackShowPoint.y - PartitionLineLength,PartitionLineLength * 2,PartitionLineLength * 2,360 - 109 + 90,- 45); //88-176为常用的区域，所以用白色表示
-        if (CurrentAzimuth > 109 && CurrentAzimuth < 154) {
-            affineTransform = new AffineTransform();
-            //控制箭头的角度
-            affineTransform.setToRotation(- Math.toRadians(360 - CurrentAzimuth + 90), FeedbackShowPoint.x, FeedbackShowPoint.y);
-            graphics2D.transform(affineTransform);
-            BasicStroke _arrowStroke = new BasicStroke(ArrowLineWidth);
-            graphics2D.setStroke(_arrowStroke);
-            GeneralPath _arrowPolygon = new GeneralPath(GeneralPath.WIND_EVEN_ODD);
-            _arrowPolygon.moveTo(FeedbackShowPoint.x, FeedbackShowPoint.y + ArrowWidth / 2);
-            _arrowPolygon.lineTo(FeedbackShowPoint.x + ArrowLength, FeedbackShowPoint.y + ArrowWidth / 2);
-            _arrowPolygon.lineTo(FeedbackShowPoint.x + ArrowLength, FeedbackShowPoint.y + ArrowWidth / 2 + ArrowTipWidth / 2);
-            _arrowPolygon.lineTo(FeedbackShowPoint.x + ArrowLength + ArrowTipLength, FeedbackShowPoint.y);
-            _arrowPolygon.lineTo(FeedbackShowPoint.x + ArrowLength, FeedbackShowPoint.y - ArrowWidth / 2 - ArrowTipWidth / 2);
-            _arrowPolygon.lineTo(FeedbackShowPoint.x + ArrowLength, FeedbackShowPoint.y - ArrowWidth / 2);
-            _arrowPolygon.lineTo(FeedbackShowPoint.x, FeedbackShowPoint.y - ArrowWidth / 2);
-            _arrowPolygon.closePath();
-            graphics2D.setPaint(ClearPink);
-            graphics2D.fill(_arrowPolygon);
-            graphics2D.setPaint(ClearGray);
-            graphics2D.draw(_arrowPolygon);
-
-        }
-        //ShowColorMenu = false;
         //显示颜色一级菜单
         if (ShowColorMenu && ShowPixelMenu) {
             ColorJLabel.setBounds((int)FeedbackShowPoint.getX() - PartitionLineLength + 40,(int)FeedbackShowPoint.getY() - PartitionLineLength - 20,PartitionLineLength * 2,PartitionLineLength * 2);
@@ -145,8 +121,46 @@ public class ASExperimentJPanel extends JPanel {
             this.add(PixelJLabel);
         }else if (ShowPixelMenu == false) {
             //展开像素二级菜单
+            remove(ColorJLabel);
+            remove(PixelJLabel);
+
+            graphics2D.setColor(ClearBlack); //设置分隔线颜色
+            //设置像素语句控制位置
+            PixelTow.setBounds((int)FeedbackShowPoint.getX() - PartitionLineLength + 10,(int)FeedbackShowPoint.getY() - PartitionLineLength - 5,PartitionLineLength * 2,PartitionLineLength * 2);
+            this.add(PixelTow);
+            graphics2D.fillArc((int)FeedbackShowPoint.getX() - PartitionLineLength,(int)FeedbackShowPoint.getY() - PartitionLineLength,PartitionLineLength * 2,PartitionLineLength * 2,360 - 258 + 90,4);
+
+            PixelThree.setBounds((int)FeedbackShowPoint.getX() - PartitionLineLength + 10,(int)FeedbackShowPoint.getY() - PartitionLineLength + 10 + 7,PartitionLineLength * 2,PartitionLineLength * 2);
+            this.add(PixelThree);
+            graphics2D.fillArc((int)FeedbackShowPoint.getX() - PartitionLineLength,(int)FeedbackShowPoint.getY() - PartitionLineLength,PartitionLineLength * 2,PartitionLineLength * 2,360 - 206 + 90,4);
+
+            PixelFour.setBounds((int)FeedbackShowPoint.getX() - PartitionLineLength + 10 + 20,(int)FeedbackShowPoint.getY() - PartitionLineLength + 10 + 20,PartitionLineLength * 2,PartitionLineLength * 2);
+            this.add(PixelFour);
+        }
+        //箭头的显示控制
+        if (CurrentAzimuth > 109 && CurrentAzimuth < 154) {
+            AffineTransform affineTransform = new AffineTransform();
+            //控制箭头的角度
+            affineTransform.setToRotation(- Math.toRadians(360 - CurrentAzimuth + 90), FeedbackShowPoint.getX(), FeedbackShowPoint.getY());
+            graphics2D.transform(affineTransform);
+            BasicStroke _arrowStroke = new BasicStroke(ArrowLineWidth);
+            graphics2D.setStroke(_arrowStroke);
+            GeneralPath _arrowPolygon = new GeneralPath(GeneralPath.WIND_EVEN_ODD);
+            _arrowPolygon.moveTo(FeedbackShowPoint.getX(), FeedbackShowPoint.getY() + ArrowWidth / 2);
+            _arrowPolygon.lineTo(FeedbackShowPoint.getX() + ArrowLength, FeedbackShowPoint.getY() + ArrowWidth / 2);
+            _arrowPolygon.lineTo(FeedbackShowPoint.getX() + ArrowLength, FeedbackShowPoint.getY() + ArrowWidth / 2 + ArrowTipWidth / 2);
+            _arrowPolygon.lineTo(FeedbackShowPoint.getX() + ArrowLength + ArrowTipLength, FeedbackShowPoint.getY());
+            _arrowPolygon.lineTo(FeedbackShowPoint.getX() + ArrowLength, FeedbackShowPoint.getY() - ArrowWidth / 2 - ArrowTipWidth / 2);
+            _arrowPolygon.lineTo(FeedbackShowPoint.getX() + ArrowLength, FeedbackShowPoint.getY() - ArrowWidth / 2);
+            _arrowPolygon.lineTo(FeedbackShowPoint.getX(), FeedbackShowPoint.getY() - ArrowWidth / 2);
+            _arrowPolygon.closePath();
+            graphics2D.setPaint(ClearPink);
+            graphics2D.fill(_arrowPolygon);
+            graphics2D.setPaint(ClearGray);
+            graphics2D.draw(_arrowPolygon);
         }
     }
+
     public void PaintTestArea(Graphics g) {
         /*
            没有这两步的话可能会导致界面错位
