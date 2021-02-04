@@ -138,7 +138,7 @@ public class ASExperimentJPanel extends JPanel {
             this.add(PixelFour);
         }
         //箭头的显示控制
-        if (CurrentAzimuth > 109 && CurrentAzimuth < 154) {
+        if (CurrentAzimuth > 109 && CurrentAzimuth < 154 && ShowColorMenu && ShowPixelMenu) {
             AffineTransform affineTransform = new AffineTransform();
             //控制箭头的角度
             affineTransform.setToRotation(- Math.toRadians(360 - CurrentAzimuth + 90), FeedbackShowPoint.getX(), FeedbackShowPoint.getY());
@@ -158,9 +158,11 @@ public class ASExperimentJPanel extends JPanel {
             graphics2D.fill(_arrowPolygon);
             graphics2D.setPaint(ClearGray);
             graphics2D.draw(_arrowPolygon);
+            affineTransform.setToRotation(Math.toRadians(360), FeedbackShowPoint.getX(), FeedbackShowPoint.getY());
+            graphics2D.transform(affineTransform);
         }
-    }
 
+    }
     public void PaintTestArea(Graphics g) {
         /*
            没有这两步的话可能会导致界面错位
