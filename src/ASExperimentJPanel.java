@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
 
@@ -10,11 +12,22 @@ import java.util.ArrayList;
  */
 public class ASExperimentJPanel extends JPanel {
     private int CurrentAzimuth = -1; //当前方位角的值
+
+    private int PartitionLineLength = 40; //设置圆形的覆盖区域（分隔线长度）
+
+    private int ArrowLineWidth = 3; //箭头线宽
+    private int ArrowWidth = 2; //箭头宽度
+    private int ArrowLength = 30; //箭头的长度
+    private int ArrowTipWidth = 5; //箭头提示宽度
+    private int ArrowTipLength = 6; //箭头提示长度
+
     private int  permeationRate = 180;
     private Color ClearWhite = new Color( Color.white.getRed(), Color.white.getGreen(), Color.white.getBlue(), permeationRate);
     private Color ClearLightGray = new Color( Color.lightGray.getRed(), Color.lightGray.getGreen(), Color.lightGray.getBlue(), permeationRate);
     private Color ClearBlack = new Color( Color.black.getRed(), Color.black.getGreen(), Color.black.getBlue(), permeationRate);
     private Color ClearRed = new Color( Color.red.getRed(), Color.red.getGreen(), Color.red.getBlue(), permeationRate);
+    private Color ClearPink = new Color( Color.pink.getRed(), Color.pink.getGreen(), Color.pink.getBlue(), permeationRate);
+    private Color ClearGray = new Color( Color.gray.getRed(), Color.gray.getGreen(), Color.gray.getBlue(), permeationRate);
 
     private Point FeedbackShowPoint = new Point(); //记录点的位置，为后面的压力提示，颜色和像素菜单切换提供位置基础
     public static ArrayList<Dot> arrayListSpot; //记录点在绘画过程中的信息,为了方便可以直接调用，就写成了public的
@@ -70,7 +83,39 @@ public class ASExperimentJPanel extends JPanel {
     }
     //绘制压力动态显示界面
     public void PaintAzimuthFeedback(Graphics2D graphics2D) {
+        graphics2D.setColor(Color.RED); //设置测试背景为红色
+        //设置圆形方位角展示区域出现的位置，红色覆盖的角度为0-360
+        graphics2D.fillArc((int)FeedbackShowPoint.getX() - PartitionLineLength,(int)FeedbackShowPoint.getY() - PartitionLineLength,PartitionLineLength * 2,PartitionLineLength * 2,0,360);
 
+        AffineTransform affineTransform = new AffineTransform(); //构造一个新的 AffineTransform代表身份转换
+
+        graphics2D.setPaint(Color.WHITE); //设置用户常用区域显示为白色
+        //设置圆形方位角展示区域出现的位置，白色覆盖区域为88-176
+        graphics2D.fillArc(FeedbackShowPoint.x - PartitionLineLength,FeedbackShowPoint.y - PartitionLineLength,PartitionLineLength * 2,PartitionLineLength * 2,360 - 88,- 88); //88-176为常用的区域，所以用白色表示
+
+
+        if (CurrentAzimuth >= 0) {
+            affineTransform = new AffineTransform();
+            //控制箭头的角度
+            affineTransform.setToRotation(Math.toRadians(CurrentAzimuth), FeedbackShowPoint.x, FeedbackShowPoint.y);
+            graphics2D.transform(affineTransform);
+            BasicStroke _arrowStroke = new BasicStroke(ArrowLineWidth);
+            graphics2D.setStroke(_arrowStroke);
+            GeneralPath _arrowPolygon = new GeneralPath(GeneralPath.WIND_EVEN_ODD);
+            _arrowPolygon.moveTo(FeedbackShowPoint.x, FeedbackShowPoint.y + ArrowWidth / 2);
+            _arrowPolygon.lineTo(FeedbackShowPoint.x + ArrowLength, FeedbackShowPoint.y + ArrowWidth / 2);
+            _arrowPolygon.lineTo(FeedbackShowPoint.x + ArrowLength, FeedbackShowPoint.y + ArrowWidth / 2 + ArrowTipWidth / 2);
+            _arrowPolygon.lineTo(FeedbackShowPoint.x + ArrowLength + ArrowTipLength, FeedbackShowPoint.y);
+            _arrowPolygon.lineTo(FeedbackShowPoint.x + ArrowLength, FeedbackShowPoint.y - ArrowWidth / 2 - ArrowTipWidth / 2);
+            _arrowPolygon.lineTo(FeedbackShowPoint.x + ArrowLength, FeedbackShowPoint.y - ArrowWidth / 2);
+            _arrowPolygon.lineTo(FeedbackShowPoint.x, FeedbackShowPoint.y - ArrowWidth / 2);
+            _arrowPolygon.closePath();
+            graphics2D.setPaint(ClearPink);
+            graphics2D.fill(_arrowPolygon);
+            graphics2D.setPaint(ClearGray);
+            graphics2D.draw(_arrowPolygon);
+
+        }
     }
     public void PaintTestArea(Graphics g) {
         /*

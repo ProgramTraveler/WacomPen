@@ -207,7 +207,7 @@ public class Login extends JFrame implements ActionListener{
         }else if (getSelection(ButtonFrame).getActionCommand() == "T-离散值") {
             ScatteredTilt scatteredTilt = new ScatteredTilt(SelectedBlock);
         }else if (getSelection(ButtonFrame).getActionCommand() == "A-离散值") {
-
+            ScatteredAzimuth scatteredAzimuth = new ScatteredAzimuth(SelectedBlock);
         }else if (getSelection(ButtonFrame).getActionCommand() == "P-增量化") {
 
         }else if (getSelection(ButtonFrame).getActionCommand() == "T-增量化") {

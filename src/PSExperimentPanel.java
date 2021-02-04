@@ -16,6 +16,7 @@ public class PSExperimentPanel extends JPanel {
     private Color ClearBlack = new Color( Color.black.getRed(), Color.black.getGreen(), Color.black.getBlue(), permeationRate);
     private Color ClearRed = new Color( Color.red.getRed(), Color.red.getGreen(), Color.red.getBlue(), permeationRate);
 
+
     private Point FeedbackShowPoint = new Point(); //记录点的位置，为后面的压力提示，颜色和像素菜单切换提供位置基础
     private int PressureFeedbackWidth = 70; //动态显示框的宽度
     private int PressureFeedbackHeight = 180; //动态显示框的长度

@@ -115,12 +115,12 @@ public class ScatteredAzimuth extends JFrame implements MouseInputListener, KeyL
         jSplitPane.setDividerLocation(300); //分割线的位置  也就是初始位置
         jSplitPane.setOneTouchExpandable(false); //是否可展开或收起，在这里没用
         jSplitPane.setDividerSize(0);//设置分割线的宽度 像素为单位(这里设为0，择时不显示分割线)
-        jSplitPane.setEnabled(false); //设置分割线不可拖动！！
+        jSplitPane.setEnabled(false); //设置分割线不可拖动
         ScatteredAFrame.add(jSplitPane);  //加入到面板中就好了
 
         //界面全屏设置
-        ScatteredAFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        //ScatteredPFrame.setBounds(500,200,300,800);
+        //ScatteredAFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        ScatteredAFrame.setBounds(500,200,300,800);
         ScatteredAFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         ScatteredAFrame.setVisible(true);
     }
@@ -200,6 +200,7 @@ public class ScatteredAzimuth extends JFrame implements MouseInputListener, KeyL
     }
     @Override
     public void actionPerformed(ActionEvent e) {
+        //System.out.println(CurrentAzimuth);
         CurrentAzimuth = penValue.Azimuth();
         asExperimentJPanel.SetCurrentAzimuth(CurrentAzimuth);
         asExperimentJPanel.repaint();
