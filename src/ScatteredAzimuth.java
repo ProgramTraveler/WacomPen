@@ -214,6 +214,51 @@ public class ScatteredAzimuth extends JFrame implements MouseInputListener, KeyL
 
     @Override
     public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+            if (asExperimentJPanel.GetShowColorMenu() && asExperimentJPanel.GetShowPixelMenu()) {
+                if (((CurrentAzimuth > 0 && CurrentAzimuth <=109) || (CurrentAzimuth >= 311 && CurrentAzimuth <= 360))) {
+                    //展开二级菜单
+                    asExperimentJPanel.SetShowColorMenu(false);
+                }else if (CurrentAzimuth >= 154 && CurrentAzimuth < 311) {
+                    //展开二级菜单
+                    asExperimentJPanel.SetShowPixelMenu(false);
+                }
+            }else if (asExperimentJPanel.GetShowColorMenu() == false) {
+                //如果二级菜单已经展开，那么就按照角度来进行颜色判定
+                //对当前位置的角度进行颜色判定
+                if (CurrentAzimuth > 57 && CurrentAzimuth <= 109) {
+                    asExperimentJPanel.DefineColor(1);
+                    ShowColorBlock.setBackground(Color.BLUE);
+                }
+                if (CurrentAzimuth > 5 && CurrentAzimuth < 57) {
+                    asExperimentJPanel.DefineColor(3);
+                    ShowColorBlock.setBackground(Color.ORANGE);
+                }
+                if ((CurrentAzimuth > 0 && CurrentAzimuth <= 5) || (CurrentAzimuth >= 311 && CurrentAzimuth <= 360)) {
+                    asExperimentJPanel.DefineColor(2);
+                    ShowColorBlock.setBackground(Color.RED);
+                }
+                //再一次打开一级颜色菜单
+                asExperimentJPanel.SetShowColorMenu(true);
+            } else if (asExperimentJPanel.GetShowPixelMenu() == false) {
+                //如果二级菜单已经展开，那么就按照角度来进行像素判定
+                //对当前位置角度进行像素判定
+                if (CurrentAzimuth >= 154 && CurrentAzimuth < 206) {
+                    asExperimentJPanel.DefinePixel(4);
+                    ShowPixel.setText("4.0");
+                }
+                if (CurrentAzimuth >= 206 && CurrentAzimuth < 258) {
+                    asExperimentJPanel.DefinePixel(3);
+                    ShowPixel.setText("3.0");
+                }
+                if (CurrentAzimuth >= 258 && CurrentAzimuth < 311) {
+                    asExperimentJPanel.DefinePixel(2);
+                    ShowPixel.setText("2.0");
+                }
+                //再一次打开像素一级菜单
+                asExperimentJPanel.SetShowPixelMenu(true);
+            }
+        }
         //当一次实验完成，用户按下
         if (e.getKeyCode() == KeyEvent.VK_ALT) {
             //清空集合中的点的信息

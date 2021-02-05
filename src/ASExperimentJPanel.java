@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 /*
@@ -13,13 +14,7 @@ import java.util.ArrayList;
 public class ASExperimentJPanel extends JPanel {
     private int CurrentAzimuth = -1; //当前方位角的值
 
-    private int PartitionLineLength = 40; //设置圆形的覆盖区域（分隔线长度）
-
-    private int ArrowLineWidth = 3; //箭头线宽
-    private int ArrowWidth = 2; //箭头宽度
-    private int ArrowLength = 30; //箭头的长度
-    private int ArrowTipWidth = 5; //箭头提示宽度
-    private int ArrowTipLength = 6; //箭头提示长度
+    private int PartitionLineLength = 45; //设置圆形的覆盖区域（分隔线长度）
 
     private int  permeationRate = 180;
     private Color ClearWhite = new Color( Color.white.getRed(), Color.white.getGreen(), Color.white.getBlue(), permeationRate);
@@ -77,7 +72,7 @@ public class ASExperimentJPanel extends JPanel {
     public void paintComponent(Graphics g) {
         Graphics2D graphics2D = (Graphics2D) g;
         this.PaintTestArea(g); //绘制出测试区域
-        //显示动态压力菜单
+        //显示动态方位角菜单
         if (ShowBack)
             this.PaintAzimuthFeedback(graphics2D);
     }
@@ -87,7 +82,7 @@ public class ASExperimentJPanel extends JPanel {
         //设置圆形方位角展示区域出现的位置，红色覆盖的角度为0-360
         graphics2D.fillArc((int)FeedbackShowPoint.getX() - PartitionLineLength,(int)FeedbackShowPoint.getY() - PartitionLineLength,PartitionLineLength * 2,PartitionLineLength * 2,0,360);
         //设置弧线颜色
-        graphics2D.setColor(Color.BLACK);
+        graphics2D.setColor(Color.GRAY);
         //将弧线标黑(整个圆形区域的弧线)
         graphics2D.drawArc((int)FeedbackShowPoint.getX() - PartitionLineLength,(int)FeedbackShowPoint.getY() - PartitionLineLength,PartitionLineLength * 2,PartitionLineLength * 2,0,360);
         //设置颜色和像素一级菜单的分界线
@@ -137,29 +132,39 @@ public class ASExperimentJPanel extends JPanel {
             PixelFour.setBounds((int)FeedbackShowPoint.getX() - PartitionLineLength + 10 + 20,(int)FeedbackShowPoint.getY() - PartitionLineLength + 10 + 20,PartitionLineLength * 2,PartitionLineLength * 2);
             this.add(PixelFour);
         }
+        //显示颜色的选择
+        graphics2D.setColor(ClearLightGray);
+        if (ShowColorMenu == false) {
+            if (CurrentAzimuth <= 109 && CurrentAzimuth > 57) {
+                graphics2D.fillArc((int)FeedbackShowPoint.getX() - PartitionLineLength,(int)FeedbackShowPoint.getY() - PartitionLineLength,PartitionLineLength * 2,PartitionLineLength * 2,360 - 109 + 90, 52);
+            }
+            if (CurrentAzimuth <= 57 && CurrentAzimuth > 5) {
+                graphics2D.fillArc((int)FeedbackShowPoint.getX() - PartitionLineLength,(int)FeedbackShowPoint.getY() - PartitionLineLength,PartitionLineLength * 2,PartitionLineLength * 2,360 - 57 + 90,52);
+            }
+            if ((CurrentAzimuth <= 5 && CurrentAzimuth > 0) || (CurrentAzimuth >= 311 && CurrentAzimuth <= 360)) {
+                graphics2D.fillArc((int)FeedbackShowPoint.getX() - PartitionLineLength,(int)FeedbackShowPoint.getY() - PartitionLineLength,PartitionLineLength * 2,PartitionLineLength * 2,360 - 5 + 90,54);
+            }
+        }else if ((CurrentAzimuth >= 311 && CurrentAzimuth <= 360) || (CurrentAzimuth <= 109 && CurrentAzimuth >= 0)) {
+            graphics2D.fillArc((int)FeedbackShowPoint.getX() - PartitionLineLength,(int)FeedbackShowPoint.getY() - PartitionLineLength,PartitionLineLength * 2,PartitionLineLength * 2,360 - 109 + 90, 158);
+        }
+        //显示像素选择
+        if (ShowPixelMenu == false) {
+            if (CurrentAzimuth >= 154 && CurrentAzimuth < 206) {
+                graphics2D.fillArc((int)FeedbackShowPoint.getX() - PartitionLineLength,(int)FeedbackShowPoint.getY() - PartitionLineLength,PartitionLineLength * 2,PartitionLineLength * 2,360 - 154 + 90,-52);
+            }
+            if (CurrentAzimuth >= 206 && CurrentAzimuth < 258) {
+                graphics2D.fillArc((int)FeedbackShowPoint.getX() - PartitionLineLength,(int)FeedbackShowPoint.getY() - PartitionLineLength,PartitionLineLength * 2,PartitionLineLength * 2,360 - 206 + 90,-52);
+            }
+            if (CurrentAzimuth >= 258 && CurrentAzimuth < 311) {
+                graphics2D.fillArc((int)FeedbackShowPoint.getX() - PartitionLineLength,(int)FeedbackShowPoint.getY() - PartitionLineLength,PartitionLineLength * 2,PartitionLineLength * 2,360 - 258 + 90,-53);
+            }
+        }else if (CurrentAzimuth >= 154 && CurrentAzimuth < 311) {
+            graphics2D.fillArc((int)FeedbackShowPoint.getX() - PartitionLineLength,(int)FeedbackShowPoint.getY() - PartitionLineLength,PartitionLineLength * 2,PartitionLineLength * 2,360 - 154 + 90, -157);
+        }
         //箭头的显示控制
         if (CurrentAzimuth > 109 && CurrentAzimuth < 154 && ShowColorMenu && ShowPixelMenu) {
-            AffineTransform affineTransform = new AffineTransform();
-            //控制箭头的角度
-            affineTransform.setToRotation(- Math.toRadians(360 - CurrentAzimuth + 90), FeedbackShowPoint.getX(), FeedbackShowPoint.getY());
-            graphics2D.transform(affineTransform);
-            BasicStroke _arrowStroke = new BasicStroke(ArrowLineWidth);
-            graphics2D.setStroke(_arrowStroke);
-            GeneralPath _arrowPolygon = new GeneralPath(GeneralPath.WIND_EVEN_ODD);
-            _arrowPolygon.moveTo(FeedbackShowPoint.getX(), FeedbackShowPoint.getY() + ArrowWidth / 2);
-            _arrowPolygon.lineTo(FeedbackShowPoint.getX() + ArrowLength, FeedbackShowPoint.getY() + ArrowWidth / 2);
-            _arrowPolygon.lineTo(FeedbackShowPoint.getX() + ArrowLength, FeedbackShowPoint.getY() + ArrowWidth / 2 + ArrowTipWidth / 2);
-            _arrowPolygon.lineTo(FeedbackShowPoint.getX() + ArrowLength + ArrowTipLength, FeedbackShowPoint.getY());
-            _arrowPolygon.lineTo(FeedbackShowPoint.getX() + ArrowLength, FeedbackShowPoint.getY() - ArrowWidth / 2 - ArrowTipWidth / 2);
-            _arrowPolygon.lineTo(FeedbackShowPoint.getX() + ArrowLength, FeedbackShowPoint.getY() - ArrowWidth / 2);
-            _arrowPolygon.lineTo(FeedbackShowPoint.getX(), FeedbackShowPoint.getY() - ArrowWidth / 2);
-            _arrowPolygon.closePath();
-            graphics2D.setPaint(ClearPink);
-            graphics2D.fill(_arrowPolygon);
-            graphics2D.setPaint(ClearGray);
-            graphics2D.draw(_arrowPolygon);
-            affineTransform.setToRotation(Math.toRadians(360), FeedbackShowPoint.getX(), FeedbackShowPoint.getY());
-            graphics2D.transform(affineTransform);
+            graphics2D.setColor(Color.BLACK);
+            graphics2D.fillArc((int)FeedbackShowPoint.getX() - PartitionLineLength,(int)FeedbackShowPoint.getY() - PartitionLineLength,PartitionLineLength * 2,PartitionLineLength * 2,360 - CurrentAzimuth + 90, 5);
         }
 
     }
