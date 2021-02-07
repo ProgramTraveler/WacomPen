@@ -218,13 +218,21 @@ public class ScatteredTilt extends JFrame implements MouseInputListener, KeyList
 
     @Override
     public void keyPressed(KeyEvent e) {
-        //如果按下了ALT键，说明确认选择
+        //如果按下了空格键，说明确认选择
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             if (tsExperimentPanel.GetShowColorMenu() && tsExperimentPanel.GetShowPixelMenu()) {
                 if (((CurrentTilt >=80 && CurrentTilt <=90) || (CurrentTilt >= 38 && CurrentTilt <= 54))) {
+                    if (ColorChange == false) {
+                        penData.AddColorTouchE(); //颜色误触发加一
+                        penData.AddTouchE(); //误触发总数加一
+                    }
                     //展开二级菜单
                     tsExperimentPanel.SetShowColorMenu(false);
                 }else if ((CurrentTilt >= 71 && CurrentTilt < 80) || (CurrentTilt >= 22 && CurrentTilt < 38)) {
+                    if (PixelChange == false) {
+                        penData.AddPixelTouchE(); //像素误触发加一
+                        penData.AddTouchE(); //误触发总数加一
+                    }
                     //展开二级菜单
                     tsExperimentPanel.SetShowPixelMenu(false);
                 }
@@ -234,15 +242,19 @@ public class ScatteredTilt extends JFrame implements MouseInputListener, KeyList
                 if (CurrentTilt >= 22 && CurrentTilt < 44) {
                     tsExperimentPanel.DefineColor(1);
                     ShowColorBlock.setBackground(Color.BLUE);
+                    penData.SetEndColorMode(System.currentTimeMillis());
                 }
                 if (CurrentTilt >= 44 && CurrentTilt < 66) {
                     tsExperimentPanel.DefineColor(3);
                     ShowColorBlock.setBackground(Color.ORANGE);
+                    penData.SetEndColorMode(System.currentTimeMillis());
                 }
                 if (CurrentTilt >= 66 && CurrentTilt <= 90) {
                     tsExperimentPanel.DefineColor(2);
                     ShowColorBlock.setBackground(Color.RED);
+                    penData.SetEndColorMode(System.currentTimeMillis());
                 }
+                penData.AddTime(System.currentTimeMillis());
                 //再一次打开一级颜色菜单
                 tsExperimentPanel.SetShowColorMenu(true);
             } else if (tsExperimentPanel.GetShowPixelMenu() == false) {
@@ -251,21 +263,28 @@ public class ScatteredTilt extends JFrame implements MouseInputListener, KeyList
                 if (CurrentTilt >= 22 && CurrentTilt < 44) {
                     tsExperimentPanel.DefinePixel(4);
                     ShowPixel.setText("4.0");
+                    penData.SetEndPixelMode(System.currentTimeMillis());
                 }
                 if (CurrentTilt >= 44 && CurrentTilt < 66) {
                     tsExperimentPanel.DefinePixel(3);
                     ShowPixel.setText("3.0");
+                    penData.SetEndPixelMode(System.currentTimeMillis());
                 }
                 if (CurrentTilt >= 66 && CurrentTilt <= 90) {
                     tsExperimentPanel.DefinePixel(2);
                     ShowPixel.setText("2.0");
+                    penData.SetEndPixelMode(System.currentTimeMillis());
                 }
+                penData.AddTime(System.currentTimeMillis());
                 //再一次打开像素一级菜单
                 tsExperimentPanel.SetShowPixelMenu(true);
             }
         }
-        //当一次实验完成，用户按下空格键
-        if (e.getKeyCode() == KeyEvent.VK_ALT) {
+        //当一次实验完成，用户按下回车键
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            //更新颜色和像素条件
+            ColorFlag = true;
+            PixelFlag = true;
             //清空集合中的点的信息
             tsExperimentPanel.arrayListSpot.clear();
             //重绘
@@ -307,16 +326,15 @@ public class ScatteredTilt extends JFrame implements MouseInputListener, KeyList
                     login.setResizable(false);
                     login.setVisible(true);
 
-                    penData.SetColorTouchE(0); //初始化颜色误触发数
-                    penData.SetPixelTouchE(0); //初始化像素误触发数
-
-                    penData.SetColorModeE(0); //初始化颜色切换错误数
-                    penData.SetPixelModeE(0); //初始化像素切换错误数
-
                     //关闭当前的界面
                     ScatteredTFrame.dispose();
                 }
             }
+            penData.SetColorTouchE(0); //初始化颜色误触发数
+            penData.SetPixelTouchE(0); //初始化像素误触发数
+
+            penData.SetColorModeE(0); //初始化颜色切换错误数
+            penData.SetPixelModeE(0); //初始化像素切换错误数
         }
     }
 
@@ -351,8 +369,9 @@ public class ScatteredTilt extends JFrame implements MouseInputListener, KeyList
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        //获得抬笔的时间戳
-        penData.AddTime(System.currentTimeMillis());
+        //当颜色和像素都已经做过了，此时抬笔，说明已经是最后一次抬笔了
+        if (ColorFlag == false && PixelFlag == false)
+            penData.AddTime(System.currentTimeMillis());
         //获得抬笔的文字格式
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SS");
         penData.AddTimeString(dateFormat.format(new Date()));
@@ -402,6 +421,7 @@ public class ScatteredTilt extends JFrame implements MouseInputListener, KeyList
         double y = dot.DotStarY();
 
         if (x >= 350 && x <= 850 && y >= 50 && y <= 150 && ColorFlag == true) {
+            penData.AddTime(System.currentTimeMillis()); //线条绘制结束
             ColorChange = true; //当进入到颜色测试区域时，颜色测换才合法
             penData.SetStartColorMode(System.currentTimeMillis());
             int indexC = completeExperiment.GetRandomNumberC();
@@ -418,8 +438,6 @@ public class ScatteredTilt extends JFrame implements MouseInputListener, KeyList
                 penData.SetTargetColor("黄色");
                 JPanelRandomC.setBackground(Color.ORANGE);
             }
-            //如果没有提示且按下了空格，就记为空
-            else penData.SetTargetColor(null);
 
             //设置插件位置
             ShowColorT.setBounds(880, 250, 100, 20);
@@ -435,10 +453,11 @@ public class ScatteredTilt extends JFrame implements MouseInputListener, KeyList
         } else if (x0 >= 350 && x0 <= 850 && y0 >= 50 && y0 <= 150 && ColorFlag == false) {
 
         } else {
-            ColorFlag = true;
+
         }
 
         if (x0 >= 900 && x0 <= 1400 && y0 >= 50 && y0 <= 150 && PixelFlag == true) {
+            penData.AddTime(System.currentTimeMillis()); //线条绘制结束
             PixelChange = true; //当进入到像素测试区域时，此时的像素测换才合法
             penData.SetStartPixelMode(System.currentTimeMillis());
             int indexP = completeExperiment.GetRandomNumberP();
@@ -458,8 +477,6 @@ public class ScatteredTilt extends JFrame implements MouseInputListener, KeyList
                 RandomPixel = "4.0";
                 penData.SetTargetLine("4.0");
             }
-            //如果没有提示就按下了空格，就记为空
-            else penData.SetTargetLine(null);
 
             //设置插件位置
             ShowPixelT.setBounds(1080, 250, 100, 20);
@@ -481,7 +498,6 @@ public class ScatteredTilt extends JFrame implements MouseInputListener, KeyList
         } else if (x0 >= 900 && x0 <= 1400 && y0 >= 50 && y0 <= 150 && PixelFlag == false) {
 
         } else {
-            PixelFlag = true;
         }
         //将点的信息记录在容器中
         tsExperimentPanel.arrayListSpot.add(dot);
