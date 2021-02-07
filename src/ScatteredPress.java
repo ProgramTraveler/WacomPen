@@ -251,16 +251,19 @@ public class ScatteredPress extends JFrame implements MouseInputListener, KeyLis
                 if (CurrentPress >= 0 && CurrentPress < 341) {
                     psExperimentPanel.DefineColor(1);
                     ShowColorBlock.setBackground(Color.BLUE);
+                    penData.SetResultC("蓝色");
                     penData.SetEndColorMode(System.currentTimeMillis());
                 }
                 if (CurrentPress >= 341 && CurrentPress < 682) {
                     psExperimentPanel.DefineColor(2);
                     ShowColorBlock.setBackground(Color.RED);
+                    penData.SetResultC("红色");
                     penData.SetEndColorMode(System.currentTimeMillis());
                 }
                 if (CurrentPress >= 682 && CurrentPress <= 1023) {
                     psExperimentPanel.DefineColor(3);
                     ShowColorBlock.setBackground(Color.ORANGE);
+                    penData.SetResultC("黄色");
                     penData.SetEndColorMode(System.currentTimeMillis());
                 }
                 penData.AddTime(System.currentTimeMillis());
@@ -271,16 +274,19 @@ public class ScatteredPress extends JFrame implements MouseInputListener, KeyLis
                 if (CurrentPress >= 0 && CurrentPress < 341) {
                     psExperimentPanel.DefinePixel(4);
                     ShowPixel.setText("4.0");
+                    penData.SetResultP("4.0");
                     penData.SetEndPixelMode(System.currentTimeMillis());
                 }
                 if (CurrentPress >= 341 && CurrentPress < 682) {
                     psExperimentPanel.DefinePixel(3);
                     ShowPixel.setText("3.0");
+                    penData.SetResultP("3.0");
                     penData.SetEndPixelMode(System.currentTimeMillis());
                 }
                 if (CurrentPress >= 682 && CurrentPress <= 1023) {
                     psExperimentPanel.DefinePixel(2);
                     ShowPixel.setText("2.0");
+                    penData.SetResultP("2.0");
                     penData.SetEndPixelMode(System.currentTimeMillis());
                 }
                 penData.AddTime(System.currentTimeMillis());
@@ -369,20 +375,23 @@ public class ScatteredPress extends JFrame implements MouseInputListener, KeyLis
              */
             //获得落笔的时间戳
             penData.AddTime(System.currentTimeMillis());
-            //获得落笔的文字格式
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SS");
-            penData.AddTimeString(dateFormat.format(new Date()));
+            if (ColorFlag && PixelFlag) {
+                //获得落笔的文字格式
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SS");
+                penData.AddTimeString(dateFormat.format(new Date()));
+            }
         }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
         //当颜色和像素都已经做过了，此时抬笔，说明已经是最后一次抬笔了
-        if (ColorFlag == false && PixelFlag == false)
+        if (ColorFlag == false && PixelFlag == false) {
             penData.AddTime(System.currentTimeMillis());
-        //获得抬笔的文字格式
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SS");
-        penData.AddTimeString(dateFormat.format(new Date()));
+            //获得抬笔的文字格式
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SS");
+            penData.AddTimeString(dateFormat.format(new Date()));
+        }
         psExperimentPanel.repaint();
         //当抬笔后说明已经选择完成
         ChooseFlag = false; //不显示压力动态图像

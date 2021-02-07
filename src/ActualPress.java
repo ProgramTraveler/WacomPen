@@ -387,9 +387,11 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
              */
             //获得落笔的时间戳
             penData.AddTime(System.currentTimeMillis());
-            //获得落笔的文字格式
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SS");
-            penData.AddTimeString(dateFormat.format(new Date()));
+            if (ColorFlag && PixelFlag) {
+                //获得落笔的文字格式
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SS");
+                penData.AddTimeString(dateFormat.format(new Date()));
+            }
             //如果菜单位置可以随着鼠标位置改变，那么就实时跟新菜单的出现位置
             if (MenuMove) {
                 MenuX = e.getX();
@@ -403,11 +405,12 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
     @Override
     public void mouseReleased(MouseEvent e) {
         //当颜色和像素都已经做过了，此时抬笔，说明已经是最后一次抬笔了
-        if (ColorFlag == false && PixelFlag == false)
+        if (ColorFlag == false && PixelFlag == false) {
             penData.AddTime(System.currentTimeMillis());
-        //获得抬笔的文字格式
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SS");
-        penData.AddTimeString(dateFormat.format(new Date()));
+            //获得抬笔的文字格式
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SS");
+            penData.AddTimeString(dateFormat.format(new Date()));
+        }
         paExperimentPanel.repaint();
         //当抬笔后说明已经选择完成
         MenuFlag = false; //此时关闭显示菜单

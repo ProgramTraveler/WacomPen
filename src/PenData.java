@@ -232,9 +232,8 @@ public class PenData {
     public void AddTimeString(String s) { TimeListString.add(s); }
     //将文字时间容器的内容分配
     public void AllocateTimeString() {
-        int temp = TimeListString.size() - 1;
-        StartTimeDate = TimeListString.get(temp - 5);
-        EndTimeDate = TimeListString.get(temp);
+        StartTimeDate = TimeListString.get(0);
+        EndTimeDate = TimeListString.get(1);
     }
     //获得用户实际选择的颜色
     public void SetResultC(String s) { ResultColor = s; }

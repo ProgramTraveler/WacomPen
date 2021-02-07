@@ -215,8 +215,6 @@ public class ScatteredAzimuth extends JFrame implements MouseInputListener, KeyL
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-
-
             if (asExperimentJPanel.GetShowColorMenu() && asExperimentJPanel.GetShowPixelMenu()) {
                 if (((CurrentAzimuth > 0 && CurrentAzimuth <=109) || (CurrentAzimuth >= 311 && CurrentAzimuth <= 360))) {
                     if (ColorChange == false) {
@@ -239,15 +237,18 @@ public class ScatteredAzimuth extends JFrame implements MouseInputListener, KeyL
                 if (CurrentAzimuth > 57 && CurrentAzimuth <= 109) {
                     asExperimentJPanel.DefineColor(1);
                     ShowColorBlock.setBackground(Color.BLUE);
+                    penData.SetResultC("蓝色");
                     penData.SetEndColorMode(System.currentTimeMillis());
                 }
                 if (CurrentAzimuth > 5 && CurrentAzimuth < 57) {
                     asExperimentJPanel.DefineColor(3);
                     ShowColorBlock.setBackground(Color.ORANGE);
+                    penData.SetResultC("黄色");
                     penData.SetEndColorMode(System.currentTimeMillis());
                 }
                 if ((CurrentAzimuth > 0 && CurrentAzimuth <= 5) || (CurrentAzimuth >= 311 && CurrentAzimuth <= 360)) {
                     asExperimentJPanel.DefineColor(2);
+                    penData.SetResultC("红色");
                     ShowColorBlock.setBackground(Color.RED);
                     penData.SetEndColorMode(System.currentTimeMillis());
                 }
@@ -260,16 +261,19 @@ public class ScatteredAzimuth extends JFrame implements MouseInputListener, KeyL
                 if (CurrentAzimuth >= 154 && CurrentAzimuth < 206) {
                     asExperimentJPanel.DefinePixel(4);
                     ShowPixel.setText("4.0");
+                    penData.SetResultP("4.0");
                     penData.SetEndPixelMode(System.currentTimeMillis());
                 }
                 if (CurrentAzimuth >= 206 && CurrentAzimuth < 258) {
                     asExperimentJPanel.DefinePixel(3);
                     ShowPixel.setText("3.0");
+                    penData.SetResultP("3.0");
                     penData.SetEndPixelMode(System.currentTimeMillis());
                 }
                 if (CurrentAzimuth >= 258 && CurrentAzimuth < 311) {
                     asExperimentJPanel.DefinePixel(2);
                     ShowPixel.setText("2.0");
+                    penData.SetResultP("2.0");
                     penData.SetEndPixelMode(System.currentTimeMillis());
                 }
                 penData.AddTime(System.currentTimeMillis());
@@ -358,20 +362,23 @@ public class ScatteredAzimuth extends JFrame implements MouseInputListener, KeyL
              */
             //获得落笔的时间戳
             penData.AddTime(System.currentTimeMillis());
-            //获得落笔的文字格式
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SS");
-            penData.AddTimeString(dateFormat.format(new Date()));
+            if (ColorFlag && PixelFlag) {
+                //获得落笔的文字格式
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SS");
+                penData.AddTimeString(dateFormat.format(new Date()));
+            }
         }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
         //当颜色和像素都已经做过了，此时抬笔，说明已经是最后一次抬笔了
-        if (ColorFlag == false && PixelFlag == false)
+        if (ColorFlag == false && PixelFlag == false) {
             penData.AddTime(System.currentTimeMillis());
-        //获得抬笔的文字格式
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SS");
-        penData.AddTimeString(dateFormat.format(new Date()));
+            //获得抬笔的文字格式
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SS");
+            penData.AddTimeString(dateFormat.format(new Date()));
+        }
         asExperimentJPanel.repaint();
         //当抬笔后说明已经选择完成
         //ChooseFlag = false; //不显示压力动态图像

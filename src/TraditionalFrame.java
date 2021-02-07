@@ -362,6 +362,9 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
     public void keyPressed(KeyEvent e) {
         //当一次实验完成，用户按下回车键
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            //更新颜色和像素条件
+            ColorFlag = true;
+            PixelFlag = true;
             //清空集合中的点的信息
             area.arrayListSpot.clear();
             //重绘
@@ -437,19 +440,23 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
              */
             //获得落笔的时间戳
             pData.AddTime(System.currentTimeMillis());
-            //获得落笔的文字格式
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SS");
-            pData.AddTimeString(dateFormat.format(new Date()));
+            if (ColorFlag && PixelFlag) {
+                //获得落笔的文字格式
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SS");
+                pData.AddTimeString(dateFormat.format(new Date()));
+            }
         }
     }
     //在组件上释放鼠标按钮时调用
     @Override
     public void mouseReleased(MouseEvent e) {
+        if (ColorFlag == false && PixelFlag == false) {
+            //获得抬笔的文字格式
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SS");
+            pData.AddTimeString(dateFormat.format(new Date()));
+        }
         //获得抬笔的时间戳
         pData.AddTime(System.currentTimeMillis());
-        //获得抬笔的文字格式
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SS");
-        pData.AddTimeString(dateFormat.format(new Date()));
     }
     @Override
     public void mouseEntered(MouseEvent e) {
@@ -514,7 +521,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         } else if (x0 >= 350 && x0 <= 850 && y0 >= 50 && y0 <= 150 && ColorFlag == false){
 
         }else {
-            ColorFlag = true;
+
         }
 
         if (x0 >= 900 && x0 <= 1400 && y0 >= 50 && y0 <= 150 && PixelFlag == true) {
@@ -563,7 +570,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         }else if (x0 >= 900 && x0 <= 1400 && y0 >= 50 && y0 <= 150 && PixelFlag == false) {
 
         }else {
-            PixelFlag = true;
+
         }
         //将点的信息记录在容器中
         area.arrayListSpot.add(dot);
