@@ -275,7 +275,6 @@ public class ActualAzimuth extends JFrame implements ActionListener, MouseInputL
 
         //如果到达了预设的方位角范围，就打开颜色和像素选择菜单
         if ((CurrentAzimuth >= 0 && CurrentAzimuth <= 88) || (CurrentAzimuth >= 176 && CurrentAzimuth <= 359)) {
-            System.out.println(CurrentAzimuth);
             timer.stop(); //停止触发actionPerFormed
             aaExperimentPanel.SetShowBack(false); //将方位角动态显示界面关闭
             MenuMove = false; //固定菜单出现的位置
@@ -300,8 +299,11 @@ public class ActualAzimuth extends JFrame implements ActionListener, MouseInputL
         /*if (e.getKeyCode() == KeyEvent.VK_ALT) {
             ChooseFlag = true;
         }*/
-        //当一次实验完成，用户按下空格键
-        if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+        //当一次实验完成，用户按下回车键
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            //更新颜色和像素条件
+            ColorFlag = true;
+            PixelFlag = true;
             //清空集合中的点的信息
             aaExperimentPanel.arrayListSpot.clear();
             //重绘
@@ -343,16 +345,15 @@ public class ActualAzimuth extends JFrame implements ActionListener, MouseInputL
                     login.setResizable(false);
                     login.setVisible(true);
 
-                    penData.SetColorTouchE(0); //初始化颜色误触发数
-                    penData.SetPixelTouchE(0); //初始化像素误触发数
-
-                    penData.SetColorModeE(0); //初始化颜色切换错误数
-                    penData.SetPixelModeE(0); //初始化像素切换错误数
-
                     //关闭当前的界面
                     ActualAFrame.dispose();
                 }
             }
+            penData.SetColorTouchE(0); //初始化颜色误触发数
+            penData.SetPixelTouchE(0); //初始化像素误触发数
+
+            penData.SetColorModeE(0); //初始化颜色切换错误数
+            penData.SetPixelModeE(0); //初始化像素切换错误数
         }
     }
 
@@ -401,8 +402,9 @@ public class ActualAzimuth extends JFrame implements ActionListener, MouseInputL
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        //获得抬笔的时间戳
-        penData.AddTime(System.currentTimeMillis());
+        //当颜色和像素都已经做过了，此时抬笔，说明已经是最后一次抬笔了
+        if (ColorFlag == false && PixelFlag == false)
+            penData.AddTime(System.currentTimeMillis());
         //获得抬笔的文字格式
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SS");
         penData.AddTimeString(dateFormat.format(new Date()));
@@ -487,8 +489,6 @@ public class ActualAzimuth extends JFrame implements ActionListener, MouseInputL
                     ShowColorBlock.setBackground(Color.ORANGE);
                     penData.SetEndColorMode(System.currentTimeMillis());
                 }
-                else
-                    penData.SetResultC(null);
                 this.RepaintAAInter();
 
             }
@@ -517,8 +517,6 @@ public class ActualAzimuth extends JFrame implements ActionListener, MouseInputL
                     penData.SetResultP("4.0");
                     penData.SetEndPixelMode(System.currentTimeMillis());
                 }
-                else
-                    penData.SetResultP(null);
                 this.RepaintAAInter();
             }
             aaExperimentPanel.repaint();
@@ -535,6 +533,7 @@ public class ActualAzimuth extends JFrame implements ActionListener, MouseInputL
             double y = dot.DotStarY();
 
             if (x >= 350 && x <= 850 && y >= 50 && y <= 150 && ColorFlag == true) {
+                penData.AddTime(System.currentTimeMillis()); //线条绘制结束
                 ColorChange = true; //当进入到颜色测试区域时，颜色测换才合法
                 penData.SetStartColorMode(System.currentTimeMillis());
                 int indexC = completeExperiment.GetRandomNumberC();
@@ -569,10 +568,11 @@ public class ActualAzimuth extends JFrame implements ActionListener, MouseInputL
             } else if (x0 >= 350 && x0 <= 850 && y0 >= 50 && y0 <= 150 && ColorFlag == false){
 
             }else {
-                ColorFlag = true;
+                //ColorFlag = true;
             }
 
             if (x0 >= 900 && x0 <= 1400 && y0 >= 50 && y0 <= 150 && PixelFlag == true) {
+                penData.AddTime(System.currentTimeMillis()); //线条绘制结束
                 PixelChange = true; //当进入到像素测试区域时，此时的像素测换才合法
                 penData.SetStartPixelMode(System.currentTimeMillis());
                 int indexP = completeExperiment.GetRandomNumberP();
@@ -615,7 +615,7 @@ public class ActualAzimuth extends JFrame implements ActionListener, MouseInputL
             }else if (x0 >= 900 && x0 <= 1400 && y0 >= 50 && y0 <= 150 && PixelFlag == false) {
 
             }else {
-                PixelFlag = true;
+                //PixelFlag = true;
             }
 
             //将点的信息记录在容器中

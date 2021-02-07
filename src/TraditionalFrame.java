@@ -134,7 +134,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
                 //存入目标颜色
                 pData.SetResultC("红色");
                 //如果在没有进入测试区域就点击切换，误触发次数加一
-                if (ColorChange == true) {
+                if (ColorChange == false) {
                     pData.AddTouchE();
                     pData.AddColorTouchE();
                 }
@@ -150,7 +150,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
                 //存入目标颜色
                 pData.SetResultC("蓝色");
                 //如果在没有进入测试区域就点击切换，误触发次数加一
-                if (ColorChange == true) {
+                if (ColorChange == false) {
                     pData.AddTouchE();
                     pData.AddColorTouchE();
                 }
@@ -166,7 +166,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
                 //存入目标颜色
                 pData.SetResultC("黄色");
                 //如果在没有进入测试区域就点击切换，误触发次数加一
-                if (ColorChange == true) {
+                if (ColorChange == false) {
                     pData.AddTouchE();
                     pData.AddColorTouchE();
                 }
@@ -188,7 +188,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
                 //存入目标像素
                 pData.SetResultP("2.0");
                 //如果在没有进入测试区域就点击切换，误触发次数加一
-                if (PixelChange == true) {
+                if (PixelChange == false) {
                     pData.AddTouchE();
                     pData.AddPixelTouchE();
                 }
@@ -205,7 +205,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
                 //存入目标像素
                 pData.SetResultP("3.0");
                 //如果在没有进入测试区域就点击切换，误触发次数加一
-                if (PixelChange == true) {
+                if (PixelChange == false) {
                     pData.AddTouchE();
                     pData.AddPixelTouchE();
                 }
@@ -222,7 +222,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
                 //存入目标像素
                 pData.SetResultP("4.0");
                 //如果在没有进入测试区域就点击切换，误触发次数加一
-                if (PixelChange == true) {
+                if (PixelChange == false) {
                     pData.AddTouchE();
                     pData.AddPixelTouchE();
                 }
@@ -360,8 +360,8 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
 
     @Override
     public void keyPressed(KeyEvent e) {
-        //当一次实验完成，用户按下空格键
-        if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+        //当一次实验完成，用户按下回车键
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
             //清空集合中的点的信息
             area.arrayListSpot.clear();
             //重绘
@@ -403,16 +403,15 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
                     login.setResizable(false);
                     login.setVisible(true);
 
-                    pData.SetColorTouchE(0); //初始化颜色误触发数
-                    pData.SetPixelTouchE(0); //初始化像素误触发数
-
-                    pData.SetColorModeE(0); //初始化颜色切换错误数
-                    pData.SetPixelModeE(0); //初始化像素切换错误数
-
                     //关闭当前的界面
                     TraFrame.dispose();
                 }
             }
+            pData.SetColorTouchE(0); //初始化颜色误触发数
+            pData.SetPixelTouchE(0); //初始化像素误触发数
+
+            pData.SetColorModeE(0); //初始化颜色切换错误数
+            pData.SetPixelModeE(0); //初始化像素切换错误数
         }
     }
 

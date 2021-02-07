@@ -1,6 +1,3 @@
-import com.sun.org.apache.bcel.internal.classfile.PMGClass;
-
-import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -22,7 +19,6 @@ public class PenData {
 
     private static String Name; //用户的姓名
     private static int BlockNumber; //实验组数
-    private static int BlockN; //记录int型的实验组数，为了判断所有组数是否做完
     private static int TrialNumber = 0; //一组实验里实验的次数
     private static String ModeTechnique; //选择的模式切换技术
 
@@ -67,6 +63,7 @@ public class PenData {
     private RandomAccessFile csv; // 存实验数据的文件
 
     public PenData() {
+        //对所有数据进行初始化
         pressure = 0;
         tilt = 0;
         azimuth = 0;
@@ -132,8 +129,6 @@ public class PenData {
     //获取实验组数
     public void SetBlock(int b) {
         BlockNumber = b;
-        //将输入的String型的组数变为int型（因为开始做的时候就是第一组，所以组数减一）
-        //BlockN = Integer.getInteger(b) ;
     }
     public int GetBlock() { return BlockNumber; }
 
@@ -212,7 +207,6 @@ public class PenData {
     public void AllocateTime() {
         //获取容器最末尾的下标
         int temp = TimeList.size() - 1;
-        //System.out.println("集合数量：" + TimeList.size());
         /*
         使用DecimalFormat来进行输的格式控制->格式为保留两位小数，同时强转为float
          */
