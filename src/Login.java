@@ -213,7 +213,7 @@ public class Login extends JFrame implements ActionListener{
         }else if (getSelection(ButtonFrame).getActionCommand() == "T-增量化") {
             IncrementTilt incrementTilt = new IncrementTilt(SelectedBlock);
         }else if (getSelection(ButtonFrame).getActionCommand() == "A-增量化") {
-
+            IncrementAzimuth incrementAzimuth = new IncrementAzimuth(SelectedBlock);
         }
 
         //将在登录界面的相关信息保留

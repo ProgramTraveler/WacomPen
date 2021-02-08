@@ -102,7 +102,7 @@ public class IncrementTilt extends JFrame implements ActionListener, MouseInputL
         completeExperiment.SetRandomP(); //生成像素提示语句
         completeExperiment.SetExperimentB(BlockNumber);
 
-        this.CreateATFrame(); //生成倾斜角实例化界面
+        this.CreateITFrame();
 
         tiExperimentPanel.requestFocusInWindow(); //获得焦点
 
@@ -116,7 +116,7 @@ public class IncrementTilt extends JFrame implements ActionListener, MouseInputL
         timer.stop();
 
     }
-    public void CreateATFrame() {
+    public void CreateITFrame() {
         this.CreateITInter();
         this.CreateATFDraw();
         /*
@@ -283,7 +283,7 @@ public class IncrementTilt extends JFrame implements ActionListener, MouseInputL
     public void actionPerformed(ActionEvent e) {
         CurrentTilt = penValue.Tilt(); //获得当前角度
         //如果角度进入到预设的扇形区域
-        if ((CurrentTilt >= 22 && CurrentTilt <= 46) || (CurrentTilt >= 78 && CurrentTilt <= 90)) {
+        if ((CurrentTilt >= 22 && CurrentTilt <= 34) || CurrentTilt == 90) {
             timer.stop(); //停止触发actionPerFormed
             tiExperimentPanel.SetShowBack(false); //将倾斜角动态显示界面关闭
             MenuMove = false; //此时菜单位置就固定了，不会随着鼠标的移动而移动
@@ -294,7 +294,7 @@ public class IncrementTilt extends JFrame implements ActionListener, MouseInputL
             tiExperimentPanel.SetCurrentTilt(CurrentTilt);
             tiExperimentPanel.repaint();
         }
-        if () {
+        if ((CurrentTilt >= 71 && CurrentTilt < 90) || (CurrentTilt <= 54 && CurrentTilt > 34)) {
             PromptFlag = true;
         }else {
             PromptFlag = false;

@@ -104,7 +104,7 @@ public class IncrementPress extends JFrame implements ActionListener, MouseInput
         completeExperiment.SetRandomP(); //生成像素提示语句
         completeExperiment.SetExperimentB(BlockNumber);
 
-        //生成压力实列化测试界面
+
         this.CreateIPFrame();
 
         piExperimentPanel.requestFocusInWindow(); //让其获得焦点，这样才能是键盘监听能够正常使用
