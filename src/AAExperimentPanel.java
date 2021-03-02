@@ -162,22 +162,22 @@ public class AAExperimentPanel extends JPanel {
         //画出颜色和像素两个菜单
         for (int i =0; i < NumberOfMenu; i ++) {
             graphics2D.setColor(MenuItemColor);
-            graphics2D.fillRect(MenuX - MenuWidth,MenuY + (MenuHeight * i),MenuWidth,MenuHeight);
+            graphics2D.fillRect(MenuX,MenuY + (MenuHeight * i),MenuWidth,MenuHeight);
             graphics2D.setColor(MenuLineColor);
-            graphics2D.drawRect(MenuX - MenuWidth,MenuY + (MenuHeight * i),MenuWidth,MenuHeight);
+            graphics2D.drawRect(MenuX,MenuY + (MenuHeight * i),MenuWidth,MenuHeight);
         }
         //设置颜色提示标签位置
-        ColorJLabel.setBounds(MenuX - MenuWidth + 5,MenuY,MenuWidth,MenuHeight);
+        ColorJLabel.setBounds(MenuX + 5,MenuY,MenuWidth,MenuHeight);
         this.add(ColorJLabel); //将标签添加到组件中
         //设置像素提示标签位置
-        PixelJLabel.setBounds(MenuX - MenuWidth + 5,MenuY + MenuHeight,MenuWidth,MenuHeight);
+        PixelJLabel.setBounds(MenuX + 5,MenuY + MenuHeight,MenuWidth,MenuHeight);
         this.add(PixelJLabel); //将像素提示标签添加到组件中
         //根据选择的菜单框中的位置来给出相应的反馈
         if (SelectMenuItem >= 0) {
             graphics2D.setColor(SelectMenuItemColor);
-            graphics2D.fillRect(MenuX - MenuWidth,MenuY + (MenuHeight * SelectMenuItem),MenuWidth,MenuHeight);
+            graphics2D.fillRect(MenuX,MenuY + (MenuHeight * SelectMenuItem),MenuWidth,MenuHeight);
             graphics2D.setColor(MenuLineColor);
-            graphics2D.drawRect(MenuX - MenuWidth,MenuY + (MenuHeight * SelectMenuItem),MenuWidth,MenuHeight);
+            graphics2D.drawRect(MenuX,MenuY + (MenuHeight * SelectMenuItem),MenuWidth,MenuHeight);
         }
         //如果是在颜色区域，则打开颜色的分支菜单
         if (ShowColorMenu)
@@ -257,24 +257,38 @@ public class AAExperimentPanel extends JPanel {
         //绘制出三个颜色区域，分别存放蓝色，红色和黄色
         for (int i = 0; i < NumberColor_Pixel; i ++) {
             graphics2D.setColor(MenuItemColor);
-            graphics2D.fillRect(MenuX - MenuWidth - MenuItemWidth,MenuY + (MenuItemHeight * i),MenuItemWidth,MenuItemHeight);
+            graphics2D.fillRect(MenuX + MenuWidth,MenuY + (MenuItemHeight * i),MenuItemWidth,MenuItemHeight);
             graphics2D.setColor(MenuLineColor);
-            graphics2D.drawRect(MenuX - MenuWidth - MenuItemWidth,MenuY + (MenuItemHeight * i),MenuItemWidth,MenuItemHeight);
+            graphics2D.drawRect(MenuX + MenuWidth,MenuY + (MenuItemHeight * i),MenuItemWidth,MenuItemHeight);
         }
         //设置所有颜色标签的位置
-        ColorBlue.setBounds(MenuX - MenuWidth - MenuItemWidth + 5,MenuY ,MenuItemWidth,MenuItemHeight);
+        /*ColorBlue.setBounds(MenuX + MenuWidth - MenuItemWidth + 5,MenuY ,MenuItemWidth,MenuItemHeight);
         ColorRed.setBounds(MenuX - MenuWidth - MenuItemWidth  + 5,MenuY + MenuItemHeight,MenuItemWidth,MenuItemHeight);
         ColorYellow.setBounds(MenuX - MenuWidth - MenuItemWidth  + 5,MenuY + MenuItemHeight * 2,MenuItemWidth,MenuItemHeight);
         //将所有颜色标签添加到组件
         this.add(ColorBlue);
         this.add(ColorRed);
-        this.add(ColorYellow);
+        this.add(ColorYellow);*/
+        //设置红色颜色块的位置
+        graphics2D.setColor(Color.BLUE);
+        graphics2D.fillRect(MenuX + MenuWidth, MenuY, MenuItemWidth, MenuItemHeight);
+        //设置黄色颜色块的位置
+        graphics2D.setColor(Color.RED);
+        graphics2D.fillRect(MenuX + MenuWidth, MenuY + MenuItemHeight, MenuItemWidth, MenuItemHeight);
+        //设置蓝色颜色块的位置
+        graphics2D.setColor(Color.ORANGE);
+        graphics2D.fillRect(MenuX + MenuWidth, MenuY + MenuItemHeight * 2, MenuItemWidth, MenuItemHeight);
+        //对设置的颜色块进行描边
+        graphics2D.setColor(Color.BLACK);
+        graphics2D.drawRect(MenuX + MenuWidth, MenuY, MenuItemWidth, MenuItemHeight);
+        graphics2D.drawRect(MenuX + MenuWidth, MenuY + MenuItemHeight, MenuItemWidth, MenuItemHeight);
+        graphics2D.drawRect(MenuX + MenuWidth, MenuY + MenuItemHeight * 2, MenuItemWidth, MenuItemHeight);
         //如果有颜色被选择
         if (SelectColorItem >= 0) {
             graphics2D.setColor(SelectMenuItemColor);
-            graphics2D.fillRect(MenuX - MenuWidth - MenuItemWidth,MenuY + MenuItemHeight * SelectColorItem,MenuItemWidth,MenuItemHeight);
+            graphics2D.fillRect(MenuX + MenuWidth,MenuY + MenuItemHeight * SelectColorItem,MenuItemWidth,MenuItemHeight);
             graphics2D.setColor(MenuLineColor);
-            graphics2D.drawRect(MenuX - MenuWidth - MenuItemWidth,MenuY + MenuItemHeight * SelectColorItem,MenuItemWidth,MenuItemHeight);
+            graphics2D.drawRect(MenuX + MenuWidth,MenuY + MenuItemHeight * SelectColorItem,MenuItemWidth,MenuItemHeight);
             SetColor = SelectColorItem + 1; //只有进行有效的切换时才保留颜色值
         }
     }
@@ -283,14 +297,14 @@ public class AAExperimentPanel extends JPanel {
         //绘制出三个像素区域，分别存放2.0，3.0和4.0
         for (int i = 1; i < NumberColor_Pixel * 2 - 2; i ++) {
             graphics2D.setColor(MenuItemColor);
-            graphics2D.fillRect(MenuX - MenuWidth - MenuItemWidth,MenuY + (MenuItemHeight * i),MenuItemWidth,MenuItemHeight);
+            graphics2D.fillRect(MenuX + MenuWidth,MenuY + (MenuItemHeight * i),MenuItemWidth,MenuItemHeight);
             graphics2D.setColor(MenuLineColor);
-            graphics2D.drawRect(MenuX - MenuWidth - MenuItemWidth,MenuY + (MenuItemHeight * i),MenuItemWidth,MenuItemHeight);
+            graphics2D.drawRect(MenuX + MenuWidth,MenuY + (MenuItemHeight * i),MenuItemWidth,MenuItemHeight);
         }
         //设置所有像素标签的位置
-        PixelTow.setBounds(MenuX - MenuWidth - MenuItemWidth + 5,MenuY + MenuItemHeight,MenuItemWidth,MenuItemHeight);
-        PixelThree.setBounds(MenuX - MenuWidth - MenuItemWidth + 5,MenuY + MenuItemHeight * 2,MenuItemWidth,MenuItemHeight);
-        PixelFour.setBounds(MenuX - MenuWidth - MenuItemWidth + 5,MenuY + MenuItemHeight * 3,MenuItemWidth,MenuItemHeight);
+        PixelTow.setBounds(MenuX + MenuWidth + 5,MenuY + MenuItemHeight,MenuItemWidth,MenuItemHeight);
+        PixelThree.setBounds(MenuX + MenuWidth + 5,MenuY + MenuItemHeight * 2,MenuItemWidth,MenuItemHeight);
+        PixelFour.setBounds(MenuX + MenuWidth + 5,MenuY + MenuItemHeight * 3,MenuItemWidth,MenuItemHeight);
         //将所有像素标签添加到组件中
         this.add(PixelTow);
         this.add(PixelThree);
@@ -298,9 +312,9 @@ public class AAExperimentPanel extends JPanel {
         //如果有像素被选择
         if (SelectPixelItem >= 0) {
             graphics2D.setColor(SelectMenuItemColor);
-            graphics2D.fillRect(MenuX - MenuWidth - MenuItemWidth,MenuY + MenuItemHeight * (SelectPixelItem + 1),MenuItemWidth,MenuItemHeight);
+            graphics2D.fillRect(MenuX + MenuWidth,MenuY + MenuItemHeight * (SelectPixelItem + 1),MenuItemWidth,MenuItemHeight);
             graphics2D.setColor(MenuLineColor);
-            graphics2D.drawRect(MenuX - MenuWidth - MenuItemWidth,MenuY + MenuItemHeight * (SelectPixelItem + 1),MenuItemWidth,MenuItemHeight);
+            graphics2D.drawRect(MenuX + MenuWidth,MenuY + MenuItemHeight * (SelectPixelItem + 1),MenuItemWidth,MenuItemHeight);
             SetPixel = SelectPixelItem + 2; //只有进行有效的切换时，才保留像素值
         }
     }

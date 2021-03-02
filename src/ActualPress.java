@@ -220,7 +220,7 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
         int tempY = MenuY;
 
         for (int i = 0; i < NumberOfMenuItem; i ++) {
-            if ((MenuX - MenuWith) <= x && (MenuX >= x)) {
+            if ((MenuX + MenuWith) >=  x && (MenuX < x)) {
                 if ((MenuY <= y) && (tempY + MenuHeight) >= y) {
                     MenuItem = i;
                     break;
@@ -247,7 +247,7 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
         int ColorItem = -1;
         int tempY = MenuY;
         for (int i = 0; i < 3; i ++) {
-            if ((MenuX - MenuWith * 2) <= x && (MenuX - MenuWith >= x)) {
+            if ((MenuX + MenuWith * 2) >= x && (MenuX + MenuWith <= x)) {
                 if ((MenuY <= y) && (tempY + MenuHeight) >= y) {
                     ColorItem = i;
                     break;
@@ -262,7 +262,7 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
         int PixelItem = -1;
         int tempY = MenuY;
         for (int i = 0; i < 3; i ++) {
-            if ((MenuX - MenuWith * 2) <= x && (MenuX - MenuWith >= x)) {
+            if ((MenuX + MenuWith * 2) >= x && (MenuX + MenuWith <= x)) {
                 if ((MenuY + MenuHeight<= y) && (tempY + MenuHeight * 2) >= y) {
                     PixelItem = i;
                     break;
