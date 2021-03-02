@@ -369,7 +369,7 @@ public class ScatteredTilt extends JFrame implements MouseInputListener, KeyList
             penData.AddTime(System.currentTimeMillis());
             if (ColorFlag && PixelFlag) {
                 //获得落笔的文字格式
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SS");
+                SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss:SS");
                 penData.AddTimeString(dateFormat.format(new Date()));
             }
         }
@@ -381,7 +381,7 @@ public class ScatteredTilt extends JFrame implements MouseInputListener, KeyList
         if (ColorFlag == false && PixelFlag == false) {
             penData.AddTime(System.currentTimeMillis());
             //获得抬笔的文字格式
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SS");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss:SS");
             penData.AddTimeString(dateFormat.format(new Date()));
         }
         tsExperimentPanel.repaint();

@@ -377,7 +377,7 @@ public class ScatteredPress extends JFrame implements MouseInputListener, KeyLis
             penData.AddTime(System.currentTimeMillis());
             if (ColorFlag && PixelFlag) {
                 //获得落笔的文字格式
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SS");
+                SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss:SS");
                 penData.AddTimeString(dateFormat.format(new Date()));
             }
         }
@@ -389,7 +389,7 @@ public class ScatteredPress extends JFrame implements MouseInputListener, KeyLis
         if (ColorFlag == false && PixelFlag == false) {
             penData.AddTime(System.currentTimeMillis());
             //获得抬笔的文字格式
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SS");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss:SS");
             penData.AddTimeString(dateFormat.format(new Date()));
         }
         psExperimentPanel.repaint();

@@ -442,7 +442,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             pData.AddTime(System.currentTimeMillis());
             if (ColorFlag && PixelFlag) {
                 //获得落笔的文字格式
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SS");
+                SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss:SS");
                 pData.AddTimeString(dateFormat.format(new Date()));
             }
         }
@@ -452,7 +452,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
     public void mouseReleased(MouseEvent e) {
         if (ColorFlag == false && PixelFlag == false) {
             //获得抬笔的文字格式
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SS");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss:SS");
             pData.AddTimeString(dateFormat.format(new Date()));
         }
         //获得抬笔的时间戳

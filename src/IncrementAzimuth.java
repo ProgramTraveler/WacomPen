@@ -407,7 +407,7 @@ public class IncrementAzimuth extends JFrame implements ActionListener, MouseInp
             penData.AddTime(System.currentTimeMillis());
             if (ColorFlag && PixelFlag) {
                 //获得落笔的文字格式
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SS");
+                SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss:SS");
                 penData.AddTimeString(dateFormat.format(new Date()));
             }
             //如果菜单位置可以随着鼠标位置改变，那么就实时跟新菜单的出现位置
@@ -426,7 +426,7 @@ public class IncrementAzimuth extends JFrame implements ActionListener, MouseInp
         if (ColorFlag == false && PixelFlag == false) {
             penData.AddTime(System.currentTimeMillis());
             //获得抬笔的文字格式
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SS");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss:SS");
             penData.AddTimeString(dateFormat.format(new Date()));
         }
         aiExperimentPanel.repaint();

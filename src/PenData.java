@@ -243,6 +243,7 @@ public class PenData {
     保留笔在测试过程中的数据
      */
     public void SaveInformation() throws IOException {
+        //System.out.println(pressure);
         //存实验数据的文件名
         File saveFile = new File("information.csv");
         csv = new RandomAccessFile(saveFile, "rw");
@@ -258,10 +259,10 @@ public class PenData {
             csv.write(saveText.getBytes("GBK"));
         }
         csv.skipBytes(CsvLine);
-        //最后写了两个tilt，写一个好像记录不上，不知道为什么
+        //最后写了两个tilt，写一个好像记录不上，不知道为什么（3月2号，发现是我的分隔符敲错了，现在没错了）
         saveText = Name + "," + BlockNumber + "," + TrialNumber + "," + ModeTechnique + "," + TargetColor + "," + TargetLine + ","
                 + StartTimeDate + "," + EndTimeDate + ","+ ColorModeSwitchT + "," + PixelModeSwitchT + "," + ModeSwitchTime + "," + CompleteTime + "," +PaintTime1 + ","
-                + PaintTime2 + "," + PaintTime3 + "," + ColorTouchE + "," + PixelTouchE + "," + TouchError + "," + ColorModeE + "," + PixelModeE +","+ModelError + "," + pressure +"." + azimuth + "," + tilt + "," + tilt+ ","+ "\n";
+                + PaintTime2 + "," + PaintTime3 + "," + ColorTouchE + "," + PixelTouchE + "," + TouchError + "," + ColorModeE + "," + PixelModeE +","+ModelError + "," + pressure  +"," + azimuth + ","  + tilt+ ","+ "\n";
         csv.write(saveText.getBytes("GBK"));
         csv.close();
     }
