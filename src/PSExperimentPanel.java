@@ -202,7 +202,12 @@ public class PSExperimentPanel extends JPanel {
         //设置写字板中的测试区域
         offScreen = (Graphics2D) g;
         offScreen.setColor(Color.GREEN);
-        offScreen.fillRect(200,50,1150,100);
+        offScreen.fillRect(200,5,1150,100);
+
+        //颜色和像素区域分隔线
+        offScreen.setColor(Color.white);
+        offScreen.drawLine(583,5,583,105);
+        offScreen.drawLine(966,5,966,105);
 
         //使用容器中点的信息来画线条
         for (int i = 0; i < arrayListSpot.size() ; i++) {

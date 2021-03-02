@@ -139,27 +139,27 @@ public class IncrementTilt extends JFrame implements ActionListener, MouseInputL
     public void CreateITInter() {
         ITInter.setLayout(null);
         //当前颜色提示标签
-        ShowColorL.setBounds(500,250,100,20);
+        ShowColorL.setBounds(520,200,100,20);
         ShowColorL.setFont(new Font("楷体",Font.BOLD,20));
         ITInter.add(ShowColorL);
         //当前颜色（颜色块）
-        ShowColorBlock.setBounds(600,250,60,20);
+        ShowColorBlock.setBounds(620,200,60,20);
         ShowColorBlock.setBackground(Color.BLACK);
         ITInter.add(ShowColorBlock);
 
         //当前像素提示标签
-        ShowPixelL.setBounds(700,250,100,20);
+        ShowPixelL.setBounds(903,200,100,20);
         ShowPixelL.setFont(new Font("楷体",Font.BOLD,20));
         ITInter.add(ShowPixelL);
         //当前像素
-        ShowPixel.setBounds(800,250,100,20);
+        ShowPixel.setBounds(1003,200,100,20);
         ShowPixel.setText(StringPixel);
         ShowPixel.setHorizontalAlignment(ShowPixel.LEFT);
         ShowPixel.setFont(new Font("黑体",Font.BOLD,20));
         ITInter.add(ShowPixel);
 
         Prompt.setFont(new Font("楷体",Font.BOLD,20));
-        Prompt.setBounds(950,250,500,20);
+        Prompt.setBounds(1130,250,500,20);
     }
     //下半部分，主要是用于线条绘制区域的显示
     public void CreateATFDraw() {
@@ -546,7 +546,7 @@ public class IncrementTilt extends JFrame implements ActionListener, MouseInputL
             double x = dot.DotStarX();
             double y = dot.DotStarY();
 
-            if (x >= 350 && x <= 850 && y >= 50 && y <= 150 && ColorFlag == true) {
+            if (x >= 583 && x < 966 && y >= 5 && y <= 105 && ColorFlag == true) {
                 penData.AddTime(System.currentTimeMillis()); //线条绘制结束
                 ColorChange = true; //当进入到颜色测试区域时，颜色测换才合法
                 penData.SetStartColorMode(System.currentTimeMillis());
@@ -570,23 +570,23 @@ public class IncrementTilt extends JFrame implements ActionListener, MouseInputL
                 else penData.SetTargetColor(null);
 
                 //设置插件位置
-                ShowColorT.setBounds(880,250,100,20);
+                ShowColorT.setBounds(520,250,100,20);
                 ShowColorT.setFont(new Font("楷体",Font.BOLD,20));
 
-                JPanelRandomC.setBounds(980,250,60,20);
+                JPanelRandomC.setBounds(620,250,60,20);
                 //将插件添加到TFInter中
                 ITInter.add(ShowColorT);
                 ITInter.add(JPanelRandomC);
                 //重绘TFInter界面
                 this.RepaintITInter();
                 ColorFlag = false;
-            } else if (x0 >= 350 && x0 <= 850 && y0 >= 50 && y0 <= 150 && ColorFlag == false){
+            } else if (x0 >= 583 && x0 < 966 && y0 >= 50 && y0 <= 150 && ColorFlag == false){
 
             }else {
 
             }
 
-            if (x0 >= 900 && x0 <= 1400 && y0 >= 50 && y0 <= 150 && PixelFlag == true) {
+            if (x0 >= 966 && x0 <= 1350 && y0 >= 5 && y0 <= 105 && PixelFlag == true) {
                 penData.AddTime(System.currentTimeMillis()); //线条绘制结束
                 PixelChange = true; //当进入到像素测试区域时，此时的像素测换才合法
                 penData.SetStartPixelMode(System.currentTimeMillis());
@@ -613,11 +613,11 @@ public class IncrementTilt extends JFrame implements ActionListener, MouseInputL
                 else penData.SetTargetLine(null);
 
                 //设置插件位置
-                ShowPixelT.setBounds(1080,250,100,20);
+                ShowPixelT.setBounds(903,250,100,20);
                 ShowPixelT.setFont(new Font("楷体",Font.BOLD,20));
 
                 //System.out.println(RandomPixel);
-                JPanelRandomP.setBounds(1180,250,100,20);
+                JPanelRandomP.setBounds(1003,250,100,20);
                 JPanelRandomP.setText(RandomPixel);
                 JPanelRandomP.setHorizontalAlignment(JPanelRandomP.LEFT);
                 JPanelRandomP.setFont(new Font("黑体",Font.BOLD,20));
@@ -629,7 +629,7 @@ public class IncrementTilt extends JFrame implements ActionListener, MouseInputL
                 //重绘APInter界面
                 this.RepaintITInter();
                 PixelFlag = false;
-            }else if (x0 >= 900 && x0 <= 1400 && y0 >= 50 && y0 <= 150 && PixelFlag == false) {
+            }else if (x0 >= 966 && x0 <= 1350 && y0 >= 5 && y0 <= 105 && PixelFlag == false) {
 
             }else {
 

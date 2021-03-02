@@ -53,8 +53,13 @@ public class Area extends JPanel {
         offScreen.setColor(Color.GREEN);
         //offScreen.fillRect(300,400,400,100);
         //offScreen.fillRect(750,400,400,100);
-        //将原来的两次测试区域合为一个测试区域，350-850为颜色测试区域，900-1400为像素测试区域
-        offScreen.fillRect(200,50,1150,100);
+        //将原来的两次测试区域合为一个测试区域，583 - 965为颜色测试区域，966-1350为像素测试区域
+        offScreen.fillRect(200,5,1150,100);
+
+        //颜色和像素区域分隔线
+        offScreen.setColor(Color.white);
+        offScreen.drawLine(583,5,583,105);
+        offScreen.drawLine(966,5,966,105);
 
         //使用容器中点的信息来画线条
         for (int i = 0; i < arrayListSpot.size() ; i++) {
