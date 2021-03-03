@@ -388,8 +388,10 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             }
             //判断一组实验是否做完
             if (completeExperiment.GetList() == true) {
-                if (completeExperiment.GetExperimentB() -1 >= 1) {
+                /*if (completeExperiment.GetExperimentB() -1 >= 1) {
                     int temp = completeExperiment.GetExperimentB() - 1;
+                    completeExperiment.SetRandomNUmber(); //生成测试的随机数
+                    pData.SetTrialN(0);
                     completeExperiment.SetRandomC();
                     completeExperiment.SetRandomP();
                     completeExperiment.SetExperimentB(temp);
@@ -408,7 +410,21 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
 
                     //关闭当前的界面
                     TraFrame.dispose();
-                }
+                }*/
+                //打开一个新的登录界面
+                Login login = new Login();
+                login.SetInputId("");
+                login.SetSelectBlock(1);
+                login.SetSelectTechnique("");
+
+                login.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                login.pack();
+                login.setLocationRelativeTo(login);
+                login.setResizable(false);
+                login.setVisible(true);
+
+                //关闭当前的界面
+                TraFrame.dispose();
             }
             pData.SetColorTouchE(0); //初始化颜色误触发数
             pData.SetPixelTouchE(0); //初始化像素误触发数

@@ -345,27 +345,22 @@ public class IncrementAzimuth extends JFrame implements ActionListener, MouseInp
             }
             //判断一组实验是否做完
             if (completeExperiment.GetList() == true) {
-                if (completeExperiment.GetExperimentB() -1 >= 1) {
-                    int temp = completeExperiment.GetExperimentB() - 1;
-                    completeExperiment.SetRandomC();
-                    completeExperiment.SetRandomP();
-                    completeExperiment.SetExperimentB(temp);
-                }else {
-                    //打开一个新的登录界面
-                    Login login = new Login();
-                    login.SetInputId("");
-                    login.SetSelectBlock(1);
-                    login.SetSelectTechnique("");
 
-                    login.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                    login.pack();
-                    login.setLocationRelativeTo(login);
-                    login.setResizable(false);
-                    login.setVisible(true);
+                //打开一个新的登录界面
+                Login login = new Login();
+                login.SetInputId("");
+                login.SetSelectBlock(1);
+                login.SetSelectTechnique("");
 
-                    //关闭当前的界面
-                    IncrementAFrame.dispose();
-                }
+                login.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                login.pack();
+                login.setLocationRelativeTo(login);
+                login.setResizable(false);
+                login.setVisible(true);
+
+                //关闭当前的界面
+                IncrementAFrame.dispose();
+
             }
             penData.SetColorTouchE(0); //初始化颜色误触发数
             penData.SetPixelTouchE(0); //初始化像素误触发数

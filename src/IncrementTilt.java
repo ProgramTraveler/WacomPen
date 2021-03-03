@@ -310,7 +310,7 @@ public class IncrementTilt extends JFrame implements ActionListener, MouseInputL
 
     @Override
     public void keyPressed(KeyEvent e) {
-//当一次实验完成，用户按下回车键
+        //当一次实验完成，用户按下回车键
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
             //更新颜色和像素条件
             ColorFlag = true;
@@ -338,28 +338,23 @@ public class IncrementTilt extends JFrame implements ActionListener, MouseInputL
             }
             //判断一组实验是否做完
             if (completeExperiment.GetList() == true) {
-                if (completeExperiment.GetExperimentB() -1 >= 1) {
-                    int temp = completeExperiment.GetExperimentB() - 1;
-                    completeExperiment.SetRandomC();
-                    completeExperiment.SetRandomP();
-                    completeExperiment.SetExperimentB(temp);
-                }else {
-                    //打开一个新的登录界面
-                    Login login = new Login();
-                    login.SetInputId("");
-                    login.SetSelectBlock(1);
-                    login.SetSelectTechnique("");
 
-                    login.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                    login.pack();
-                    login.setLocationRelativeTo(login);
-                    login.setResizable(false);
-                    login.setVisible(true);
+                //打开一个新的登录界面
+                Login login = new Login();
+                login.SetInputId("");
+                login.SetSelectBlock(1);
+                login.SetSelectTechnique("");
+
+                login.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                login.pack();
+                login.setLocationRelativeTo(login);
+                login.setResizable(false);
+                login.setVisible(true);
 
 
-                    //关闭当前的界面
-                    IncrementTFrame.dispose();
-                }
+                //关闭当前的界面
+                IncrementTFrame.dispose();
+
             }
             penData.SetColorTouchE(0); //初始化颜色误触发数
             penData.SetPixelTouchE(0); //初始化像素误触发数
