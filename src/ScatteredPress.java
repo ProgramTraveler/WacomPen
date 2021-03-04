@@ -344,6 +344,7 @@ public class ScatteredPress extends JFrame implements MouseInputListener, KeyLis
 
             penData.SetColorModeE(0); //初始化颜色切换错误数
             penData.SetPixelModeE(0); //初始化像素切换错误数
+            penData.SetTouchE(0); //初始化误触发总数
         }
     }
 

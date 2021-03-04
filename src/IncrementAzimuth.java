@@ -285,11 +285,14 @@ public class IncrementAzimuth extends JFrame implements ActionListener, MouseInp
 
         //如果到达了预设的方位角范围，就打开颜色和像素选择菜单
         if ((CurrentAzimuth >= 0 && CurrentAzimuth <= 55) || (CurrentAzimuth >= 205 && CurrentAzimuth <= 359)) {
+            if (ColorChange == false && PixelChange == false) {
+                penData.AddTouchE(); //误触发总数加一
+            }
             timer.stop(); //停止触发actionPerFormed
             aiExperimentPanel.SetShowBack(false); //将方位角动态显示界面关闭
             MenuMove = false; //固定菜单出现的位置
             this.ProcessTriggerSwitch(); //弹出颜色和像素选择菜单
-            penData.SetAzimuth(CurrentAzimuth);
+            //penData.SetAzimuth(CurrentAzimuth);
 
         }else {
             //没达到指定的方位角区域就继续显示方位角的动态信息
@@ -367,6 +370,7 @@ public class IncrementAzimuth extends JFrame implements ActionListener, MouseInp
 
             penData.SetColorModeE(0); //初始化颜色切换错误数
             penData.SetPixelModeE(0); //初始化像素切换错误数
+            penData.SetTouchE(0); //初始化误触发总数
         }
     }
 

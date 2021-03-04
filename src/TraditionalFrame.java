@@ -431,6 +431,8 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
 
             pData.SetColorModeE(0); //初始化颜色切换错误数
             pData.SetPixelModeE(0); //初始化像素切换错误数
+
+            pData.SetTouchE(0); //初始化误触发总数
         }
     }
 
@@ -448,9 +450,9 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             //获得开始时鼠标的位置
             x0 = e.getX();
             y0 = e.getY();
-            pData.SetPressure(pValue.Pressure());
-            pData.SetTilt(pValue.Tilt());
-            pData.SetAzimuth(pValue.Azimuth());
+            //pData.SetPressure(pValue.Pressure());
+            //pData.SetTilt(pValue.Tilt());
+            //pData.SetAzimuth(pValue.Azimuth());
             /*
             获得落笔的时间
              */

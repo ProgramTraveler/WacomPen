@@ -277,11 +277,14 @@ public class ActualTilt extends JFrame implements ActionListener, MouseInputList
         CurrentTilt = penValue.Tilt(); //获得当前角度
         //如果角度进入到预设的扇形区域
         if ((CurrentTilt >= 22 && CurrentTilt <= 46) || (CurrentTilt >= 78 && CurrentTilt <= 90)) {
+            if (ColorChange == false && PixelChange == false) {
+                penData.AddTouchE(); //误触发总数加一
+            }
             timer.stop(); //停止触发actionPerFormed
             taExperimentPanel.SetShowBack(false); //将倾斜角动态显示界面关闭
             MenuMove = false; //此时菜单位置就固定了，不会随着鼠标的移动而移动
             this.ProcessTriggerSwitch(); //当在指定的扇形区域时，弹出菜单选择
-            penData.SetTilt(CurrentTilt);
+            //penData.SetTilt(CurrentTilt);
         }else {
             //没到达指定的扇形区域就继续显示动态图
             taExperimentPanel.SetCurrentTilt(CurrentTilt);
@@ -352,6 +355,8 @@ public class ActualTilt extends JFrame implements ActionListener, MouseInputList
 
             penData.SetColorModeE(0); //初始化颜色切换错误数
             penData.SetPixelModeE(0); //初始化像素切换错误数
+
+            penData.SetTouchE(0);
         }
     }
 

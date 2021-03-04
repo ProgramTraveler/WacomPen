@@ -276,11 +276,14 @@ public class ActualAzimuth extends JFrame implements ActionListener, MouseInputL
 
         //如果到达了预设的方位角范围，就打开颜色和像素选择菜单
         if ((CurrentAzimuth >= 0 && CurrentAzimuth <= 88) || (CurrentAzimuth >= 176 && CurrentAzimuth <= 359)) {
+            if (ColorChange == false && PixelChange == false) {
+                penData.AddTouchE(); //误触发总数加一
+            }
             timer.stop(); //停止触发actionPerFormed
             aaExperimentPanel.SetShowBack(false); //将方位角动态显示界面关闭
             MenuMove = false; //固定菜单出现的位置
             this.ProcessTriggerSwitch(); //弹出颜色和像素选择菜单
-            penData.SetAzimuth(CurrentAzimuth);
+            //penData.SetAzimuth(CurrentAzimuth);
 
         }else {
             //没达到指定的方位角区域就继续显示方位角的动态信息
@@ -348,6 +351,8 @@ public class ActualAzimuth extends JFrame implements ActionListener, MouseInputL
 
             penData.SetColorModeE(0); //初始化颜色切换错误数
             penData.SetPixelModeE(0); //初始化像素切换错误数
+
+            penData.SetTouchE(0);
         }
     }
 
@@ -465,6 +470,7 @@ public class ActualAzimuth extends JFrame implements ActionListener, MouseInputL
             if (aaExperimentPanel.GetShowColorMenu()) {
                 //传入具体是哪个颜色被选择
                 aaExperimentPanel.SetSelectColorItem(this.CheckColorItem(e.getX(), e.getY()));
+
                 //如果颜色提示还没有出现就调用，颜色误触发加一
                 if (ColorChange == false && aaExperimentPanel.GetSelectColorItem() != -1) {
                     penData.AddColorTouchE(); //颜色误触发加一

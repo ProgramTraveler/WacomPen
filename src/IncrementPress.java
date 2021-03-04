@@ -284,13 +284,16 @@ public class IncrementPress extends JFrame implements ActionListener, MouseInput
         CurrentPress = penValue.Pressure();
         //如果当前的压力值超过了预设的压力值
         if (801 <= CurrentPress) {
+            if (ColorChange == false && PixelChange == false) {
+                penData.AddTouchE(); //误触发总数加一
+            }
             timer.stop(); //停止触发actionPerformed
             piExperimentPanel.SetShowBack(false);
             MenuMove = false; //当压力到达到指定值后，菜单位置就固定了
             this.ProcessTriggerSwitch(); //当压力到达规定值时，弹出选择框
-            penData.SetPressure(penValue.Pressure());
-            penData.SetTilt(penValue.Tilt());
-            penData.SetAzimuth(penValue.Azimuth());
+            //penData.SetPressure(penValue.Pressure());
+            //penData.SetTilt(penValue.Tilt());
+            //penData.SetAzimuth(penValue.Azimuth());
         }else {
             //没超过的话就展示压力的动态图像
             piExperimentPanel.SetCurrentPress(CurrentPress);
@@ -364,6 +367,7 @@ public class IncrementPress extends JFrame implements ActionListener, MouseInput
 
             penData.SetColorModeE(0); //初始化颜色切换错误数
             penData.SetPixelModeE(0); //初始化像素切换错误数
+            penData.SetTouchE(0); //初始化误触发总数
         }
     }
 

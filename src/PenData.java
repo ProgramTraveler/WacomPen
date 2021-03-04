@@ -13,9 +13,12 @@ import java.util.Timer;
 */
 
 public class PenData {
-    private static int pressure; //当前笔的压力
-    private static int tilt; //当前笔的角度
-    private static int azimuth; //当前的方位角
+    private static int pressureColor; //颜色提示菜单出现，当前笔的压力
+    private static int pressurePixel; //像素提示菜单出现，当前笔的压力
+    private static int tiltColor; //当前笔的角度
+    private static int tiltPixel;
+    private static int azimuthColor; //当前的方位角
+    private static int azimuthPixel;
 
     private static String Name; //用户的姓名
     private static int BlockNumber; //实验组数
@@ -64,9 +67,14 @@ public class PenData {
 
     public PenData() {
         //对所有数据进行初始化
-        pressure = 0;
-        tilt = 0;
-        azimuth = 0;
+        pressureColor = 0;
+        pressurePixel = 0;
+
+        tiltColor = 0;
+        tiltPixel = 0;
+
+        azimuthColor = 0;
+        azimuthPixel = 0;
 
         Name = "";
         BlockNumber = 0;
@@ -112,14 +120,17 @@ public class PenData {
     获取笔在使用过程中的数据
      */
     //获取笔尖的压力
-    public void SetPressure(int pre) { pressure = pre; }
-    public static int GetPressure() { return pressure; }
+    public void SetPressureC(int pre) { pressureColor = pre; }
+    private void SetPressureP(int pre) { pressurePixel = pre; }
+    //public static int GetPressure() { return pressure; }
     //获取笔的倾斜角
-    public void SetTilt(int til) { tilt = til; }
-    public int GetTilt() { return tilt; }
+    public void SetTiltC(int til) { tiltColor = til; }
+    public void SetTiltP(int til) { tiltPixel = til;}
+    //public int GetTilt() { return tilt; }
     //获取笔的旋转角
-    public void SetAzimuth(int azi) { azimuth = azi; }
-    public int GetAzimuth() { return azimuth; }
+    public void SetAzimuthC(int azi) { azimuthColor = azi; }
+    public void SetAzimuthP(int azi) { azimuthPixel = azi; }
+    //public int GetAzimuth() { return azimuth; }
     /*
     获取实验数据
      */
@@ -255,14 +266,14 @@ public class PenData {
                     + "Number of false trigger" + "Switching Error Number" + "Pressure" + "Tilt" + "Azimuth" + "\n";*/
             saveText = "姓名" + "," + "实验组数" + "," + "一组实验次数" + "," + "模式切换技术" + "," + "目标颜色" + "," + "目标粗细" + "," +
                     "开始时间" + "," + "结束时间" + "," + "颜色切换时间" +"," + "像素切换时间" + "," + "模式切换总时间" + "," + "绘制完整时间" + "," + "第一段绘制时间" + "," + "第二段绘制时间" + "," + "第三段绘制时间"
-                    + "," + "颜色菜单误触发数" + "," + "像素菜单误触发数" + "," + "误触发总数" + "," + "颜色切换错误数" +","+ "像素切换错误数" +","+"模式切换总错误数" + "," + "压力" + "," + "方位角" + "," + "倾斜角" + "," + "\n";
+                    + "," + "误触发总数" + "," + "颜色切换错误数" +","+ "像素切换错误数" +","+"模式切换总错误数" + "," + "压力1" + "," + "压力2" + "," + "方位角1" + "," + "方位角2" + "," + "倾斜角1" + "," + "倾斜角2" + "," +"\n";
             csv.write(saveText.getBytes("GBK"));
         }
         csv.skipBytes(CsvLine);
         //最后写了两个tilt，写一个好像记录不上，不知道为什么（3月2号，发现是我的分隔符敲错了，现在没错了）
         saveText = Name + "," + BlockNumber + "," + TrialNumber + "," + ModeTechnique + "," + TargetColor + "," + TargetLine + ","
                 + StartTimeDate + "," + EndTimeDate + ","+ ColorModeSwitchT + "," + PixelModeSwitchT + "," + ModeSwitchTime + "," + CompleteTime + "," +PaintTime1 + ","
-                + PaintTime2 + "," + PaintTime3 + "," + ColorTouchE + "," + PixelTouchE + "," + TouchError + "," + ColorModeE + "," + PixelModeE +","+ModelError + "," + pressure  +"," + azimuth + ","  + tilt+ ","+ "\n";
+                + PaintTime2 + "," + PaintTime3 + ","  + TouchError + "," + ColorModeE + "," + PixelModeE +","+ModelError + "," + pressureColor  +"," + pressurePixel + "," + azimuthColor + ","  + azimuthPixel+ "," + tiltColor+ ","+ tiltPixel + "," +"\n";
         csv.write(saveText.getBytes("GBK"));
         csv.close();
     }
