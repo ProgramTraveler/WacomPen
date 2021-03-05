@@ -287,6 +287,8 @@ public class PenData {
             csv.write(saveText.getBytes("GBK"));
         }
         csv.skipBytes(CsvLine);
+        if (count == 0)
+            count = 1;
         //最后写了两个tilt，写一个好像记录不上，不知道为什么（3月2号，发现是我的分隔符敲错了，现在没错了）
         saveText = Name + "," + BlockNumber + "," + TrialNumber + "," + ModeTechnique + "," + TargetColor + "," + TargetLine + ","
                 + StartTimeDate + "," + EndTimeDate + ","+ ColorModeSwitchT + "," + PixelModeSwitchT + "," + ModeSwitchTime + "," + CompleteTime + "," +PaintTime1 + ","
