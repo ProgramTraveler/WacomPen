@@ -15,7 +15,7 @@ import java.util.Date;
     purpose:方位角增量化界面，主要是通过方位角的不断变化来进行颜色和像素的选择
  */
 public class IncrementAzimuth extends JFrame implements ActionListener, MouseInputListener, KeyListener {
-    private int time  = 50;
+    private int time  = 350;
     private Timer timer = new Timer(time,this);
     private AIExperimentPanel aiExperimentPanel = new AIExperimentPanel();
 
@@ -226,7 +226,7 @@ public class IncrementAzimuth extends JFrame implements ActionListener, MouseInp
         int MenuItem = -1;
         int tempY = MenuY;
         for (int i = 0; i < NumberOfMenuItem; i ++) {
-            if ((MenuX - MenuWith) <= x && (MenuX >= x)) {
+            if ((MenuX + MenuWith) >=  x && (MenuX < x)) {
                 if ((MenuY <= y) && (tempY + MenuHeight) >= y) {
                     MenuItem = i;
                     break;
@@ -253,7 +253,7 @@ public class IncrementAzimuth extends JFrame implements ActionListener, MouseInp
         int ColorItem = -1;
         int tempY = MenuY;
         for (int i = 0; i < 3; i ++) {
-            if ((MenuX - MenuWith * 2) <= x && (MenuX - MenuWith >= x)) {
+            if ((MenuX + MenuWith * 2) >= x && (MenuX + MenuWith <= x)) {
                 if ((MenuY <= y) && (tempY + MenuHeight) >= y) {
                     ColorItem = i;
                     break;
@@ -268,7 +268,7 @@ public class IncrementAzimuth extends JFrame implements ActionListener, MouseInp
         int PixelItem = -1;
         int tempY = MenuY;
         for (int i = 0; i < 3; i ++) {
-            if ((MenuX - MenuWith * 2) <= x && (MenuX - MenuWith >= x)) {
+            if ((MenuX + MenuWith * 2) >= x && (MenuX + MenuWith <= x)) {
                 if ((MenuY + MenuHeight<= y) && (tempY + MenuHeight * 2) >= y) {
                     PixelItem = i;
                     break;
@@ -284,7 +284,7 @@ public class IncrementAzimuth extends JFrame implements ActionListener, MouseInp
         CurrentAzimuth = penValue.Azimuth(); //获得当前的方位角
 
         //如果到达了预设的方位角范围，就打开颜色和像素选择菜单
-        if ((CurrentAzimuth >= 0 && CurrentAzimuth <= 55) || (CurrentAzimuth >= 205 && CurrentAzimuth <= 359)) {
+        if ((CurrentAzimuth >= 0 && CurrentAzimuth <= 50) || (CurrentAzimuth >= 214 && CurrentAzimuth <= 359)) {
             if (ColorChange == false && PixelChange == false) {
                 penData.AddTouchE(); //误触发总数加一
             }
@@ -299,7 +299,7 @@ public class IncrementAzimuth extends JFrame implements ActionListener, MouseInp
             aiExperimentPanel.SetCurrentAzimuth(CurrentAzimuth);
             aiExperimentPanel.repaint();
         }
-        if ((CurrentAzimuth <= 110 && CurrentAzimuth > 55) || (CurrentAzimuth >= 154 && CurrentAzimuth < 205)) {
+        if ((CurrentAzimuth <= 110 && CurrentAzimuth > 50) || (CurrentAzimuth >= 154 && CurrentAzimuth < 214)) {
             PromptFlag = true;
         }else {
             PromptFlag = false;
@@ -438,6 +438,8 @@ public class IncrementAzimuth extends JFrame implements ActionListener, MouseInp
         aiExperimentPanel.RemoveAllJLabel(); //清除颜色和像素提示标签
         aiExperimentPanel.SetSelectPixelItem(-1); //初始化像素分支选择
         aiExperimentPanel.SetSelectColorItem(-1); //初始化颜色分支选择
+        aiExperimentPanel.SetShowColorMenu(false);
+        aiExperimentPanel.SetShowPixelMenu(false);
         //对压力值重新获取
         try {
             tablet.poll();
@@ -553,6 +555,7 @@ public class IncrementAzimuth extends JFrame implements ActionListener, MouseInp
             double y = dot.DotStarY();
 
             if (x >= 583 && x < 966 && y >= 5 && y <= 105 && ColorFlag == true) {
+                penData.SetAzimuthC(penValue.Azimuth());
                 penData.AddTime(System.currentTimeMillis()); //线条绘制结束
                 ColorChange = true; //当进入到颜色测试区域时，颜色测换才合法
                 penData.SetStartColorMode(System.currentTimeMillis());
@@ -592,6 +595,7 @@ public class IncrementAzimuth extends JFrame implements ActionListener, MouseInp
             }
 
             if (x0 >= 966 && x0 <= 1350 && y0 >= 5 && y0 <= 105 && PixelFlag == true) {
+                penData.SetAzimuthP(penValue.Azimuth());
                 penData.AddTime(System.currentTimeMillis()); //线条绘制结束
                 PixelChange = true; //当进入到像素测试区域时，此时的像素测换才合法
                 penData.SetStartPixelMode(System.currentTimeMillis());

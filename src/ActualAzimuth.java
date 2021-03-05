@@ -369,6 +369,8 @@ public class ActualAzimuth extends JFrame implements ActionListener, MouseInputL
     @Override
     public void mousePressed(MouseEvent e) {
         if (javax.swing.SwingUtilities.isLeftMouseButton(e)) {
+            penData.SetAzimuth(penValue.Azimuth());
+            penData.AddCount();
             //如果要显是动态压力图像
             /*if (ChooseFlag) {
                 timer.restart();
@@ -420,6 +422,8 @@ public class ActualAzimuth extends JFrame implements ActionListener, MouseInputL
         aaExperimentPanel.RemoveAllJLabel(); //清除颜色和像素提示标签
         aaExperimentPanel.SetSelectPixelItem(-1); //初始化像素分支选择
         aaExperimentPanel.SetSelectColorItem(-1); //初始化颜色分支选择
+        aaExperimentPanel.SetShowColorMenu(false);
+        aaExperimentPanel.SetShowPixelMenu(false);
         //对压力值重新获取
         try {
             tablet.poll();
@@ -627,6 +631,8 @@ public class ActualAzimuth extends JFrame implements ActionListener, MouseInputL
             //更新点的起始坐标（下一个点的开始为上一个点的结束）
             x0 = x1;
             y0 = y1;
+            penData.SetAzimuth(penValue.Azimuth());
+            penData.AddCount();
         }
     }
 

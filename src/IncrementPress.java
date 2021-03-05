@@ -15,7 +15,7 @@ import java.util.Date;
     purpose:压力增量化界面，主要是通过压力的不断变化来进行颜色和像素的选择
  */
 public class IncrementPress extends JFrame implements ActionListener, MouseInputListener, KeyListener {
-    private int time = 50; //更新时间为50毫秒
+    private int time = 350; //更新时间为50毫秒
     private Timer timer = new Timer(time,this); //以每50毫秒触发一次actionPerformed触发器
     private PIExperimentPanel piExperimentPanel = new PIExperimentPanel(); //创建PIExperimentPanel类
     private boolean ChooseFlag = false; //是否显示压力动态图像
@@ -226,7 +226,7 @@ public class IncrementPress extends JFrame implements ActionListener, MouseInput
         int tempY = MenuY;
 
         for (int i = 0; i < NumberOfMenuItem; i ++) {
-            if ((MenuX - MenuWith) <= x && (MenuX >= x)) {
+            if ((MenuX + MenuWith) >=  x && (MenuX < x)) {
                 if ((MenuY <= y) && (tempY + MenuHeight) >= y) {
                     MenuItem = i;
                     break;
@@ -253,7 +253,7 @@ public class IncrementPress extends JFrame implements ActionListener, MouseInput
         int ColorItem = -1;
         int tempY = MenuY;
         for (int i = 0; i < 3; i ++) {
-            if ((MenuX - MenuWith * 2) <= x && (MenuX - MenuWith >= x)) {
+            if ((MenuX + MenuWith * 2) >= x && (MenuX + MenuWith <= x)) {
                 if ((MenuY <= y) && (tempY + MenuHeight) >= y) {
                     ColorItem = i;
                     break;
@@ -268,7 +268,7 @@ public class IncrementPress extends JFrame implements ActionListener, MouseInput
         int PixelItem = -1;
         int tempY = MenuY;
         for (int i = 0; i < 3; i ++) {
-            if ((MenuX - MenuWith * 2) <= x && (MenuX - MenuWith >= x)) {
+            if ((MenuX + MenuWith * 2) >= x && (MenuX + MenuWith <= x)) {
                 if ((MenuY + MenuHeight<= y) && (tempY + MenuHeight * 2) >= y) {
                     PixelItem = i;
                     break;
@@ -283,7 +283,7 @@ public class IncrementPress extends JFrame implements ActionListener, MouseInput
     public void actionPerformed(ActionEvent e) {
         CurrentPress = penValue.Pressure();
         //如果当前的压力值超过了预设的压力值
-        if (801 <= CurrentPress) {
+        if (871 <= CurrentPress) {
             if (ColorChange == false && PixelChange == false) {
                 penData.AddTouchE(); //误触发总数加一
             }
@@ -299,7 +299,7 @@ public class IncrementPress extends JFrame implements ActionListener, MouseInput
             piExperimentPanel.SetCurrentPress(CurrentPress);
             piExperimentPanel.repaint();
         }
-        if (CurrentPress >= 701 && CurrentPress < 801) {
+        if (CurrentPress >= 701 && CurrentPress < 871) {
             PromptFlag = true;
         }else {
             PromptFlag = false;
@@ -433,6 +433,8 @@ public class IncrementPress extends JFrame implements ActionListener, MouseInput
         piExperimentPanel.RemoveAllJLabel(); //清除颜色和像素提示标签
         piExperimentPanel.SetSelectPixelItem(-1); //初始化像素分支选择
         piExperimentPanel.SetSelectColorItem(-1); //初始化颜色分支选择
+        piExperimentPanel.SetShowColorMenu(false);
+        piExperimentPanel.SetShowPixelMenu(false);
         //对压力值重新获取
         try {
             tablet.poll();
@@ -548,6 +550,7 @@ public class IncrementPress extends JFrame implements ActionListener, MouseInput
             double y = dot.DotStarY();
 
             if (x >= 583 && x < 966 && y >= 5 && y <= 105 && ColorFlag == true) {
+                penData.SetPressureC(penValue.Pressure()); //记录颜色提示信息出现时的压力值
                 penData.AddTime(System.currentTimeMillis()); //线条绘制结束
                 ColorChange = true; //当进入到颜色测试区域时，颜色测换才合法
                 penData.SetStartColorMode(System.currentTimeMillis());
@@ -588,6 +591,7 @@ public class IncrementPress extends JFrame implements ActionListener, MouseInput
             }
 
             if (x0 >= 966 && x0 <= 1350 && y0 >= 5 && y0 <= 105 && PixelFlag == true) {
+                penData.SetPressureP(penValue.Pressure()); //记录像素提示信息出现时的压力值
                 penData.AddTime(System.currentTimeMillis()); //线条绘制结束
                 PixelChange = true; //当进入到像素测试区域时，此时的像素测换才合法
                 penData.SetStartPixelMode(System.currentTimeMillis());
