@@ -1,5 +1,6 @@
 import cello.tablet.JTablet;
 import cello.tablet.JTabletException;
+import org.omg.CORBA.CTX_RESTRICT_SCOPE;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;
@@ -7,6 +8,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 /*
@@ -15,7 +17,7 @@ import java.util.Date;
     purpose:倾斜角增量化界面，主要是通过倾斜角的不断变化来进行颜色和像素的选择
  */
 public class IncrementTilt extends JFrame implements ActionListener, MouseInputListener, KeyListener {
-    private int time = 350;
+    private int time = 50;
     private Timer timer = new Timer(time,this);
     private TIExperimentJPanel tiExperimentPanel = new TIExperimentJPanel();
 
@@ -90,6 +92,11 @@ public class IncrementTilt extends JFrame implements ActionListener, MouseInputL
     private boolean ColorFlag = true;
     //判断用户是否第一次进入像素测试区域，true表示未进入
     private boolean PixelFlag = true;
+
+    //记录到达压力值过程中的压力值
+    private ArrayList<Integer> DotCompare = new ArrayList<Integer>();
+    //记录是否打开菜单
+    private boolean index = false;
 
     public IncrementTilt(int BlockNumber) {
         tiExperimentPanel.setLayout(new BorderLayout());
@@ -282,8 +289,34 @@ public class IncrementTilt extends JFrame implements ActionListener, MouseInputL
     @Override
     public void actionPerformed(ActionEvent e) {
         CurrentTilt = penValue.Tilt(); //获得当前角度
+
+        if (CurrentTilt > 71 || CurrentTilt < 54) DotCompare.add(CurrentTilt);
+        else {
+            DotCompare.clear();
+            index = false;
+        }
+
+        if (DotCompare.size() <= 7) {
+            for (int i = 0; i < DotCompare.size(); i ++) {
+                if (Math.abs(DotCompare.get(i) - DotCompare.get(0)) >= 20 || CurrentTilt == 90) {
+                    index = true;
+                }else {
+                    index = false;
+                }
+            }
+        }else {
+            int temp = DotCompare.size() - 7;
+            for (int i = DotCompare.size() - 7; i < DotCompare.size(); i ++) {
+                if (Math.abs(DotCompare.get(i) - DotCompare.get(temp)) >= 20 || CurrentTilt == 90) {
+                    index = true;
+                }else {
+                    index = false;
+                }
+            }
+        }
+
         //如果角度进入到预设的扇形区域
-        if ((CurrentTilt >= 22 && CurrentTilt <= 34) || CurrentTilt == 90) {
+        if (index) {
             if (ColorChange == false && PixelChange == false) {
                 penData.AddTouchE(); //误触发总数加一
             }

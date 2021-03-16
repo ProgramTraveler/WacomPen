@@ -1,5 +1,6 @@
 import cello.tablet.JTablet;
 import cello.tablet.JTabletException;
+import com.sun.org.apache.bcel.internal.generic.DCMPG;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;
@@ -7,6 +8,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 /*
@@ -15,7 +17,7 @@ import java.util.Date;
     purpose:压力增量化界面，主要是通过压力的不断变化来进行颜色和像素的选择
  */
 public class IncrementPress extends JFrame implements ActionListener, MouseInputListener, KeyListener {
-    private int time = 350; //更新时间为50毫秒
+    private int time = 50; //更新时间为50毫秒
     private Timer timer = new Timer(time,this); //以每50毫秒触发一次actionPerformed触发器
     private PIExperimentPanel piExperimentPanel = new PIExperimentPanel(); //创建PIExperimentPanel类
     private boolean ChooseFlag = false; //是否显示压力动态图像
@@ -92,6 +94,11 @@ public class IncrementPress extends JFrame implements ActionListener, MouseInput
     private boolean ColorFlag = true;
     //判断用户是否第一次进入像素测试区域，true表示未进入
     private boolean PixelFlag = true;
+
+    //记录到达压力值过程中的压力值
+    private ArrayList<Integer> DotCompare = new ArrayList<Integer>();
+    //记录是否打开菜单
+    private boolean index = false;
 
     public IncrementPress(int BlockNumber) {
         piExperimentPanel.setLayout(new BorderLayout());
@@ -282,8 +289,37 @@ public class IncrementPress extends JFrame implements ActionListener, MouseInput
     @Override
     public void actionPerformed(ActionEvent e) {
         CurrentPress = penValue.Pressure();
+
+        if (CurrentPress > 701) DotCompare.add(CurrentPress);
+        else {
+            DotCompare.clear();
+            index = false;
+        }
+
+        //System.out.println(DotCompare.size());
+
+        if (DotCompare.size() <= 7) {
+            for (int i = 0; i < DotCompare.size(); i ++) {
+                if (DotCompare.get(i) - DotCompare.get(0) >= 170) {
+                    index = true;
+                }else {
+                    index = false;
+                }
+            }
+        }else {
+            int temp = DotCompare.size() - 7;
+            //System.out.println(temp + " a" + DotCompare.get(temp));
+            for (int i = DotCompare.size() - 7; i < DotCompare.size(); i ++) {
+                if (DotCompare.get(i) - DotCompare.get(temp) >= 170) {
+                    index = true;
+                }else {
+                    index = false;
+                }
+            }
+        }
+
         //如果当前的压力值超过了预设的压力值
-        if (871 <= CurrentPress) {
+        if (index) {
             if (ColorChange == false && PixelChange == false) {
                 penData.AddTouchE(); //误触发总数加一
             }
@@ -299,6 +335,7 @@ public class IncrementPress extends JFrame implements ActionListener, MouseInput
             piExperimentPanel.SetCurrentPress(CurrentPress);
             piExperimentPanel.repaint();
         }
+
         if (CurrentPress >= 701 && CurrentPress < 871) {
             PromptFlag = true;
         }else {

@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 /*
@@ -15,7 +16,7 @@ import java.util.Date;
     purpose:方位角增量化界面，主要是通过方位角的不断变化来进行颜色和像素的选择
  */
 public class IncrementAzimuth extends JFrame implements ActionListener, MouseInputListener, KeyListener {
-    private int time  = 350;
+    private int time  = 50;
     private Timer timer = new Timer(time,this);
     private AIExperimentPanel aiExperimentPanel = new AIExperimentPanel();
 
@@ -93,6 +94,11 @@ public class IncrementAzimuth extends JFrame implements ActionListener, MouseInp
     private boolean ColorFlag = true;
     //判断用户是否第一次进入像素测试区域，true表示未进入
     private boolean PixelFlag = true;
+
+    //记录到达压力值过程中的压力值
+    private ArrayList<Integer> DotCompare = new ArrayList<Integer>();
+    //记录是否打开菜单
+    private boolean index = false;
 
     public IncrementAzimuth(int BlockNumber) {
         aiExperimentPanel.setLayout(new BorderLayout());
@@ -283,8 +289,33 @@ public class IncrementAzimuth extends JFrame implements ActionListener, MouseInp
     public void actionPerformed(ActionEvent e) {
         CurrentAzimuth = penValue.Azimuth(); //获得当前的方位角
 
+        if (CurrentAzimuth < 110 || CurrentAzimuth > 154) DotCompare.add(CurrentAzimuth);
+        else {
+            DotCompare.clear();
+            index = false;
+        }
+
+        if (DotCompare.size() <= 7) {
+            for (int i = 0; i < DotCompare.size(); i ++) {
+                if (Math.abs(DotCompare.get(i) - DotCompare.get(0)) >= 60) {
+                    index = true;
+                }else {
+                    index = false;
+                }
+            }
+        }else {
+            int temp = DotCompare.size() - 7;
+            for (int i = DotCompare.size() - 7; i < DotCompare.size(); i ++) {
+                if (Math.abs(DotCompare.get(i) - DotCompare.get(temp)) >= 60) {
+                    index = true;
+                }else {
+                    index = false;
+                }
+            }
+        }
+
         //如果到达了预设的方位角范围，就打开颜色和像素选择菜单
-        if ((CurrentAzimuth >= 0 && CurrentAzimuth <= 50) || (CurrentAzimuth >= 214 && CurrentAzimuth <= 359)) {
+        if (index) {
             if (ColorChange == false && PixelChange == false) {
                 penData.AddTouchE(); //误触发总数加一
             }
