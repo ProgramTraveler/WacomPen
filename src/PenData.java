@@ -275,21 +275,6 @@ public class PenData {
         File saveFile = new File("information.csv");
         csv = new RandomAccessFile(saveFile, "rw");
 
-        try {
-            FileReader f = new FileReader("information.csv");
-            BufferedReader b = new BufferedReader(f);
-            int i = 0;
-            String s;
-            while ((s = b.readLine()) != null) {
-                i++;
-            }
-            System.out.println(i);
-            b.close();
-            f.close();
-        }catch (IOException o) {
-            o.printStackTrace();
-        }
-
 
         int CsvLine = (int) csv.length();
         String saveText = "";
@@ -297,16 +282,33 @@ public class PenData {
             /*saveText = "Name" + "Block Number" + "Trial Number" + "Mode switching technique" + "Target color" + "Target line thickness" +
                     "Start Time" + "End Time" + "Mode Switching Time" + "Complete Time" + "Painting Time 1" + "Paint Time 2" + "Paint Time 3"
                     + "Number of false trigger" + "Switching Error Number" + "Pressure" + "Tilt" + "Azimuth" + "\n";*/
-            saveText = "姓名" + "," + "实验组数" + "," + "实验组编号" + "," + "模式切换技术" + "," + "目标颜色" + "," + "目标粗细" + "," +
+            saveText = "id" + "," +  "姓名" + "," + "实验组数" + "," + "实验组编号" + "," + "模式切换技术" + "," + "目标颜色" + "," + "目标粗细" + "," +
                     "开始时间" + "," + "结束时间" + "," + "颜色切换时间" +"," + "像素切换时间" + "," + "模式切换总时间" + "," + "绘制完整时间" + "," + "第一段绘制时间" + "," + "第二段绘制时间" + "," + "第三段绘制时间"
                     + "," + "误触发总数" + "," + "颜色切换错误数" +","+ "像素切换错误数" +","+"模式切换总错误数" + "," + "压力1" + "," + "压力2" + "," + "压力平均值" + ","+ "方位角1" + "," + "方位角2" + "," + "方位角平均值" + ","+ "倾斜角1" + "," + "倾斜角2" + "," + "倾斜角平均值" + "," + "\n";
             csv.write(saveText.getBytes("GBK"));
         }
         csv.skipBytes(CsvLine);
+
+        int index = 0;
+        //获得文件行数
+        try {
+            FileReader f = new FileReader("information.csv");
+            BufferedReader b = new BufferedReader(f);
+            String s;
+            while ((s = b.readLine()) != null) {
+                index++;
+            }
+            System.out.println(index);
+            b.close();
+            f.close();
+        }catch (IOException o) {
+            o.printStackTrace();
+        }
+
         if (count == 0)
             count = 1;
         //最后写了两个tilt，写一个好像记录不上，不知道为什么（3月2号，发现是我的分隔符敲错了，现在没错了）
-        saveText = Name + "," + BlockNumber + "," + TrialNumber + "," + ModeTechnique + "," + TargetColor + "," + TargetLine + ","
+        saveText = index + "," + Name + "," + BlockNumber + "," + TrialNumber + "," + ModeTechnique + "," + TargetColor + "," + TargetLine + ","
                 + StartTimeDate + "," + EndTimeDate + ","+ ColorModeSwitchT + "," + PixelModeSwitchT + "," + ModeSwitchTime + "," + CompleteTime + "," +PaintTime1 + ","
                 + PaintTime2 + "," + PaintTime3 + ","  + TouchError + "," + ColorModeE + "," + PixelModeE +","+ModelError + "," + pressureColor  +"," + pressurePixel + "," + pressure / count+ "," + azimuthColor + ","  + azimuthPixel+ "," + azimuth / count + "," + tiltColor+ ","+ tiltPixel + "," + tilt / count + "," + "\n";
         csv.write(saveText.getBytes("GBK"));
