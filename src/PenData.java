@@ -1,7 +1,6 @@
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.RandomAccessFile;
+import com.sun.corba.se.impl.resolver.FileResolverImpl;
+
+import java.io.*;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -275,6 +274,23 @@ public class PenData {
         //存实验数据的文件名
         File saveFile = new File("information.csv");
         csv = new RandomAccessFile(saveFile, "rw");
+
+        try {
+            FileReader f = new FileReader("information.csv");
+            BufferedReader b = new BufferedReader(f);
+            int i = 0;
+            String s;
+            while ((s = b.readLine()) != null) {
+                i++;
+            }
+            System.out.println(i);
+            b.close();
+            f.close();
+        }catch (IOException o) {
+            o.printStackTrace();
+        }
+
+
         int CsvLine = (int) csv.length();
         String saveText = "";
         if (CsvLine == 0) {
@@ -295,6 +311,7 @@ public class PenData {
                 + PaintTime2 + "," + PaintTime3 + ","  + TouchError + "," + ColorModeE + "," + PixelModeE +","+ModelError + "," + pressureColor  +"," + pressurePixel + "," + pressure / count+ "," + azimuthColor + ","  + azimuthPixel+ "," + azimuth / count + "," + tiltColor+ ","+ tiltPixel + "," + tilt / count + "," + "\n";
         csv.write(saveText.getBytes("GBK"));
         csv.close();
+
     }
 
 }
