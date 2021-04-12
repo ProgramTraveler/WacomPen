@@ -275,7 +275,6 @@ public class PenData {
         File saveFile = new File("information.csv");
         csv = new RandomAccessFile(saveFile, "rw");
 
-
         int CsvLine = (int) csv.length();
         String saveText = "";
         if (CsvLine == 0) {
@@ -288,7 +287,6 @@ public class PenData {
             csv.write(saveText.getBytes("GBK"));
         }
         csv.skipBytes(CsvLine);
-
         int index = 0;
         //获得文件行数
         try {
@@ -298,15 +296,16 @@ public class PenData {
             while ((s = b.readLine()) != null) {
                 index++;
             }
-            System.out.println(index);
+            //System.out.println(index);
             b.close();
             f.close();
         }catch (IOException o) {
             o.printStackTrace();
         }
-
+        //这个if循环中count是作为分母的，为了防止出现分母为0的情况做出的判断，也可以用异常
         if (count == 0)
             count = 1;
+
         //最后写了两个tilt，写一个好像记录不上，不知道为什么（3月2号，发现是我的分隔符敲错了，现在没错了）
         saveText = index + "," + Name + "," + BlockNumber + "," + TrialNumber + "," + ModeTechnique + "," + TargetColor + "," + TargetLine + ","
                 + StartTimeDate + "," + EndTimeDate + ","+ ColorModeSwitchT + "," + PixelModeSwitchT + "," + ModeSwitchTime + "," + CompleteTime + "," +PaintTime1 + ","
@@ -314,6 +313,26 @@ public class PenData {
         csv.write(saveText.getBytes("GBK"));
         csv.close();
 
+        //以下是记录测试
+        File temp = new File("demo.csv");
+        RandomAccessFile c = new RandomAccessFile(temp, "rw");
+        int a[] = {10, 11, 12, 12, 12, 10};
+        String s = "";
+        int len = (int)temp.length();
+        c.skipBytes(len + 3);
+        for (int i = 0; i < a.length; i ++) {
+            /*if (i == a.length - 1) {
+                s = a[i] + "," + "\n";
+            }else {
+                s = a[i] + ",";
+            }*/
+            s = a[i] + len + ",";
+            c.write(s.getBytes("GBK"));
+        }
+        s = "\n";
+        //System.out.println(s);
+        c.write(s.getBytes("GBK"));
+        c.close();
     }
 
 }
