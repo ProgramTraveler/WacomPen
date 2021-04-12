@@ -318,33 +318,10 @@ public class PenData {
         for (int i = 0; i < shift.size(); i ++) {
             saveText += shift.get(i) + ",";
         }
-        System.out.println(shift.size());
+        //System.out.println(shift.size());
         saveText += "\n";
         csv.write(saveText.getBytes("GBK"));
         csv.close();
-
-        //以下是记录测试
-        /*File temp = new File("demo.csv");
-        RandomAccessFile c = new RandomAccessFile(temp, "rw");
-        int a[] = {10, 11, 12, 12, 12, 10};
-        String s = "";
-        int len = (int)temp.length();
-        c.skipBytes(len + 3);
-        for (int i = 0; i < a.length; i ++) {
-            /*if (i == a.length - 1) {
-                s = a[i] + "," + "\n";
-            }else {
-                s = a[i] + ",";
-            }*/
-
-        /*
-            s = a[i] + len + ",";
-            c.write(s.getBytes("GBK"));
-        }
-        s = "\n";
-        //System.out.println(s);
-        c.write(s.getBytes("GBK"));
-        c.close();*/
     }
 
 }
