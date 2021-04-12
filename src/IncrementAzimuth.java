@@ -672,7 +672,8 @@ public class IncrementAzimuth extends JFrame implements ActionListener, MouseInp
             }else {
                 //PixelFlag = true;
             }
-
+            //将点的偏移量存入容器中
+            penData.SetShift(Math.abs((int)(y0 - 52)));
             //将点的信息记录在容器中
             aiExperimentPanel.arrayListSpot.add(dot);
             aiExperimentPanel.repaint();

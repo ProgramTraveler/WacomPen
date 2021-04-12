@@ -671,7 +671,8 @@ public class IncrementTilt extends JFrame implements ActionListener, MouseInputL
             }else {
 
             }
-
+            //将点的偏移量存入容器中
+            penData.SetShift(Math.abs((int)(y0 - 52)));
             //将点的信息记录在容器中
             tiExperimentPanel.arrayListSpot.add(dot);
             tiExperimentPanel.repaint();

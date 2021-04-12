@@ -590,6 +590,8 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         }else {
 
         }
+        //将点的偏移量存入容器中
+        pData.SetShift(Math.abs((int)(y0 - 52)));
         //将点的信息记录在容器中
         area.arrayListSpot.add(dot);
         area.repaint();

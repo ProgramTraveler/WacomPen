@@ -71,6 +71,8 @@ public class PenData {
 
     private RandomAccessFile csv; // 存实验数据的文件
 
+    private ArrayList<Integer> shift; //记录绘制过程中点的偏移量
+
     public PenData() {
         //对所有数据进行初始化
         pressureColor = 0;
@@ -118,6 +120,7 @@ public class PenData {
 
         TimeList = new ArrayList<Long>();
         TimeListString = new ArrayList<String>();
+        shift = new ArrayList<Integer>();
 
         StartColorMode = 0;
         EndColorMode = 0;
@@ -229,6 +232,8 @@ public class PenData {
     //将测试时像素模式切换时间记录在集合中
     public void SetStartPixelMode(long l) { StartPixelMode = l; }
     public void SetEndPixelMode(long l) { EndPixelMode = l; }
+    //记录点的偏移量
+    public void SetShift(int i) { shift.add(i); }
     //将时间戳容器的值分配给各个测试变量
     public void AllocateTime() {
         //获取容器最末尾的下标
@@ -283,7 +288,7 @@ public class PenData {
                     + "Number of false trigger" + "Switching Error Number" + "Pressure" + "Tilt" + "Azimuth" + "\n";*/
             saveText = "id" + "," +  "姓名" + "," + "实验组数" + "," + "实验组编号" + "," + "模式切换技术" + "," + "目标颜色" + "," + "目标粗细" + "," +
                     "开始时间" + "," + "结束时间" + "," + "颜色切换时间" +"," + "像素切换时间" + "," + "模式切换总时间" + "," + "绘制完整时间" + "," + "第一段绘制时间" + "," + "第二段绘制时间" + "," + "第三段绘制时间"
-                    + "," + "误触发总数" + "," + "颜色切换错误数" +","+ "像素切换错误数" +","+"模式切换总错误数" + "," + "压力1" + "," + "压力2" + "," + "压力平均值" + ","+ "方位角1" + "," + "方位角2" + "," + "方位角平均值" + ","+ "倾斜角1" + "," + "倾斜角2" + "," + "倾斜角平均值" + "," + "\n";
+                    + "," + "误触发总数" + "," + "颜色切换错误数" +","+ "像素切换错误数" +","+"模式切换总错误数" + "," + "压力1" + "," + "压力2" + "," + "压力平均值" + ","+ "方位角1" + "," + "方位角2" + "," + "方位角平均值" + ","+ "倾斜角1" + "," + "倾斜角2" + "," + "倾斜角平均值" + "," + "轨道偏出量" + "\n";
             csv.write(saveText.getBytes("GBK"));
         }
         csv.skipBytes(CsvLine);
@@ -309,12 +314,17 @@ public class PenData {
         //最后写了两个tilt，写一个好像记录不上，不知道为什么（3月2号，发现是我的分隔符敲错了，现在没错了）
         saveText = index + "," + Name + "," + BlockNumber + "," + TrialNumber + "," + ModeTechnique + "," + TargetColor + "," + TargetLine + ","
                 + StartTimeDate + "," + EndTimeDate + ","+ ColorModeSwitchT + "," + PixelModeSwitchT + "," + ModeSwitchTime + "," + CompleteTime + "," +PaintTime1 + ","
-                + PaintTime2 + "," + PaintTime3 + ","  + TouchError + "," + ColorModeE + "," + PixelModeE +","+ModelError + "," + pressureColor  +"," + pressurePixel + "," + pressure / count+ "," + azimuthColor + ","  + azimuthPixel+ "," + azimuth / count + "," + tiltColor+ ","+ tiltPixel + "," + tilt / count + "," + "\n";
+                + PaintTime2 + "," + PaintTime3 + ","  + TouchError + "," + ColorModeE + "," + PixelModeE +","+ModelError + "," + pressureColor  +"," + pressurePixel + "," + pressure / count+ "," + azimuthColor + ","  + azimuthPixel+ "," + azimuth / count + "," + tiltColor+ ","+ tiltPixel + "," + tilt / count + ",";
+        for (int i = 0; i < shift.size(); i ++) {
+            saveText += shift.get(i) + ",";
+        }
+        System.out.println(shift.size());
+        saveText += "\n";
         csv.write(saveText.getBytes("GBK"));
         csv.close();
 
         //以下是记录测试
-        File temp = new File("demo.csv");
+        /*File temp = new File("demo.csv");
         RandomAccessFile c = new RandomAccessFile(temp, "rw");
         int a[] = {10, 11, 12, 12, 12, 10};
         String s = "";
@@ -326,13 +336,15 @@ public class PenData {
             }else {
                 s = a[i] + ",";
             }*/
+
+        /*
             s = a[i] + len + ",";
             c.write(s.getBytes("GBK"));
         }
         s = "\n";
         //System.out.println(s);
         c.write(s.getBytes("GBK"));
-        c.close();
+        c.close();*/
     }
 
 }

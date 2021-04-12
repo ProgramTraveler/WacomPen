@@ -627,7 +627,8 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
             }else {
                 //PixelFlag = true;
             }
-
+            //将点的偏移量存入容器中
+            penData.SetShift(Math.abs((int)(y0 - 52)));
             //将点的信息记录在容器中
             paExperimentPanel.arrayListSpot.add(dot);
             paExperimentPanel.repaint();
