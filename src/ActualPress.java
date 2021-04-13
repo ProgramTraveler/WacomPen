@@ -327,6 +327,7 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
                 penData.AllocateTime();
                 penData.AllocateTimeString();
                 penData.SaveInformation();
+                penData.InitShift();
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }

@@ -304,6 +304,7 @@ public class ScatteredAzimuth extends JFrame implements MouseInputListener, KeyL
                 penData.AllocateTime();
                 penData.AllocateTimeString();
                 penData.SaveInformation();
+                penData.InitShift();
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }

@@ -369,6 +369,7 @@ public class IncrementTilt extends JFrame implements ActionListener, MouseInputL
                 penData.AllocateTime();
                 penData.AllocateTimeString();
                 penData.SaveInformation();
+                penData.InitShift();
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }

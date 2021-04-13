@@ -309,6 +309,7 @@ public class ScatteredTilt extends JFrame implements MouseInputListener, KeyList
                 penData.AllocateTime();
                 penData.AllocateTimeString();
                 penData.SaveInformation();
+                penData.InitShift();
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }

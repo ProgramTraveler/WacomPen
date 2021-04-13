@@ -377,6 +377,7 @@ public class IncrementPress extends JFrame implements ActionListener, MouseInput
                 penData.AllocateTime();
                 penData.AllocateTimeString();
                 penData.SaveInformation();
+                penData.InitShift();
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }

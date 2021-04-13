@@ -234,6 +234,8 @@ public class PenData {
     public void SetEndPixelMode(long l) { EndPixelMode = l; }
     //记录点的偏移量
     public void SetShift(int i) { shift.add(i); }
+    //对点的偏移量进行初始化
+    public void InitShift() { shift.clear(); }
     //将时间戳容器的值分配给各个测试变量
     public void AllocateTime() {
         //获取容器最末尾的下标
@@ -318,7 +320,7 @@ public class PenData {
         for (int i = 0; i < shift.size(); i ++) {
             saveText += shift.get(i) + ",";
         }
-        //System.out.println(shift.size());
+        System.out.println(shift.size());
         saveText += "\n";
         csv.write(saveText.getBytes("GBK"));
         csv.close();

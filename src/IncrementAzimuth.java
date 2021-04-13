@@ -374,6 +374,7 @@ public class IncrementAzimuth extends JFrame implements ActionListener, MouseInp
                 penData.AllocateTime();
                 penData.AllocateTimeString();
                 penData.SaveInformation();
+                penData.InitShift();
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }

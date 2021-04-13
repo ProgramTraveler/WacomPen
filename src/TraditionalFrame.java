@@ -383,6 +383,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
                 pData.AllocateTime();
                 pData.AllocateTimeString();
                 pData.SaveInformation();
+                pData.InitShift();
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }

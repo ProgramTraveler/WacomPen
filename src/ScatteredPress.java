@@ -317,6 +317,7 @@ public class ScatteredPress extends JFrame implements MouseInputListener, KeyLis
                 penData.AllocateTime();
                 penData.AllocateTimeString();
                 penData.SaveInformation();
+                penData.InitShift();
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }

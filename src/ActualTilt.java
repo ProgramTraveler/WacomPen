@@ -327,6 +327,7 @@ public class ActualTilt extends JFrame implements ActionListener, MouseInputList
                 penData.AllocateTime();
                 penData.AllocateTimeString();
                 penData.SaveInformation();
+                penData.InitShift();
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }
