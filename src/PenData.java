@@ -314,15 +314,16 @@ public class PenData {
             count = 1;
 
         //最后写了两个tilt，写一个好像记录不上，不知道为什么（3月2号，发现是我的分隔符敲错了，现在没错了）
-        saveText = index + "," + Name + "," + BlockNumber + "," + TrialNumber + "," + ModeTechnique + "," + TargetColor + "," + TargetLine + ","
+        saveText = Name + "," + BlockNumber + "," + TrialNumber + "," + ModeTechnique + "," + TargetColor + "," + TargetLine + ","
                 + StartTimeDate + "," + EndTimeDate + ","+ ColorModeSwitchT + "," + PixelModeSwitchT + "," + ModeSwitchTime + "," + CompleteTime + "," +PaintTime1 + ","
                 + PaintTime2 + "," + PaintTime3 + ","  + TouchError + "," + ColorModeE + "," + PixelModeE +","+ModelError + "," + pressureColor  +"," + pressurePixel + "," + pressure / count+ "," + azimuthColor + ","  + azimuthPixel+ "," + azimuth / count + "," + tiltColor+ ","+ tiltPixel + "," + tilt / count + ",";
         for (int i = 0; i < shift.size(); i ++) {
-            saveText += shift.get(i) + ",";
+            String SaveText = index + "," + saveText + shift.get(i) + "," + "\n";
+            csv.write(SaveText.getBytes("GBK"));
+            index ++;
         }
         System.out.println(shift.size());
-        saveText += "\n";
-        csv.write(saveText.getBytes("GBK"));
+
         csv.close();
     }
 

@@ -15,6 +15,12 @@ import java.util.Date;
     purpose:基于传统的写字面板的实现，用与和其他模式做对比
  */
 public class TraditionalFrame implements ActionListener, MouseInputListener, KeyListener{
+    private int time = 50;
+    private Timer timer = new Timer(time, this);
+    private int TimeShift = 0;
+    private boolean ShiftIndex = false;
+
+
     //传统写字界面的定义
     private JFrame TraFrame = new JFrame("传统界面");
     //创建菜单栏并添加到顶部
@@ -123,6 +129,8 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         } catch (JTabletException e) {
             e.printStackTrace();
         }
+        timer.start();
+        timer.stop();
         /*
         这一部分主要是监听用户选择的是哪个颜色
          */
@@ -353,7 +361,15 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         SetPixel = 1;
     }
     @Override
-    public void actionPerformed(ActionEvent e) { }
+    public void actionPerformed(ActionEvent e) {
+        if (TimeShift == 600) {
+            ShiftIndex = true;
+            TimeShift = 0;
+        }else {
+            TimeShift += 50;
+            ShiftIndex = false;
+        }
+    }
 
     @Override
     public void keyTyped(KeyEvent e) { }
@@ -448,6 +464,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
     @Override
     public void mousePressed(MouseEvent e) {
         if (javax.swing.SwingUtilities.isLeftMouseButton(e)) {
+            timer.restart();
             //获得开始时鼠标的位置
             x0 = e.getX();
             y0 = e.getY();
@@ -476,6 +493,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         }
         //获得抬笔的时间戳
         pData.AddTime(System.currentTimeMillis());
+        timer.stop();
     }
     @Override
     public void mouseEntered(MouseEvent e) {
@@ -591,8 +609,11 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
         }else {
 
         }
-        //将点的偏移量存入容器中
-        pData.SetShift(Math.abs((int)(y0 - 52)));
+
+        if (ShiftIndex) {
+            //将点的偏移量存入容器中
+            pData.SetShift(Math.abs((int) (y0 - 52)));
+        }
         //将点的信息记录在容器中
         area.arrayListSpot.add(dot);
         area.repaint();
