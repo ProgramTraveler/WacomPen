@@ -17,6 +17,8 @@ import java.util.Date;
 public class ActualAzimuth extends JFrame implements ActionListener, MouseInputListener, KeyListener {
     private int time  = 50;
     private Timer timer = new Timer(time,this);
+    private int TimeShift = 0; //获取点的时间间隔，在这里判断是600ms
+    private boolean ShiftIndex = false; //获取点的时间信号
     private AAExperimentPanel aaExperimentPanel = new AAExperimentPanel();
 
     private int CurrentAzimuth = -1; //当前的方位角信息
@@ -289,6 +291,14 @@ public class ActualAzimuth extends JFrame implements ActionListener, MouseInputL
             //没达到指定的方位角区域就继续显示方位角的动态信息
             aaExperimentPanel.SetCurrentAzimuth(CurrentAzimuth);
             aaExperimentPanel.repaint();
+        }
+        //对获取点的时间间隔进行判断
+        if (TimeShift == 600) {
+            ShiftIndex = true;
+            TimeShift = 0;
+        }else {
+            TimeShift += 50;
+            ShiftIndex = false;
         }
     }
 
@@ -625,8 +635,10 @@ public class ActualAzimuth extends JFrame implements ActionListener, MouseInputL
             }else {
                 //PixelFlag = true;
             }
-            //将点的偏移量存入容器中
-            penData.SetShift(Math.abs((int)(y0 - 52)));
+            if (ShiftIndex) {
+                //将点的偏移量存入容器中
+                penData.SetShift(Math.abs((int) (y0 - 52)));
+            }
             //将点的信息记录在容器中
             aaExperimentPanel.arrayListSpot.add(dot);
             aaExperimentPanel.repaint();

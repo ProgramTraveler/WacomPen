@@ -17,8 +17,8 @@ import java.util.Date;
 public class TraditionalFrame implements ActionListener, MouseInputListener, KeyListener{
     private int time = 50;
     private Timer timer = new Timer(time, this);
-    private int TimeShift = 0;
-    private boolean ShiftIndex = false;
+    private int TimeShift = 0; //获取点的时间间隔，在这里判断是600ms
+    private boolean ShiftIndex = false; //获取点的时间信号
 
 
     //传统写字界面的定义
@@ -362,6 +362,7 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
     }
     @Override
     public void actionPerformed(ActionEvent e) {
+        //对获取点的时间间隔进行判断
         if (TimeShift == 600) {
             ShiftIndex = true;
             TimeShift = 0;

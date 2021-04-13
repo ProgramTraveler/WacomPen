@@ -17,6 +17,9 @@ import java.util.Date;
 public class ActualTilt extends JFrame implements ActionListener, MouseInputListener, KeyListener {
     private int time = 50;
     private Timer timer = new Timer(time,this);
+    private int TimeShift = 0; //获取点的时间间隔，在这里判断是600ms
+    private boolean ShiftIndex = false; //获取点的时间信号
+
     private TAExperimentPanel taExperimentPanel = new TAExperimentPanel();
 
     private int CurrentTilt = -1; //记录当前的倾斜角的角度值，和预设的扇形区域做比较
@@ -291,6 +294,14 @@ public class ActualTilt extends JFrame implements ActionListener, MouseInputList
             taExperimentPanel.repaint();
         }
 
+        //对获取点的时间间隔进行判断
+        if (TimeShift == 600) {
+            ShiftIndex = true;
+            TimeShift = 0;
+        }else {
+            TimeShift += 50;
+            ShiftIndex = false;
+        }
     }
 
     @Override
@@ -630,8 +641,10 @@ public class ActualTilt extends JFrame implements ActionListener, MouseInputList
             }else {
 
             }
-            //将点的偏移量存入容器中
-            penData.SetShift(Math.abs((int)(y0 - 52)));
+            if (ShiftIndex) {
+                //将点的偏移量存入容器中
+                penData.SetShift(Math.abs((int) (y0 - 52)));
+            }
             //将点的信息记录在容器中
             taExperimentPanel.arrayListSpot.add(dot);
             taExperimentPanel.repaint();

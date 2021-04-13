@@ -17,6 +17,10 @@ import java.util.Date;
 public class ScatteredPress extends JFrame implements MouseInputListener, KeyListener, ActionListener {
     private int time = 50; //更新时间为50毫秒一次
     private Timer timer = new Timer(time, this); //以每50毫秒一次触发actionPerformed触发器
+    private int TimeShift = 0; //获取点的时间间隔，在这里判断是600ms
+    private boolean ShiftIndex = false; //获取点的时间信号
+
+
     private PSExperimentPanel psExperimentPanel = new PSExperimentPanel();
     private boolean ChooseFlag = false; //是否显示压力动态图像
     private int CurrentPress = -1; //获取当前压力值
@@ -218,6 +222,15 @@ public class ScatteredPress extends JFrame implements MouseInputListener, KeyLis
         psExperimentPanel.repaint();
         //对像素标签进行移除
         psExperimentPanel.RemoveItemJLabel();
+
+        //对获取点的时间间隔进行判断
+        if (TimeShift == 600) {
+            ShiftIndex = true;
+            TimeShift = 0;
+        }else {
+            TimeShift += 50;
+            ShiftIndex = false;
+        }
     }
 
     @Override
@@ -518,8 +531,10 @@ public class ScatteredPress extends JFrame implements MouseInputListener, KeyLis
         } else {
 
         }
-        //将点的偏移量存入容器中
-        penData.SetShift(Math.abs((int)(y0 - 52)));
+        if (ShiftIndex) {
+            //将点的偏移量存入容器中
+            penData.SetShift(Math.abs((int) (y0 - 52)));
+        }
         //将点的信息记录在容器中
         psExperimentPanel.arrayListSpot.add(dot);
         psExperimentPanel.repaint();

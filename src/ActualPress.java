@@ -17,6 +17,9 @@ import java.util.Date;
 public class ActualPress extends JFrame implements ActionListener, MouseInputListener, KeyListener {
     private int time = 50; //更新时间为50毫秒
     private Timer timer = new Timer(time,this); //以每50毫秒触发一次actionPerformed触发器
+    private int TimeShift = 0; //获取点的时间间隔，在这里判断是600ms
+    private boolean ShiftIndex = false; //获取点的时间信号
+
     private PAExperimentPanel paExperimentPanel = new PAExperimentPanel(); //创建PAExperimentPanel类
     private boolean ChooseFlag = false; //是否显示压力动态图像
     private int CurrentPress = -1; //获取当前的压力值
@@ -292,6 +295,14 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
             //没超过的话就展示压力的动态图像
             paExperimentPanel.SetCurrentPress(CurrentPress);
             paExperimentPanel.repaint();
+        }
+        //对获取点的时间间隔进行判断
+        if (TimeShift == 600) {
+            ShiftIndex = true;
+            TimeShift = 0;
+        }else {
+            TimeShift += 50;
+            ShiftIndex = false;
         }
     }
     @Override
@@ -628,8 +639,10 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
             }else {
                 //PixelFlag = true;
             }
-            //将点的偏移量存入容器中
-            penData.SetShift(Math.abs((int)(y0 - 52)));
+            if (ShiftIndex) {
+                //将点的偏移量存入容器中
+                penData.SetShift(Math.abs((int) (y0 - 52)));
+            }
             //将点的信息记录在容器中
             paExperimentPanel.arrayListSpot.add(dot);
             paExperimentPanel.repaint();
