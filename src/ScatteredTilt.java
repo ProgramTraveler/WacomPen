@@ -410,7 +410,7 @@ public class ScatteredTilt extends JFrame implements MouseInputListener, KeyList
         x1 = e.getX();
         y1 = e.getY();
         //点的位置，用来为压力的显示提供位置信息
-        tsExperimentPanel.SetShowPoint(new Point((int) x0, (int) y0));
+        tsExperimentPanel.SetShowPoint(new Point((int) x0 + 50, (int) y0 + 60));
         //获得颜色切换的颜色值
         SetColor = tsExperimentPanel.GetSetColor();
         //获得像素切换的像素值
