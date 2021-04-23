@@ -2,6 +2,7 @@ import com.sun.corba.se.impl.resolver.FileResolverImpl;
 
 import java.io.*;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Timer;
@@ -330,10 +331,14 @@ public class PenData {
             aver += shift.get(i);
         }
         //System.out.println();
+        //格式控制，用来输出保留两位小数
+        DecimalFormat df = new DecimalFormat("#.00");
+        //System.out.println(df.format(((double)aver / (double)shift.size())));
         //System.out.println(aver);
-        String SaveText = index + "," + saveText + aver / shift.size() + "," + "\n";
+        String SaveText = index + "," + saveText + (df.format(((double)aver / (double)shift.size()))) + "," + "\n";
         csv.write(SaveText.getBytes("GBK"));
         //System.out.println(shift.size());
+
 
         csv.close();
     }
