@@ -317,12 +317,23 @@ public class PenData {
         saveText = Name + "," + BlockNumber + "," + TrialNumber + "," + ModeTechnique + "," + TargetColor + "," + TargetLine + ","
                 + StartTimeDate + "," + EndTimeDate + ","+ ColorModeSwitchT + "," + PixelModeSwitchT + "," + ModeSwitchTime + "," + CompleteTime + "," +PaintTime1 + ","
                 + PaintTime2 + "," + PaintTime3 + ","  + TouchError + "," + ColorModeE + "," + PixelModeE +","+ModelError + "," + pressureColor  +"," + pressurePixel + "," + pressure / count+ "," + azimuthColor + ","  + azimuthPixel+ "," + azimuth / count + "," + tiltColor+ ","+ tiltPixel + "," + tilt / count + ",";
+
+        //下面注释的部分是当时为了把所有点的偏移量都记录在文件中，后面对偏移量的记录只需要计算平均值就行了，所以不需要了
+        int aver = 0;
         for (int i = 0; i < shift.size(); i ++) {
-            String SaveText = index + "," + saveText + shift.get(i) + "," + "\n";
+            //下面注释的部分是当时为了把所有点的偏移量都记录在文件中，后面对偏移量的记录只需要计算平均值就行了，所以不需要了
+            /*String SaveText = index + "," + saveText + shift.get(i) + "," + "\n";
             csv.write(SaveText.getBytes("GBK"));
-            index ++;
+            index ++;*/
+            //计算平均值
+            //System.out.print(shift.get(i) + " ");
+            aver += shift.get(i);
         }
-        System.out.println(shift.size());
+        //System.out.println();
+        //System.out.println(aver);
+        String SaveText = index + "," + saveText + aver / shift.size() + "," + "\n";
+        csv.write(SaveText.getBytes("GBK"));
+        //System.out.println(shift.size());
 
         csv.close();
     }
