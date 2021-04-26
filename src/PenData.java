@@ -72,7 +72,7 @@ public class PenData {
 
     private RandomAccessFile csv; // 存实验数据的文件
 
-    private ArrayList<Integer> shift; //记录绘制过程中点的偏移量
+    private ArrayList<Double> shift; //记录绘制过程中点的偏移量
 
     public PenData() {
         //对所有数据进行初始化
@@ -121,7 +121,7 @@ public class PenData {
 
         TimeList = new ArrayList<Long>();
         TimeListString = new ArrayList<String>();
-        shift = new ArrayList<Integer>();
+        shift = new ArrayList<Double>();
 
         StartColorMode = 0;
         EndColorMode = 0;
@@ -234,7 +234,7 @@ public class PenData {
     public void SetStartPixelMode(long l) { StartPixelMode = l; }
     public void SetEndPixelMode(long l) { EndPixelMode = l; }
     //记录点的偏移量
-    public void SetShift(int i) { shift.add(i); }
+    public void SetShift(double i) { shift.add(i); }
     //对点的偏移量进行初始化
     public void InitShift() { shift.clear(); }
     //将时间戳容器的值分配给各个测试变量
@@ -320,7 +320,7 @@ public class PenData {
                 + PaintTime2 + "," + PaintTime3 + ","  + TouchError + "," + ColorModeE + "," + PixelModeE +","+ModelError + "," + pressureColor  +"," + pressurePixel + "," + pressure / count+ "," + azimuthColor + ","  + azimuthPixel+ "," + azimuth / count + "," + tiltColor+ ","+ tiltPixel + "," + tilt / count + ",";
 
         //下面注释的部分是当时为了把所有点的偏移量都记录在文件中，后面对偏移量的记录只需要计算平均值就行了，所以不需要了
-        int aver = 0;
+        double aver = 0;
         for (int i = 0; i < shift.size(); i ++) {
             //下面注释的部分是当时为了把所有点的偏移量都记录在文件中，后面对偏移量的记录只需要计算平均值就行了，所以不需要了
             /*String SaveText = index + "," + saveText + shift.get(i) + "," + "\n";
@@ -331,16 +331,46 @@ public class PenData {
             aver += shift.get(i);
         }
         //System.out.println();
-        //格式控制，用来输出保留两位小数
-        DecimalFormat df = new DecimalFormat("#.00");
-        //System.out.println(df.format(((double)aver / (double)shift.size())));
-        //System.out.println(aver);
-        String SaveText = index + "," + saveText + (df.format(((double)aver / (double)shift.size()))) + "," + "\n";
+        //格式控制，用来输出保留三位小数
+        DecimalFormat df = new DecimalFormat("#.000");
+
+        System.out.println(df.format((aver / (double)shift.size())));
+
+        /*这是一次失败的尝试，为了将整数后的零也显示出来，但是失败了
+        double tempD = (aver / (double)shift.size());
+
+        String str = String.valueOf(tempD);
+
+
+        int len = str.indexOf('.'); //获得小数点开始的位置
+
+        //如果是负数，说明是个整数
+        if (len < 0) {
+            String SaveText = index + "," + saveText + str + "=\".000 \"" + "\n";
+            csv.write(SaveText.getBytes("GBK"));
+            csv.close();
+        }else if (str.length() - len == 1){
+            String SaveText = index + "," + saveText + str + "=\".00 \"" + "\n";
+            csv.write(SaveText.getBytes("GBK"));
+            csv.close();
+        }else {
+            String SaveText = index + "," + saveText + str + "\n";
+            csv.write(SaveText.getBytes("GBK"));
+            csv.close();
+        }*/
+
+        /*while (str.length() <= len + 3) {
+            str += '0';
+        }*/
+
+        //制表符是为了将整数小数点后的0进行显示
+        String SaveText = index + "," + saveText + df.format((aver / (double)shift.size())) + "\t" + "\n";
+        //String SaveText = index + "," + saveText +  "1" + "\"0.0000000\"" + "\n";
+        //String SaveText = index + "," + saveText +  "1" + "0.0000000\t" + "\n";
         csv.write(SaveText.getBytes("GBK"));
-        //System.out.println(shift.size());
-
-
         csv.close();
+
+
     }
 
 }
