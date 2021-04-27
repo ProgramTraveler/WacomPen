@@ -276,6 +276,7 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
         return PixelItem;
 
     }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         CurrentPress = penValue.Pressure();
@@ -364,6 +365,7 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
             penData.SetColorTouchE(0); //初始化颜色误触发数
             penData.SetPixelTouchE(0); //初始化像素误触发数
 
+            penData.SetModeE(0); //初始化模式切换错误
             penData.SetColorModeE(0); //初始化颜色切换错误数
             penData.SetPixelModeE(0); //初始化像素切换错误数
 
@@ -488,10 +490,10 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
                 //传入具体是哪个颜色被选择
                 paExperimentPanel.SetSelectColorItem(this.CheckColorItem(e.getX(), e.getY()));
                 //如果颜色提示还没有出现就调用，颜色误触发加一
-                if (ColorChange == false && paExperimentPanel.GetSelectColorItem() != -1) {
+                /*if (ColorChange == false && paExperimentPanel.GetSelectColorItem() != -1) {
                     penData.AddColorTouchE(); //颜色误触发加一
                     penData.AddTouchE(); //误触发总数加一
-                }
+                }*/
                 int tempC = paExperimentPanel.GetSelectColorItem();
                 if (tempC == 0) {
                     penData.SetResultC("蓝色");
@@ -516,10 +518,10 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
                 //传入具体的哪个像素被选择
                 paExperimentPanel.SetSelectPixelItem(this.CheckPixelItem(e.getX(), e.getY()));
                 //如果像素提示还未出现就切换，像素误触发加一
-                if (PixelChange == false && paExperimentPanel.GetSelectPixelItem() != -1) {
+                /*if (PixelChange == false && paExperimentPanel.GetSelectPixelItem() != -1) {
                     penData.AddPixelTouchE(); //像素误触发加一
                     penData.AddTouchE(); //误触发总数加一
-                }
+                }*/
                 int tempP = paExperimentPanel.GetSelectPixelItem();
                 if (tempP == 0) {
                     penData.SetResultP("2.0");

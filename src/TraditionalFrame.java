@@ -451,6 +451,8 @@ public class TraditionalFrame implements ActionListener, MouseInputListener, Key
             pData.SetPixelModeE(0); //初始化像素切换错误数
 
             pData.SetTouchE(0); //初始化误触发总数
+
+            pData.SetModeE(0); //初始化模式切换错误
         }
     }
 

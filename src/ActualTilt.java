@@ -369,6 +369,7 @@ public class ActualTilt extends JFrame implements ActionListener, MouseInputList
             penData.SetPixelModeE(0); //初始化像素切换错误数
 
             penData.SetTouchE(0);
+            penData.SetModeE(0); //初始化模式切换错误
         }
     }
 
@@ -490,10 +491,10 @@ public class ActualTilt extends JFrame implements ActionListener, MouseInputList
                 //传入具体是哪个颜色被选择
                 taExperimentPanel.SetSelectColorItem(this.CheckColorItem(e.getX(), e.getY()));
                 //如果颜色提示还没有出现就调用，颜色误触发加一
-                if (ColorChange == false && taExperimentPanel.GetSelectColorItem() != -1) {
+                /*if (ColorChange == false && taExperimentPanel.GetSelectColorItem() != -1) {
                     penData.AddColorTouchE(); //颜色误触发加一
                     penData.AddTouchE(); //误触发总数加一
-                }
+                }*/
                 int tempC = taExperimentPanel.GetSelectColorItem();
                 if (tempC == 0) {
                     penData.SetResultC("蓝色");
@@ -518,10 +519,10 @@ public class ActualTilt extends JFrame implements ActionListener, MouseInputList
                 //传入具体的哪个像素被选择
                 taExperimentPanel.SetSelectPixelItem(this.CheckPixelItem(e.getX(), e.getY()));
                 //如果像素提示还未出现就切换，像素误触发加一
-                if (PixelChange == false && taExperimentPanel.GetSelectPixelItem() != -1) {
+                /*if (PixelChange == false && taExperimentPanel.GetSelectPixelItem() != -1) {
                     penData.AddPixelTouchE(); //像素误触发加一
                     penData.AddTouchE(); //误触发总数加一
-                }
+                }*/
                 int tempP = taExperimentPanel.GetSelectPixelItem();
                 if (tempP == 0) {
                     penData.SetResultP("2.0");

@@ -191,6 +191,7 @@ public class PenData {
     public void SetTouchE(int i) { TouchError = i; }
     public void AddTouchE() {
         TouchError ++;
+        System.out.println(TouchError);
     }
     public int GetTouchE() {
         return TouchError;
