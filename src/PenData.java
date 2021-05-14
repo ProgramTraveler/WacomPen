@@ -290,10 +290,14 @@ public class PenData {
             /*saveText = "Name" + "Block Number" + "Trial Number" + "Mode switching technique" + "Target color" + "Target line thickness" +
                     "Start Time" + "End Time" + "Mode Switching Time" + "Complete Time" + "Painting Time 1" + "Paint Time 2" + "Paint Time 3"
                     + "Number of false trigger" + "Switching Error Number" + "Pressure" + "Tilt" + "Azimuth" + "\n";*/
-            saveText = "id" + "," +  "姓名" + "," + "实验组数" + "," + "实验组编号" + "," + "模式切换技术" + "," + "目标颜色" + "," + "目标粗细" + "," +
+            /*saveText = "id" + "," +  "姓名" + "," + "实验组数" + "," + "实验组编号" + "," + "模式切换技术" + "," + "目标颜色" + "," + "目标粗细" + "," +
                     "开始时间" + "," + "结束时间" + "," + "颜色切换时间" +"," + "像素切换时间" + "," + "模式切换总时间" + "," + "绘制完整时间" + "," + "第一段绘制时间" + "," + "第二段绘制时间" + "," + "第三段绘制时间"
                     + "," + "误触发总数" + "," + "颜色切换错误数" +","+ "像素切换错误数" +","+"模式切换总错误数" + "," + "压力1" + "," + "压力2" + "," + "压力平均值" + ","+ "方位角1" + "," + "方位角2" + "," + "方位角平均值" + ","+ "倾斜角1" + "," + "倾斜角2" + "," + "倾斜角平均值" + "," + "轨道偏出量" + "\n";
+            */
+            saveText = "id" + "," +  "姓名" + "," + "实验组数" + "," + "实验组编号" + "," + "模式切换技术" + "," + "目标颜色" + "," + "目标粗细" + "," +
+                    "开始时间" + "," + "结束时间" + "," + "颜色切换时间" +"," + "像素切换时间" + "," + "模式切换总时间" + "," + "绘制完整时间" + "," + "误触发总数" + "," + "颜色切换错误数" +","+ "像素切换错误数" +","+"模式切换总错误数" + "," + "压力1" + "," + "压力2" + "," + "压力平均值" + ","+ "方位角1" + "," + "方位角2" + "," + "方位角平均值" + ","+ "倾斜角1" + "," + "倾斜角2" + "," + "倾斜角平均值" + "," + "轨道偏出量" + "\n";
             csv.write(saveText.getBytes("GBK"));
+
         }
         csv.skipBytes(CsvLine);
         int index = 0;
@@ -316,10 +320,12 @@ public class PenData {
             count = 1;
 
         //最后写了两个tilt，写一个好像记录不上，不知道为什么（3月2号，发现是我的分隔符敲错了，现在没错了）
-        saveText = Name + "," + BlockNumber + "," + TrialNumber + "," + ModeTechnique + "," + TargetColor + "," + TargetLine + ","
+        /*saveText = Name + "," + BlockNumber + "," + TrialNumber + "," + ModeTechnique + "," + TargetColor + "," + TargetLine + ","
                 + StartTimeDate + "," + EndTimeDate + ","+ ColorModeSwitchT + "," + PixelModeSwitchT + "," + ModeSwitchTime + "," + CompleteTime + "," +PaintTime1 + ","
                 + PaintTime2 + "," + PaintTime3 + ","  + TouchError + "," + ColorModeE + "," + PixelModeE +","+ModelError + "," + pressureColor  +"," + pressurePixel + "," + pressure / count+ "," + azimuthColor + ","  + azimuthPixel+ "," + azimuth / count + "," + tiltColor+ ","+ tiltPixel + "," + tilt / count + ",";
-
+        */
+        saveText = Name + "," + BlockNumber + "," + TrialNumber + "," + ModeTechnique + "," + TargetColor + "," + TargetLine + ","
+                + StartTimeDate + "," + EndTimeDate + ","+ ColorModeSwitchT + "," + PixelModeSwitchT + "," + ModeSwitchTime + "," + CompleteTime + ","  + TouchError + "," + ColorModeE + "," + PixelModeE +","+ModelError + "," + pressureColor  +"," + pressurePixel + "," + pressure / count+ "," + azimuthColor + ","  + azimuthPixel+ "," + azimuth / count + "," + tiltColor+ ","+ tiltPixel + "," + tilt / count + ",";
         //下面注释的部分是当时为了把所有点的偏移量都记录在文件中，后面对偏移量的记录只需要计算平均值就行了，所以不需要了
         double aver = 0;
         for (int i = 0; i < shift.size(); i ++) {
@@ -365,7 +371,12 @@ public class PenData {
         }*/
 
         //制表符是为了将整数小数点后的0进行显示
-        String SaveText = index + "," + saveText + df.format((aver / (double)shift.size())) + "\t" + "\n";
+        //String SaveText = index + "," + saveText + df.format((aver / (double)shift.size())) + "\t" + "\n";
+        
+        //string类型的无法进行数据处理，所以还是改成double类型记录
+        String str = df.format((aver / (double)shift.size()));
+        double to_str = Double.valueOf(str);
+        String SaveText = index + "," + saveText + to_str + "\n";
         //String SaveText = index + "," + saveText +  "1" + "\"0.0000000\"" + "\n";
         //String SaveText = index + "," + saveText +  "1" + "0.0000000\t" + "\n";
         csv.write(SaveText.getBytes("GBK"));
