@@ -1,6 +1,7 @@
 import com.sun.corba.se.impl.resolver.FileResolverImpl;
 
 import java.io.*;
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -73,6 +74,7 @@ public class PenData {
     private RandomAccessFile csv; // 存实验数据的文件
 
     private ArrayList<Double> shift; //记录绘制过程中点的偏移量
+    
 
     public PenData() {
         //对所有数据进行初始化
@@ -341,7 +343,7 @@ public class PenData {
         //格式控制，用来输出保留三位小数
         DecimalFormat df = new DecimalFormat("#.000");
 
-        System.out.println(df.format((aver / (double)shift.size())));
+        System.out.println("string:" + df.format((aver / (double)shift.size())));
 
         /*这是一次失败的尝试，为了将整数后的零也显示出来，但是失败了
         double tempD = (aver / (double)shift.size());
@@ -376,7 +378,9 @@ public class PenData {
         //string类型的无法进行数据处理，所以还是改成double类型记录
         String str = df.format((aver / (double)shift.size()));
         double to_str = Double.valueOf(str);
+        System.out.println("double:" + to_str);
         String SaveText = index + "," + saveText + to_str + "\n";
+
         //String SaveText = index + "," + saveText +  "1" + "\"0.0000000\"" + "\n";
         //String SaveText = index + "," + saveText +  "1" + "0.0000000\t" + "\n";
         csv.write(SaveText.getBytes("GBK"));
