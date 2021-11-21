@@ -278,6 +278,9 @@ public class ActualTilt extends JFrame implements ActionListener, MouseInputList
     @Override
     public void actionPerformed(ActionEvent e) {
         CurrentTilt = penValue.Tilt(); //获得当前角度
+        //CurrentTilt = 901;
+        //System.out.println("jiaodu:" + CurrentTilt);
+
         //如果角度进入到预设的扇形区域
         if ((CurrentTilt >= 22 && CurrentTilt <= 46) || (CurrentTilt >= 78 && CurrentTilt <= 90)) {
             if (ColorChange == false && PixelChange == false) {

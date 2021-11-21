@@ -237,13 +237,16 @@ public class ScatteredPress extends JFrame implements MouseInputListener, KeyLis
     public void keyTyped(KeyEvent e) {
 
     }
-
     @Override
     public void keyPressed(KeyEvent e) {
         //如果用户按下空格键，说明选择该区域
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             //如果此时是颜色一级菜单
             if (psExperimentPanel.GetShowColorMenu() && psExperimentPanel.GetShowPixelMenu()) {
+                /*if (ColorFlag == false || PixelFlag == false) {
+                    penData.AddTouchE(); //误触发总数加一
+                }*/
+                //System.out.println("一级菜单");
                 if (CurrentPress>= 863 && CurrentPress <= 1023) {
                     if (ColorChange == false) {
                         penData.AddColorTouchE(); //颜色误触发加一
@@ -258,6 +261,8 @@ public class ScatteredPress extends JFrame implements MouseInputListener, KeyLis
                     }
                     //展开二级菜单
                     psExperimentPanel.SetShowPixelMenu(false);
+                }else { //如果是在非选择区间以外的数据区做选择，那么就直接认为是误触发
+                    penData.AddTouchE(); //误触发总数加一
                 }
             }else if (psExperimentPanel.GetShowColorMenu() == false){
                 //如果二级菜单已经展开，那么就对当前位置的压力值进行颜色判定

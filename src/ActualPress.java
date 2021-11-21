@@ -527,6 +527,7 @@ public class ActualPress extends JFrame implements ActionListener, MouseInputLis
                     penData.SetResultP("2.0");
                     ShowPixel.setText("2.0");
                     penData.SetEndPixelMode(System.currentTimeMillis());
+                    //System.out.println();
                 }
                 if (tempP == 1) {
                     penData.SetResultP("3.0");
